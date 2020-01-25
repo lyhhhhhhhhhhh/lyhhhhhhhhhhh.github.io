@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.9k字</span>
+            <span class="post-count">2.8k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7分钟</span>
+            <span class="post-count">10分钟</span>
         </span>
     </span>
 </div>
@@ -323,6 +323,96 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># they are same</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$a</span> == <span class="variable">$b</span> ]</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$a</span> == <span class="variable">$b</span></span><br><span class="line"></span><br><span class="line">result=$[a+b]</span><br><span class="line"><span class="comment">#the[], is used to calculate the result.</span></span><br></pre></td></tr></table></figure>
 
 <p>应当注意后面的情况，此时中括号用于计算结果。</p>
+<h2 id="shell流程控制"><a href="#shell流程控制" class="headerlink" title="shell流程控制"></a>shell流程控制</h2><p>shell中不能存在没有指令的分支，如果该分支无事可做则不写出来.</p>
+<h3 id="if-else分支"><a href="#if-else分支" class="headerlink" title="if-else分支"></a>if-else分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> condition</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line"><span class="keyword">elif</span> condition2</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    command3</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    command4</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> condition; <span class="keyword">then</span> <span class="built_in">command</span>; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>上式中两种写法均可。</p>
+<h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell中提供的for循环是for-in循环<br>变量值存在in列表中，for循环则执行一次所有内容。</p>
+<p>shell中还有类似c语言的循环格式，形似下面给出的代码段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>((i=1;i&lt;=5;i++));<span class="keyword">do</span></span><br><span class="line">    command1;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，一般来讲shell中变量的调用是要使用$的，但是在for循环中并不需要。如果对于变量的更改是在函数体中，则需要加美元符号</p>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> condition</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">command</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int=1</span><br><span class="line"><span class="keyword">while</span>(( <span class="variable">$int</span>&lt;=5 ))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$int</span></span><br><span class="line">    <span class="built_in">let</span> <span class="string">"int++"</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> FILM</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"hello, input is: <span class="variable">$FILM</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>其中使用了shell let指令，用于执行一个或者多个表达式，不需要使用美元符号。</p>
+<blockquote>
+<p>let 是shell中用于计算的表达式不需要时使用美元符号，如果表达式中存在空格或者其他字符则需要引用起来。</p>
+</blockquote>
+<h3 id="case"><a href="#case" class="headerlink" title="case"></a>case</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> value <span class="keyword">in</span></span><br><span class="line">val1)</span><br><span class="line">    command1</span><br><span class="line">    ;;</span><br><span class="line">val2)</span><br><span class="line">    command2</span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    command3</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="shell函数"><a href="#shell函数" class="headerlink" title="shell函数"></a>shell函数</h2><p>linux shell中可以定义函数，然后在脚本中可以调用。</p>
+<p>函数形式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="keyword">function</span> ] func_name ()</span><br><span class="line">&#123;</span><br><span class="line">    command1</span><br><span class="line"></span><br><span class="line">    [ <span class="built_in">return</span> int; ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中【】表示可选项，即函数可以不使用function定义或者没有返回值。<br>函数的返回值可以使用$?调用<br><strong>注意</strong>：由于shell执行顺序是依次执行的，因此函数定义必须在使用之前。而且$?只对上一条指令负责。</p>
+<p>函数参数传递形式和shell脚本一样，然后通过美元符号加数字调用。</p>
+<p>函数与指令的执行结果可以作为条件语句使用，<strong>要注意的是，和c语言不同该，0在shell中是true，其他为false</strong></p>
+<h2 id="shell文件重定向"><a href="#shell文件重定向" class="headerlink" title="shell文件重定向"></a>shell文件重定向</h2><p>重定向指令列表：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>command &gt; file</td>
+<td>将输出重定向之file</td>
+</tr>
+<tr>
+<td>command &lt; file</td>
+<td>将输入重定向至file</td>
+</tr>
+<tr>
+<td>command &gt;&gt; file</td>
+<td>将输出追加至file</td>
+</tr>
+<tr>
+<td>n &gt; file</td>
+<td>将文件描述符为n的文件重定向至file</td>
+</tr>
+<tr>
+<td>n &gt;&gt; file</td>
+<td>将文件描述符为n的文件追加到file</td>
+</tr>
+<tr>
+<td>n &gt;&amp; m</td>
+<td>将输出文件m和n合并</td>
+</tr>
+<tr>
+<td>n &lt;&amp; m</td>
+<td>将输入文件m与n合并</td>
+</tr>
+<tr>
+<td>&lt;&lt;tag</td>
+<td>将开始标记和结束标记之间等我内容作为输入</td>
+</tr>
+</tbody></table>
+<p><code>command1 &lt; infile &gt; outfile</code><br>此命令将命令的输入输出全部替换了</p>
+<p><strong>⚠️注意：0通常是标准输入，1是标准输出，2是标准错误输出</strong></p>
+<p><code>command &gt; file 2&gt;&amp;1</code><br>可以将stdout和stderr都重定向至file</p>
+<p>Here Document<br>是一种特殊的重定向方式，用于将输入重定向到一个交互式脚本或者程序中。<br>基本格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt;&lt; tag</span><br><span class="line">    document</span><br><span class="line">tag</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<ul>
+<li>结尾的tag应当顶格写，前后都不能有任何字符</li>
+<li>开始的tag前后的空格会被忽略。</li>
+</ul>
+<p>如果执行某指令不希望有任何输出可以将输出重定向至/dev/null，这是一个特殊文件，重定向至它的所有内容都会被丢弃。</p>
+<h2 id="shell外部调用"><a href="#shell外部调用" class="headerlink" title="shell外部调用"></a>shell外部调用</h2><p>shell中也可以包含外部脚本，这样就可以封装一些常用的公用脚本作为独立文件。<br>常用的调用格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">. filename</span><br><span class="line"><span class="comment"># otherwise</span></span><br><span class="line"><span class="built_in">source</span> filename</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<ol>
+<li>被调用的文件可以不需要可执行权限</li>
+<li>path中不包含当前路径则需要写出。/filename</li>
+</ol>
+<blockquote>
+<p><a href="https://www.runoob.com/linux/linux-command-manual.html" target="_blank" rel="noopener">Linux命令大全</a></p>
+</blockquote>
 
       
       <!-- 打赏 -->

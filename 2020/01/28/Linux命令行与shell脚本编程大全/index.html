@@ -203,7 +203,7 @@
 <h3 id="使用库文件"><a href="#使用库文件" class="headerlink" title="使用库文件"></a>使用库文件</h3><p>使用库函数等的关键在于sounce命令，其在当前shell的上下文中执行命令，不会创建新的shell，因此可以使用其中定义的函数。<br>其也有一个简单的别名（alias）称作点操作符</p>
 <p>可以在shell中直接定义函数<br>或者将其写入bashrc中每次建立shell都会加载。</p>
 <p>使用<strong>shtool库函数</strong></p>
-<p><img src="" alt="Uploading Jietu20200202-161711@2x.jpg… (5poah04cb)"></p>
+<p><img src="/assets/Jietu20200202-161711@2x.jpg" alt="Jietu20200202-161711@2x"></p>
 <h2 id="图形化脚本编程"><a href="#图形化脚本编程" class="headerlink" title="图形化脚本编程"></a>图形化脚本编程</h2><p>说起来就是使用文字构建出类似的命令行界面。<br>echo -e允许echo指令输出转义字符。</p>
 <p>可以使用select命令比较简单的生成菜单。命令格式如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select variable <span class="keyword">in</span> list</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    commands</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">PS3=promt</span><br><span class="line"><span class="comment"># 环境变量PS3显示提示。</span></span><br></pre></td></tr></table></figure>

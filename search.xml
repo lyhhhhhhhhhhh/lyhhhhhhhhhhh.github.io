@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>博客md图片托管</title>
+    <url>/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/</url>
+    <content><![CDATA[<p>用github和hexo搭建的博客，有时候markdown里想索引图片，发现博客文件夹中的文件结构和GitHub仓库中的完全不一样，所以难以确定索引路径，之后找到了三种方式：</p>
+<a id="more"></a>
+<ol>
+<li>用github建个仓库专门存放图片</li>
+<li>可以在hexo配置文件_config.yml里的post_asset_folder选项设置为true，这样你每次新建一个md文件，就会自动创建一个同名的文件夹用来放资源，索引路径为/assets/文件名</li>
+<li>使用图片托管网站，imgur或者别的都行，imgur需要科学上网，我用的是 <a href="https://img.wenhairu.com/" target="_blank" rel="noopener">公众图库</a></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>心得</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux命令行与shell脚本编程大全</title>
     <url>/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/</url>
     <content><![CDATA[<p>Linux命令行与shell脚本编程大全学习笔记</p>

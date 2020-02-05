@@ -3,7 +3,8 @@
   <entry>
     <title>Linux命令行与shell脚本编程大全</title>
     <url>/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/</url>
-    <content><![CDATA[<h1 id="Linux命令行与shell脚本编程"><a href="#Linux命令行与shell脚本编程" class="headerlink" title="Linux命令行与shell脚本编程"></a>Linux命令行与shell脚本编程</h1><a id="more"></a>
+    <content><![CDATA[<p>Linux命令行与shell脚本编程大全学习笔记</p>
+<a id="more"></a>
 
 <h2 id="基本的shell指令"><a href="#基本的shell指令" class="headerlink" title="基本的shell指令"></a>基本的shell指令</h2><p>tail指令可以检查指令的最后几行，一个有趣的特性是可以使用-f参数，使得其可以在其他进程中使用该指令保持活动状态。<br>用以监视文件的变化</p>
 <h3 id="监测程序"><a href="#监测程序" class="headerlink" title="监测程序"></a>监测程序</h3><p><strong>探查进程</strong>：<br>我们一般使用ps指令来探查进程的情况。<br>但是ps实际上十分难以使用，因为它有十分复杂的参数以及多个版本。</p>
@@ -106,13 +107,134 @@
 <p>参数传递：shell会将函数作为小型的脚本处理，这意味着我们可以使用类似脚本处理参数的方式处理参数</p>
 <h3 id="使用库文件"><a href="#使用库文件" class="headerlink" title="使用库文件"></a>使用库文件</h3><p>使用库函数等的关键在于sounce命令，其在当前shell的上下文中执行命令，不会创建新的shell，因此可以使用其中定义的函数。<br>其也有一个简单的别名（alias）称作点操作符</p>
 <p>可以在shell中直接定义函数<br>或者将其写入bashrc中每次建立shell都会加载。</p>
-<p>使用<strong>shtool库函数</strong></p>
-<p><img src="/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/Jietu20200202-161711@2x.jpg" alt="Jietu20200202-161711@2x"></p>
+<p>使用<strong>shtool库函数</strong><br><img src="https://cdn.img.wenhairu.com/images/2020/02/03/AvfoP.jpg" alt="shtool"></p>
 <h2 id="图形化脚本编程"><a href="#图形化脚本编程" class="headerlink" title="图形化脚本编程"></a>图形化脚本编程</h2><p>说起来就是使用文字构建出类似的命令行界面。<br>echo -e允许echo指令输出转义字符。</p>
 <p>可以使用select命令比较简单的生成菜单。命令格式如下：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">select variable <span class="keyword">in</span> list</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    commands</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">PS3=promt</span><br><span class="line"><span class="comment"># 环境变量PS3显示提示。</span></span><br></pre></td></tr></table></figure>
 
 <p>可以使用dialog包来进行对话框创建。</p>
+<p><img src="https://cdn.img.wenhairu.com/images/2020/02/03/AvYJh.jpg" alt="dialog"></p>
+<h2 id="sed、gawk处理文本"><a href="#sed、gawk处理文本" class="headerlink" title="sed、gawk处理文本"></a>sed、gawk处理文本</h2><p>sed是流文本处理工具，和vim等交互式文本处理不同</p>
+<table>
+<thead>
+<tr>
+<th>常用选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-e</td>
+<td>按照脚本执行</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>从文件中读取命令</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>静默模式，不会输出至stdout</td>
+</tr>
+</tbody></table>
+<h3 id="文本替换"><a href="#文本替换" class="headerlink" title="文本替换"></a>文本替换</h3><p><code>sed &#39;s/test/trail/&#39; data.txt</code><br>s命令是替换命令，会将data文件中每行默认的第一个test替换为trail。<br>在最后一个斜杠之后还可以加上别的选项</p>
+<ol>
+<li>数字代表替换第几处</li>
+<li>g：表示替换所有匹配的位置</li>
+<li>p：同时打印原来的文本</li>
+<li>w file：表示输出至file</li>
+</ol>
+<p>sed中可以使用感叹号作为命令中字符串的分隔符</p>
+<p>如果想将命令作用于特定的行中，不针对所有行，则需要使用行寻址。可以使用两种方式：</p>
+<p>1.数字方式行寻址</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">'2s/dog/cat/'</span> data.txt</span><br><span class="line"><span class="comment"># 应用于第二行</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2,4s/dog/cat/'</span> data.txt</span><br><span class="line"><span class="comment"># 2-4</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2,$s/dog/cat/'</span> data.txt</span><br><span class="line"><span class="comment"># the lines behind No.2</span></span><br></pre></td></tr></table></figure>
+
+<p>2.文本方式<br>/pattern/command 按照pattern进行匹配，对匹配成功的行进行操作，其中模式可以使用正则表达式。</p>
+<h3 id="文本删除"><a href="#文本删除" class="headerlink" title="文本删除"></a>文本删除</h3><p>删除命令为d，可以使用上文提到的两种寻址方式来选择删除的行。<br>应当注意模式匹配时需要有开始和结束，不然会出现意外情况。</p>
+<h3 id="插入和附加文本"><a href="#插入和附加文本" class="headerlink" title="插入和附加文本"></a>插入和附加文本</h3><p>插入（i），附加（a），使用寻址来指定操作的行<br>插入会在该行前面，而附加会添加至该行之后。</p>
+<h3 id="修改行"><a href="#修改行" class="headerlink" title="修改行"></a>修改行</h3><p>修改命令为c，允许修改整行数据 。通上述的命令一样需要指定新的行内容。</p>
+<h3 id="转换指令y"><a href="#转换指令y" class="headerlink" title="转换指令y"></a>转换指令y</h3><p>唯一可以操作单个字符的指令。命令格式为：<br><code>[address]y/inchars/outchars/</code></p>
+<p>转换指令会对inchars和outchars的值做一对一映射，如果两个字符串的长度不同则会产生一条错误信息。</p>
+<p>因此y指令会对文本中所有符合的匹配的数据做映射替换。</p>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><p>= p两个命令，前者用于打印行号，后者用于打印。同时可以结合-n选项，禁止其他输出，来输出特定匹配选项。</p>
+<p>l列出行，可以将不可打印的ascii码等字符打印出来。</p>
+<p>r，w：读写指令，可以完成数据流和文件的交互操作。</p>
+<h3 id="进阶操作"><a href="#进阶操作" class="headerlink" title="进阶操作"></a>进阶操作</h3><p>就目前为止我们学习的sed命令都是只处理数据行的一行，我们可以使用下面三个命令来处理多行数据：</p>
+<ol>
+<li>N：将数据流中下一行加进来形成一个多行组</li>
+<li>D：删除多行组中的一行</li>
+<li>P：打印多行组中的一行</li>
+</ol>
+<p><strong>next命令</strong>：单行模式中使用小写n来表示next命令，单行模式中使用n命令会继续执行之后的命令而不是将命令从头到尾再执行一遍。<br>而多行模式有所不同，它会将下面的一行加入到当前的匹配模式中。</p>
+<p><strong>gawk</strong><br>gawk提供一个类编程环境来修改和重新组织文件中的数据<br>gawk是awk的gnu版本，它提供了一种新的编程语言而不是简单的编辑器命令</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-F fs</td>
+<td>指定行中的字段分隔符</td>
+</tr>
+<tr>
+<td>-f file</td>
+<td>从指定的文件中读取程序</td>
+</tr>
+<tr>
+<td>-v var=value</td>
+<td>定义一个变量和默认值</td>
+</tr>
+<tr>
+<td>-mf N</td>
+<td>定义要处理文件中的最大字段数</td>
+</tr>
+<tr>
+<td>-mr N</td>
+<td>指定数据文件中的最大数据行数</td>
+</tr>
+<tr>
+<td>-W keyword</td>
+<td>指定兼容模式或者警告等级</td>
+</tr>
+</tbody></table>
+<p>gawk会自动的为文本文件中的数据分配为变量，其中：</p>
+<ul>
+<li>$0 表示整个文本行</li>
+<li>$1 表示第一个数据字段</li>
+<li>$n 表示第n个数据字段</li>
+</ul>
+<p>可以通过BEGIN来指定程序在读取数据前运行脚本内容，类似的也有END</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>一般Linux支持两种正则表达式类型：BRE（基本），ERE（拓展）</p>
+<p><strong>锚字符</strong>：默认情况下，正则表达式可以匹配整行的内容，如果想锁定在行首或者行尾匹配，则需要锚字符锁定位置</p>
+<p>锁定在行首：^,通过使用该字符可以使其匹配锁定在行首，需要放在模式最前面<br>锁定在行尾：$，需要放在模式的最后面</p>
+<p><strong>点号字符</strong>：代表换行符以外任意一个字符。<br><strong>字符组</strong>：中括号将需要匹配的一个数据组放在其中。可以在字符组中使用^符号表示匹配除了字符组给出的字符的模式</p>
+<p><strong>特殊字符组：</strong><br><img src="https://cdn.img.wenhairu.com/images/2020/02/03/AvFzu.jpg" alt="特殊字符组示例"></p>
+<p><strong>星号</strong>：字符后面放置星号表示该字符出现0次或者多次，可以和字符组组合起来使用</p>
+<h3 id="拓展正则表达式"><a href="#拓展正则表达式" class="headerlink" title="拓展正则表达式"></a>拓展正则表达式</h3><p>以下为ERE模式的正则表达式部分，sed只支持BRE而gawk支持大部分ERE因此比sed要慢一些</p>
+<p><strong>问号（ ？）</strong>：类似于星号，但是问号只表示出现0或者1次，仅此而已<br><strong>加号（ + ）</strong>：是星号的另一个模式，表示出现一次或者多次，但是至少一次。<br><strong>花括号（{})</strong>：表示允许可重复正则表达式的上限。m为准确出现m次；m，n为至少m次，至多n次<br>默认情况下gawk程序不会识别正则表达式间隔。必须指定gawk程序的–re-interval选项才可以。</p>
+<p><strong>管道符号（｜）</strong>：使用or方式指定多个模式<br><strong>表达式分组（（））</strong>：正则表达式模式可以使用圆括号进行分组，该组会被视为一个标准字符，可以一样给该组使用特殊字符。</p>
+<h2 id="zsh简介"><a href="#zsh简介" class="headerlink" title="zsh简介"></a>zsh简介</h2><p>zsh是一个开源的shell，其最值得称道的是具有加载命令模块的功能，即可以通过这种方式添加内建指令。</p>
+<p>zsh是shell中可定制性最强的，可以通过不同的选项定制需要的shell</p>
+<h3 id="模块管理"><a href="#模块管理" class="headerlink" title="模块管理"></a>模块管理</h3><p>通过zmodload管理zsh的模块。</p>
+<p>没有任何参数的zmodload指令显示已经加载了的模块，如果需要安装则直接在后面跟上模块名，没有任何输出则表示已经加载完成。删除则是使用-u选项。</p>
+<blockquote>
+<p>通常会将zmodload指令放在zshrc文件中，这样每次打开可以自动加载需要的内容。<br>实测发现加载模块的命令不是一直有效的，退出后则重置所以需要写入zshrc文件中</p>
+</blockquote>
+<ul>
+<li>可以使用man zshmodules命令查看各个模块的内容</li>
+</ul>
+<p>zsh提过更加全面的数学操作，其可以使用浮点数运算。<br>有两种方式：let命令或者双圆括号</p>
+<ol>
+<li><code>let values=&quot; 4 * 1.8 &quot;</code></li>
+<li><code>values=$(( 4 * 1.8 ))</code></li>
+</ol>
+<p>如果一开始没有指定变量的类型，就会导致一些出乎意料的效果。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">value=10</span><br><span class="line">value2=$(( <span class="variable">$value</span> / 3 ))</span><br><span class="line"><span class="comment"># value2=3</span></span><br><span class="line"></span><br><span class="line">value=10.</span><br><span class="line">value2=$(( <span class="variable">$value</span> / 3 ))</span><br><span class="line"><span class="comment"># value2=3.33333333</span></span><br></pre></td></tr></table></figure>
+
+<p>zsh中数学函数可以通过加载mathfunc库实现，加载之后就可以使用整个数学函数库。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>shell的学习到这里就差不多了，这本书我感觉更像是一本工具书，过年期间有些东西看的也不是很细。</p>
+<p>-[] sed，gawk进阶部分</p>
+<p>以上的部分没有怎么看，之后有用到在回来看一下。<br>个人认为shell还是得多写，同一个功能在shell中可能有很多的选择可以实现，这本书就作为一本🔧书常备着就好了。</p>
 ]]></content>
       <categories>
         <category>shell</category>

@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>a tour of go</title>
+    <url>/2020/02/05/a-tour-of-go/</url>
+    <content><![CDATA[<p>Notes about a tour of go.</p>
+<a id="more"></a>
+
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>每个Go程序都是由包组成的，程序从main包开始。</p>
+<p>所以每个包中的最开始一个语句都应该是package xxx。</p>
+<p>下面的程序导入了“fmt”和“math/rand”两个包，按照约定，包名应当与导入路径的最后一个元素一致</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"math/rand"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"a num"</span>,rand.Intn(<span class="number">10</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码中使用的导入是分组进行的，也可以一个一个导入。</p>
+<p>值得注意的是，rand包中的方法Intn是以I开头，go中约定以大写字母开头的是已经导出的，<strong>在导入一个包时，只可以使用已经导出的名字</strong>，未导出的名字不可以在该包外访问</p>
+<blockquote>
+<p>这应该类似go中的一种封装</p>
+</blockquote>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>函数可以没有参数（如main函数）或者有多个参数</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(x <span class="keyword">int</span>, y <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(add(<span class="number">42</span>, <span class="number">13</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其函数的声明形式也和rust有些类似，首先就是类型放在后面，返回值的形式也很类似</p>
+</blockquote>
+<p>如果多个形参的类型相同，可以只写最后一个。</p>
+<p>函数可以返回<strong>任意数量</strong>的返回值。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(x, y <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">string</span> )</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> y, x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    a,b := swap(<span class="string">"hello"</span>,<span class="string">"world"</span>)</span><br><span class="line">    fmt.Println(a, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>go的返回值可以命名，会被<em>视作定义在函数顶部的变量</em>，没有参数的return会返回已经命名的返回值</p>
+<blockquote>
+<p>返回值的命名应当有意义，因为可以作为文档生成。直接返回方式也应当运用在短函数中以防影响可读性</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">split</span><span class="params">(sum <span class="keyword">int</span>)</span> <span class="params">(x, y <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    x = sum * <span class="number">4</span> / <span class="number">9</span></span><br><span class="line">    y = sum -x</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>var语句用于声明一个变量列表，和函数的参数列表一样，类型在最后。<br>var语句可以除像在包或者函数级别。<br>变量声明可以包含初始值，如果初始化值已经存在，可以忽略类型，这点和rust一致</p>
+<p><strong>函数中</strong>，简明的赋值语句：=可以在<strong>类型明确</strong>的地方替代var</p>
+<p><strong>函数外的每个语句都必须以关键字开始</strong>，因此：=不可以在函数外使用</p>
+<p>go的基本类型和大多数语言一致，除了复数complex，除此之外变量声明也可以使用分组成一个语法块</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"math/cmplx"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    Tobe <span class="keyword">bool</span> = <span class="literal">false</span></span><br><span class="line">    MaxInt <span class="keyword">uint64</span> = <span class="number">1</span>&lt;&lt;<span class="number">64</span> - <span class="number">1</span></span><br><span class="line">    z <span class="keyword">complex128</span> = cmplx.Sqrt(<span class="number">-5</span> + <span class="number">2i</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>没有声明初始值的变量会被自动赋为零值，数值类型为0，布尔类型为false，字符串为空字符串</p>
+<p><strong>类型转换</strong>：表达式T（v）将值v转换为类型T<br>与C语言不同，Go在不同类型之间赋值必须进行显式的类型转换。</p>
+<p>同rust一样，在未生命类型时go会进行对变量的类型推导</p>
+<p>简明的声明方式不可以指定变量的类型。</p>
+<p>常量的声明与变量类似，只是var语句换成const，而且不可以使用：=<br>一个未指定类型的常量由上下文来决定其类型。</p>
+]]></content>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>博客md图片托管</title>
     <url>/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/</url>
     <content><![CDATA[<p>用github和hexo搭建的博客，有时候markdown里想索引图片，发现博客文件夹中的文件结构和GitHub仓库中的完全不一样，所以难以确定索引路径，之后找到了三种方式：</p>
@@ -105,7 +153,7 @@
 
 <p>记录消息可以使用tee，该命令类似一个T型通道，将输入分发至指定文件和标准输出。</p>
 <ul>
-<li><input disabled type="checkbox"> 临时文件</li>
+<li><input disabled="" type="checkbox"> 临时文件</li>
 </ul>
 <h2 id="控制脚本"><a href="#控制脚本" class="headerlink" title="控制脚本"></a>控制脚本</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>脚本可以使用trap命令来捕捉信号，trap的命令格式为：<br><code>trap commands signals</code><br>command位置列出命令，后面跟着需要处理的信号。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">trap</span> <span class="string">"echo Goodbye..."</span> EXIT</span><br><span class="line"><span class="comment"># 捕捉退出状态，同样有捕捉ctrl-c的作用。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo ' Sorry! I have trapped the ctrl-c' "</span> SIGINT</span><br><span class="line"><span class="comment"># 捕捉ctrl+c信号</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> -- SIGINT</span><br><span class="line"><span class="comment"># 删除之前设置的捕捉信号</span></span><br></pre></td></tr></table></figure>
@@ -213,11 +261,11 @@
 </tr>
 </tbody></table>
 <p>gawk会自动的为文本文件中的数据分配为变量，其中：</p>
-<ul>
+<ol>
 <li>$0 表示整个文本行</li>
 <li>$1 表示第一个数据字段</li>
 <li>$n 表示第n个数据字段</li>
-</ul>
+</ol>
 <p>可以通过BEGIN来指定程序在读取数据前运行脚本内容，类似的也有END</p>
 <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>一般Linux支持两种正则表达式类型：BRE（基本），ERE（拓展）</p>
 <p><strong>锚字符</strong>：默认情况下，正则表达式可以匹配整行的内容，如果想锁定在行首或者行尾匹配，则需要锚字符锁定位置</p>
@@ -235,9 +283,7 @@
 <blockquote>
 <p>通常会将zmodload指令放在zshrc文件中，这样每次打开可以自动加载需要的内容。<br>实测发现加载模块的命令不是一直有效的，退出后则重置所以需要写入zshrc文件中</p>
 </blockquote>
-<ul>
-<li>可以使用man zshmodules命令查看各个模块的内容</li>
-</ul>
+<p>可以使用<strong>man zshmodules</strong>命令查看各个模块的内容</p>
 <p>zsh提过更加全面的数学操作，其可以使用浮点数运算。<br>有两种方式：let命令或者双圆括号</p>
 <ol>
 <li><code>let values=&quot; 4 * 1.8 &quot;</code></li>
@@ -248,7 +294,10 @@
 
 <p>zsh中数学函数可以通过加载mathfunc库实现，加载之后就可以使用整个数学函数库。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>shell的学习到这里就差不多了，这本书我感觉更像是一本工具书，过年期间有些东西看的也不是很细。</p>
-<p>-[] sed，gawk进阶部分</p>
+<ul>
+<li><input disabled="" type="checkbox"> sed，gawk进阶部分</li>
+<li><input disabled="" type="checkbox"> exec重定向</li>
+</ul>
 <p>以上的部分没有怎么看，之后有用到在回来看一下。<br>个人认为shell还是得多写，同一个功能在shell中可能有很多的选择可以实现，这本书就作为一本🔧书常备着就好了。</p>
 ]]></content>
       <categories>

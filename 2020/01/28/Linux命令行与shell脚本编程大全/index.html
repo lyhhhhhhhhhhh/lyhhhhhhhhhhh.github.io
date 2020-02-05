@@ -186,7 +186,7 @@
 
 <p>记录消息可以使用tee，该命令类似一个T型通道，将输入分发至指定文件和标准输出。</p>
 <ul>
-<li><input disabled type="checkbox"> 临时文件</li>
+<li><input disabled="" type="checkbox"> 临时文件</li>
 </ul>
 <h2 id="控制脚本"><a href="#控制脚本" class="headerlink" title="控制脚本"></a>控制脚本</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>脚本可以使用trap命令来捕捉信号，trap的命令格式为：<br><code>trap commands signals</code><br>command位置列出命令，后面跟着需要处理的信号。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">trap</span> <span class="string">"echo Goodbye..."</span> EXIT</span><br><span class="line"><span class="comment"># 捕捉退出状态，同样有捕捉ctrl-c的作用。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo ' Sorry! I have trapped the ctrl-c' "</span> SIGINT</span><br><span class="line"><span class="comment"># 捕捉ctrl+c信号</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> -- SIGINT</span><br><span class="line"><span class="comment"># 删除之前设置的捕捉信号</span></span><br></pre></td></tr></table></figure>
@@ -294,11 +294,11 @@
 </tr>
 </tbody></table>
 <p>gawk会自动的为文本文件中的数据分配为变量，其中：</p>
-<ul>
+<ol>
 <li>$0 表示整个文本行</li>
 <li>$1 表示第一个数据字段</li>
 <li>$n 表示第n个数据字段</li>
-</ul>
+</ol>
 <p>可以通过BEGIN来指定程序在读取数据前运行脚本内容，类似的也有END</p>
 <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>一般Linux支持两种正则表达式类型：BRE（基本），ERE（拓展）</p>
 <p><strong>锚字符</strong>：默认情况下，正则表达式可以匹配整行的内容，如果想锁定在行首或者行尾匹配，则需要锚字符锁定位置</p>
@@ -316,9 +316,7 @@
 <blockquote>
 <p>通常会将zmodload指令放在zshrc文件中，这样每次打开可以自动加载需要的内容。<br>实测发现加载模块的命令不是一直有效的，退出后则重置所以需要写入zshrc文件中</p>
 </blockquote>
-<ul>
-<li>可以使用man zshmodules命令查看各个模块的内容</li>
-</ul>
+<p>可以使用<strong>man zshmodules</strong>命令查看各个模块的内容</p>
 <p>zsh提过更加全面的数学操作，其可以使用浮点数运算。<br>有两种方式：let命令或者双圆括号</p>
 <ol>
 <li><code>let values=&quot; 4 * 1.8 &quot;</code></li>
@@ -329,7 +327,10 @@
 
 <p>zsh中数学函数可以通过加载mathfunc库实现，加载之后就可以使用整个数学函数库。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>shell的学习到这里就差不多了，这本书我感觉更像是一本工具书，过年期间有些东西看的也不是很细。</p>
-<p>-[] sed，gawk进阶部分</p>
+<ul>
+<li><input disabled="" type="checkbox"> sed，gawk进阶部分</li>
+<li><input disabled="" type="checkbox"> exec重定向</li>
+</ul>
 <p>以上的部分没有怎么看，之后有用到在回来看一下。<br>个人认为shell还是得多写，同一个功能在shell中可能有很多的选择可以实现，这本书就作为一本🔧书常备着就好了。</p>
 
       

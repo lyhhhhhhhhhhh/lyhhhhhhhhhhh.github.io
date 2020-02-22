@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.1k字</span>
+            <span class="post-count">2.7k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">8分钟</span>
+            <span class="post-count">10分钟</span>
         </span>
     </span>
 </div>
@@ -255,6 +255,40 @@
 <h3 id="temporary-table"><a href="#temporary-table" class="headerlink" title="temporary table"></a>temporary table</h3><p>临时表顾名思义就是临时创建出来的用于保存临时数据的表，在连接关闭后会自动删除并释放空间。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TEMPORARY TABLE SalesSummary (</span><br><span class="line">    -&gt; product_name VARCHAR(50) NOT NULL</span><br><span class="line">    -&gt; , total_sales DECIMAL(12,2) NOT NULL DEFAULT 0.00</span><br><span class="line">    -&gt; , avg_unit_price DECIMAL(7,2) NOT NULL DEFAULT 0.00</span><br><span class="line">    -&gt; , total_units_sold INT UNSIGNED NOT NULL DEFAULT 0</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>mysql中也可以自定义函数，类似于大多数编程语言函数是一些语句的集合，用来将一些实现特定目的的语句组合起来来降低复杂度。但是注意，mysql中的函数注重返回值，一些语句是不能实现的。</p>
+<p>函数只能返回一个值，不能够返回一个结果集。</p>
+<p><strong>create</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> 函数名([参数列表]) <span class="keyword">returns</span> 数据类型</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"> <span class="keyword">sql</span>语句;</span><br><span class="line"> return 值;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+<p>example:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 最简单的仅有一条sql的函数</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> myselect2() <span class="keyword">returns</span> <span class="built_in">int</span> <span class="keyword">return</span> <span class="number">666</span>;</span><br><span class="line"><span class="keyword">select</span> myselect2(); <span class="comment">-- 调用函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> myselect3() <span class="keyword">returns</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">begin</span> </span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">class</span> <span class="keyword">where</span> cname=<span class="string">"python"</span> <span class="keyword">into</span> c;</span><br><span class="line">    return c;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">select</span> myselect3();</span><br><span class="line"><span class="comment">-- 带传参的函数</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> myselect5(<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">15</span>)) <span class="keyword">returns</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">begin</span> </span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">class</span> <span class="keyword">where</span> cname=<span class="keyword">name</span> <span class="keyword">into</span> c;</span><br><span class="line">    return c;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">select</span> myselect5(<span class="string">"python"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>call</strong></p>
+<p>select + function</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 无参调用</span></span><br><span class="line"><span class="keyword">select</span> myselect3();</span><br><span class="line"><span class="comment">-- 传参调用</span></span><br><span class="line"><span class="keyword">select</span> myselect5(<span class="string">"python"</span>);</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">class</span> <span class="keyword">where</span> <span class="keyword">id</span>=myselect5(<span class="string">"python"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>delete</strong></p>
+<p><code>drop + function_name</code></p>
+<p><strong>查看函数</strong></p>
+<ul>
+<li>查看函数创建语句：show create function 函数名;</li>
+<li>查看所有函数：show function status [like ‘pattern’];</li>
+</ul>
+<h2 id="mysql变量"><a href="#mysql变量" class="headerlink" title="mysql变量"></a>mysql变量</h2><p>mysql中一共有四种变量：会话变量、全局变量、局部变量和用户变量，前两个统称为系统变量。</p>
+<p><strong>用户变量</strong><br>顾名思义是用户定义的变量，有两种方式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># two ways use SET</span></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">variable</span> = expr</span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">variable</span> := expr</span><br><span class="line"></span><br><span class="line"><span class="comment"># only be able to use := in select</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="keyword">variable</span> := expr</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>未定义变量的初始值为 null（可不定义变量直接使用，不会报错）</li>
+<li>变量名对大小写不敏感</li>
+<li>变量不能在要求字面值的地方使用，比如 select 中的 limit 语句等。</li>
+<li>调用用户变量的表达式的计算顺序实际上是未定义的，如 <code>SELECT @a = 0, @a := @a + 1;</code>，两列都可能是 0 。</li>
+</ol>
+<p><strong>会话变量</strong><br>会话变量为服务器为每个客户端连接维护的变量。在客户端连接时，使用相应全局变量的当前值对客户端的会话变量进行初始化。</p>
+<p>顾名思义，会话变量的作用域就是一个会话 Session 咯。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> var_name = <span class="keyword">value</span>;</span><br><span class="line"><span class="keyword">set</span> @session.var_name = <span class="keyword">value</span>;</span><br><span class="line"><span class="keyword">set</span> var_name = <span class="keyword">value</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">session</span> <span class="keyword">variables</span>;</span><br><span class="line"><span class="comment"># 以上代码会把所有会话变量罗列出来，可通过 like 进行过滤</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">session</span> <span class="keyword">variables</span> <span class="keyword">LIKE</span> <span class="string">"%var%"</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>全局变量</strong><br>全局变量会影响服务器整体操作。但是一旦重启，这些设置会被重置。注意要想更改全局变量，必须具有SUPER权限。</p>
 
       
       <!-- 打赏 -->
@@ -273,6 +307,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            ECS设置grub默认kernel
+          
+        </div>
+      </a>
     
     
       <a href="/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/" class="article-nav-link">

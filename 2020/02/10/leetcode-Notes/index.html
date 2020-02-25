@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.2k字</span>
+            <span class="post-count">6.6k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">29分钟</span>
+            <span class="post-count">31分钟</span>
         </span>
     </span>
 </div>
@@ -92,6 +92,7 @@
 
     
 
+    
     <div class="article-entry" itemprop="articleBody">
       
 
@@ -262,6 +263,19 @@
 <p>这里牵涉到的问题主要是go标准库contains/List的使用，在这上面花了很多时间，稍后将其补充在博客里面。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preorderTraversal</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    stack := list.New()</span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    stack.PushBack(root) <span class="comment">//push</span></span><br><span class="line">    <span class="keyword">for</span> stack.Len() &gt; <span class="number">0</span> &#123;</span><br><span class="line">        cur  := stack.Back()</span><br><span class="line">        curValue, _ := cur.Value.(*TreeNode)</span><br><span class="line">        stack.Remove(cur) <span class="comment">// pop</span></span><br><span class="line">        <span class="keyword">if</span> curValue != <span class="literal">nil</span> &#123;</span><br><span class="line">            res = <span class="built_in">append</span>(res, curValue.Val)</span><br><span class="line">            stack.PushBack(curValue.Right)</span><br><span class="line">            stack.PushBack(curValue.Left)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p><img src="https://i.loli.net/2020/02/25/7CxK8kZmtR4Hpae.jpg" alt="Jietu20200225-164150@2x"></p>
+<p>这道题挺有意思的，在纸上画了下图后我发现后序遍历就是倒过来的前序遍历，需要注意的是，倒过来包括也要从右节点开始遍历。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">postorderTraversal</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    stack := list.New()</span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    stack.PushBack(root) <span class="comment">//push</span></span><br><span class="line">    <span class="keyword">for</span> stack.Len() &gt; <span class="number">0</span> &#123;</span><br><span class="line">        cur  := stack.Back()</span><br><span class="line">        curValue, _ := cur.Value.(*TreeNode)</span><br><span class="line">        stack.Remove(cur) <span class="comment">// pop</span></span><br><span class="line">        <span class="keyword">if</span> curValue != <span class="literal">nil</span> &#123;</span><br><span class="line">            res = <span class="built_in">append</span>(res, curValue.Val)</span><br><span class="line">            stack.PushBack(curValue.Left)</span><br><span class="line">            stack.PushBack(curValue.Right)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    resInvert := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(res))</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> res &#123;</span><br><span class="line">        resInvert[<span class="built_in">len</span>(res)<span class="number">-1</span>-i] = res[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> resInvert</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/02/25/k8Xiu5QgdAOTCmc.jpg" alt="Jietu20200225-172308@2x"></p>
+<p>脑袋不好使，想了很久才搞出来，其实就是按照中序遍历的过程走完一遍就行了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">inorderTraversal</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    stack := list.New()</span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    curValue := root</span><br><span class="line">    <span class="keyword">for</span> stack.Len() &gt; <span class="number">0</span> || curValue != <span class="literal">nil</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> curValue != <span class="literal">nil</span> &#123;</span><br><span class="line">            stack.PushBack(curValue)</span><br><span class="line">            curValue = curValue.Left</span><br><span class="line">        &#125;</span><br><span class="line">        cur := stack.Back()</span><br><span class="line">        curValue = cur.Value.(*TreeNode)</span><br><span class="line">        stack.Remove(cur) <span class="comment">//pop</span></span><br><span class="line"></span><br><span class="line">        res = <span class="built_in">append</span>(res, curValue.Val)</span><br><span class="line">        curValue = curValue.Right</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="stack-amp-queue"><a href="#stack-amp-queue" class="headerlink" title="stack &amp; queue"></a>stack &amp; queue</h2><p><img src="https://i.loli.net/2020/02/25/5synrTmzeF9SPJD.jpg" alt="Jietu20200225-224552@2x"></p>
+<p>首先我们看到此题应该想到：可以逆向遍历数组来减少重复的遍历次数。这里提供两种做法，第一种就是常规的方法，通过依次比较和累加计算每个位置的索引值。第二种是使用栈，思路见下图（leetcode官方题解）：</p>
+<p><img src="https://i.loli.net/2020/02/25/UWafsFPRyNpHuGv.jpg" alt="Jietu20200225-231222@2x"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">dailyTemperatures</span><span class="params">(T []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(T))</span><br><span class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> T &#123;</span><br><span class="line">		address := <span class="built_in">len</span>(T) - <span class="number">1</span> - i</span><br><span class="line">		<span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">			res[<span class="built_in">len</span>(T)<span class="number">-1</span>] = <span class="number">0</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		index := <span class="number">1</span></span><br><span class="line">		<span class="keyword">for</span> T[address+index] &lt;= T[address] &#123;</span><br><span class="line">			index += res[address+index]</span><br><span class="line">			<span class="keyword">if</span> res[address+index] == <span class="number">0</span>  &#123;</span><br><span class="line">                <span class="keyword">if</span>  T[address+index] &lt;= T[address] &#123;</span><br><span class="line">                    index = <span class="number">0</span></span><br><span class="line">                &#125;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		res[address] = index</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">dailyTemperatures2</span><span class="params">(T []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(T))</span><br><span class="line">	<span class="keyword">var</span> (</span><br><span class="line">		stack = <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(T))</span><br><span class="line">		top   = <span class="number">0</span></span><br><span class="line">	)</span><br><span class="line">	stack[top], top = <span class="built_in">len</span>(T)<span class="number">-1</span>, <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> T &#123;</span><br><span class="line">		invert := <span class="built_in">len</span>(T) - i - <span class="number">1</span></span><br><span class="line">		<span class="keyword">for</span> top != <span class="number">0</span> &amp;&amp; T[stack[top<span class="number">-1</span>]] &lt;= T[invert] &#123;</span><br><span class="line">			top--</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> top != <span class="number">0</span> &#123;</span><br><span class="line">			res[invert] = stack[top<span class="number">-1</span>] - invert</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			res[invert] = <span class="number">0</span></span><br><span class="line">		&#125;</span><br><span class="line">		stack[top], top = invert, top+<span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="database"><a href="#database" class="headerlink" title="database"></a>database</h2><p><img src="https://i.loli.net/2020/02/20/xcukbpvf4sZdSRA.jpg" alt="Jietu20200220-183400@2x"></p>
 <p>此题解法甚屌，我之前并不知道sql可以这样操作。之前看的太笼统，需要重新看一下类型部分。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> salary <span class="keyword">SET</span> sex = <span class="built_in">CHAR</span> ( <span class="keyword">ASCII</span>(sex) ^ <span class="keyword">ASCII</span>( <span class="string">'m'</span> ) ^ <span class="keyword">ASCII</span>( <span class="string">'f'</span> ) );</span><br><span class="line"><span class="comment"># 两箱等数异或为0，0异或任何数为任何数</span></span><br><span class="line"><span class="keyword">update</span> salary <span class="keyword">set</span> sex = <span class="built_in">char</span>(<span class="keyword">ascii</span>(<span class="string">'m'</span>) + <span class="keyword">ascii</span>(<span class="string">'f'</span>) - <span class="keyword">ascii</span>(<span class="string">'sex'</span>))</span><br><span class="line"><span class="comment"># 这个方法更好理解一些</span></span><br></pre></td></tr></table></figure>
@@ -311,14 +325,78 @@
 
 
       
-      <!-- 打赏 -->
+      <!-- reward -->
       
     </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
     <footer class="article-footer">
-      <a data-url="http://lyhhhhhhhhhhh.github.io/2020/02/10/leetcode-Notes/" data-id="ck6hbxvhs00039444f9kk7shh"
-        class="article-share-link">分享</a>
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        shell
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://lyhhhhhhhhhhh.github.io/2020/02/10/leetcode-Notes/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li></ul>
+
 
     </footer>
 
@@ -329,7 +407,7 @@
   <nav class="article-nav">
     
       <a href="/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
+        <strong class="article-nav-caption">prevBolg</strong>
         <div class="article-nav-title">
           
             做点应该做的
@@ -339,7 +417,7 @@
     
     
       <a href="/2020/02/05/a-tour-of-go/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
+        <strong class="article-nav-caption">nextBolg</strong>
         <div class="article-nav-title">a tour of go</div>
       </a>
     
@@ -360,11 +438,11 @@
 <script>
     new Valine({
         el: '#vcomments',
-        notify: false,
-        verify: false,
         app_id: 'UJJrvaXXm06Um0bqrqXMa1gO-gzGzoHsz',
         app_key: 'g2NktDxnwWHiG84di6iVBq80',
         path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
         avatar: 'retro',
         placeholder: '有什么想说的嘛？',
         recordIP: true
@@ -418,16 +496,21 @@
       </li>
       <li>
         
+          Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
       </li>
     </ul>
     <ul class="list-inline">
       <li>
         
         
-        <ul class="list-inline">
-  <li>PV:<span id="busuanzi_value_page_pv"></span></li>
-  <li>UV:<span id="busuanzi_value_site_uv"></span></li>
-</ul>
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
         
       </li>
       <li>
@@ -443,9 +526,7 @@
 </div>
       </div>
     </main>
-    
-    <aside class="sidebar">
-      
+      <aside class="sidebar">
         <button class="navbar-toggle"></button>
 <nav class="navbar">
   
@@ -520,9 +601,29 @@
 <script src="/js/busuanzi-2.3.pure.min.js"></script>
 
 
+<script src="/js/share.js"></script>
+
+
 
 <script src="/fancybox/jquery.fancybox.min.js"></script>
 
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['热爱生活，热爱自我','宠辱不惊，不卑不亢','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
 
 
 
@@ -537,11 +638,14 @@
     headingSelector: 'h1, h2, h3, h4, h5, h6',
     hasInnerContainers: true,
     scrollSmooth: true,
+    scrollContainer:'main',
     positionFixedSelector: '.tocbot',
     positionFixedClass: 'is-position-fixed',
     fixedSidebarOffset: 'auto',
     onClick: (e) => {
-      document.getElementById(e.target.innerText).scrollIntoView()
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
       return false;
     }
   });

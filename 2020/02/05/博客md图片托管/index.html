@@ -90,6 +90,7 @@
 
     
 
+    
     <div class="article-entry" itemprop="articleBody">
       
 
@@ -106,14 +107,78 @@
 </ol>
 
       
-      <!-- 打赏 -->
+      <!-- reward -->
       
     </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
     <footer class="article-footer">
-      <a data-url="http://lyhhhhhhhhhhh.github.io/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/" data-id="ck690p7lv000064444qj2bkki"
-        class="article-share-link">分享</a>
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        shell
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://lyhhhhhhhhhhh.github.io/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li></ul>
+
 
     </footer>
 
@@ -124,7 +189,7 @@
   <nav class="article-nav">
     
       <a href="/2020/02/05/a-tour-of-go/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
+        <strong class="article-nav-caption">prevBolg</strong>
         <div class="article-nav-title">
           
             a tour of go
@@ -134,7 +199,7 @@
     
     
       <a href="/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
+        <strong class="article-nav-caption">nextBolg</strong>
         <div class="article-nav-title">Linux命令行与shell脚本编程大全</div>
       </a>
     
@@ -155,11 +220,11 @@
 <script>
     new Valine({
         el: '#vcomments',
-        notify: false,
-        verify: false,
         app_id: 'UJJrvaXXm06Um0bqrqXMa1gO-gzGzoHsz',
         app_key: 'g2NktDxnwWHiG84di6iVBq80',
         path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
         avatar: 'retro',
         placeholder: '有什么想说的嘛？',
         recordIP: true
@@ -213,16 +278,21 @@
       </li>
       <li>
         
+          Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
       </li>
     </ul>
     <ul class="list-inline">
       <li>
         
         
-        <ul class="list-inline">
-  <li>PV:<span id="busuanzi_value_page_pv"></span></li>
-  <li>UV:<span id="busuanzi_value_site_uv"></span></li>
-</ul>
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
         
       </li>
       <li>
@@ -238,9 +308,7 @@
 </div>
       </div>
     </main>
-    
-    <aside class="sidebar">
-      
+      <aside class="sidebar">
         <button class="navbar-toggle"></button>
 <nav class="navbar">
   
@@ -315,9 +383,29 @@
 <script src="/js/busuanzi-2.3.pure.min.js"></script>
 
 
+<script src="/js/share.js"></script>
+
+
 
 <script src="/fancybox/jquery.fancybox.min.js"></script>
 
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['热爱生活，热爱自我','宠辱不惊，不卑不亢','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
 
 
 
@@ -332,11 +420,14 @@
     headingSelector: 'h1, h2, h3, h4, h5, h6',
     hasInnerContainers: true,
     scrollSmooth: true,
+    scrollContainer:'main',
     positionFixedSelector: '.tocbot',
     positionFixedClass: 'is-position-fixed',
     fixedSidebarOffset: 'auto',
     onClick: (e) => {
-      document.getElementById(e.target.innerText).scrollIntoView()
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
       return false;
     }
   });

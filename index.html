@@ -58,6 +58,89 @@
     
     
     
+    <article id="post-go标准库contains-List使用" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/"
+    >go标准库contains/List使用</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-02-25T03:03:18.000Z" itemprop="datePublished">2020-02-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>这几天刷leetcode算法题树的部分的时候频繁的需要用到队列和栈，一开始我想拿slice实现，后面看了别人的题解中有用到list这个标准库，提供了一个双向的链表感觉很方便，就拿来一用</p>
+<p>不过因为其使用interface{}类型来实现泛型，所以使用起来有一些需要注意的地方，所以用这片博客记录一下。</p>
+<p>官方文档：<a href="https://go-zh.org/pkg/container/list/" target="_blank" rel="noopener">list文档</a></p>
+<p>&lt;–! more –&gt;</p>
+<p>首先list中储存了一个Element类型的变量，其定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Element <span class="keyword">struct</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The value stored with this element.</span></span><br><span class="line">    Value <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">    <span class="comment">// contains filtered or unexported fields</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中使用了接口类型定义Value，这样以来Element就可以实现存储任何值。</p>
+<p>list的操作其实不难，定义在其中的方法看名字就能看出来是啥，使用的一个简单示例如下。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"container/list"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Create a new list and put some numbers in it.</span></span><br><span class="line">	l := list.New()</span><br><span class="line">	e4 := l.PushBack(<span class="number">4</span>)</span><br><span class="line">	e1 := l.PushFront(<span class="number">1</span>)</span><br><span class="line">	l.InsertBefore(<span class="number">3</span>, e4)</span><br><span class="line">	l.InsertAfter(<span class="number">2</span>, e1)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Iterate through list and print its contents.</span></span><br><span class="line">	<span class="keyword">for</span> e := l.Front(); e != <span class="literal">nil</span>; e = e.Next() &#123;</span><br><span class="line">		fmt.Println(e.Value)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="interface-类型断言"><a href="#interface-类型断言" class="headerlink" title="interface{}类型断言"></a>interface{}类型断言</h2><p>值得注意的只有一点，就是iterface在进行类型转换的时候是需要使用类型断言的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preorderTraversal</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    stack := list.New()</span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    stack.PushBack(root)</span><br><span class="line">    <span class="keyword">for</span> stack.Len() &gt; <span class="number">0</span> &#123;</span><br><span class="line">        cur  := stack.Back()</span><br><span class="line">        curValue, _ := cur.Value.(*TreeNode)</span><br><span class="line">        stack.Remove(cur)</span><br><span class="line">        <span class="keyword">if</span> curValue != <span class="literal">nil</span> &#123;</span><br><span class="line">            res = <span class="built_in">append</span>(res, curValue.Val)</span><br><span class="line">            stack.PushBack(curValue.Right)</span><br><span class="line">            stack.PushBack(curValue.Left)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比如刚刚做完的那道前序遍历的题，其中<code>curValue, _ := cur.Value.(*TreeNode)</code>就是一句类型断言。</p>
+<p>类型断言是访问接口类型底层值的唯一方法，可以通过断言来在运行时检查interface中是否含有某种类型。上述的方法其实不够规范，因为忽略了后面返回的那个值。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lyhhhhhhhhhhh.github.io/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/" data-id="ck71bmv1i0000vb441uykcv85"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/" rel="tag">golang</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-ECS设置grub默认kernel" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 

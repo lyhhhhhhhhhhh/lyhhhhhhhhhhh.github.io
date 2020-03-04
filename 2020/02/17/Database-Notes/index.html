@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.7k字</span>
+            <span class="post-count">3.4k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">10分钟</span>
+            <span class="post-count">12分钟</span>
         </span>
     </span>
 </div>
@@ -290,6 +290,42 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> var_name = <span class="keyword">value</span>;</span><br><span class="line"><span class="keyword">set</span> @session.var_name = <span class="keyword">value</span>;</span><br><span class="line"><span class="keyword">set</span> var_name = <span class="keyword">value</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">session</span> <span class="keyword">variables</span>;</span><br><span class="line"><span class="comment"># 以上代码会把所有会话变量罗列出来，可通过 like 进行过滤</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">session</span> <span class="keyword">variables</span> <span class="keyword">LIKE</span> <span class="string">"%var%"</span>;</span><br></pre></td></tr></table></figure>
 
 <p><strong>全局变量</strong><br>全局变量会影响服务器整体操作。但是一旦重启，这些设置会被重置。注意要想更改全局变量，必须具有SUPER权限。</p>
+<h2 id="事务-1"><a href="#事务-1" class="headerlink" title="事务"></a>事务</h2><p>事务是满足ACID特性的一组操作，可以通过Commit提交一个事务，也可以使用rollback进行回滚。</p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222237925.png" alt="pic"></p>
+<h3 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h3><ol>
+<li><p>原子性（Atomicity）<br>事务被视为不可分割的最小单元，事务要么全部提交成功，要么全部失败回滚。</p>
+</li>
+<li><p>一致性（Consistency）<br>数据库在事务执行前后都要保持一致性，即所有的事务对同一个数据的读取结果都是相同的。</p>
+</li>
+<li><p>隔离性（Isolation）<br>一个事务所做的修改在最终提交之前，对于其他事务不可见。</p>
+</li>
+<li><p>持久性（Durability）<br>一旦事务提交，其所做的修改将会永远保存在数据库中。</p>
+</li>
+</ol>
+<p>⚠️这几个概念虽然简单但是并不是很好理解，主要因为其不是平级的关系。</p>
+<ul>
+<li>只有满足一致性，事务的执行结果才是正确的。</li>
+<li>在无并发的情况下，事务串行执行，隔离性一定能够满足。此时只要能满足原子性，就一定能满足一致性。</li>
+<li>在并发的情况下，多个事务并行执行，事务不仅要满足原子性，还需要满足隔离性，才能满足一致性。</li>
+<li>事务满足持久化是为了能应对系统崩溃的情况。</li>
+</ul>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207210437023.png"/> </div><br>
+
+<h2 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h2><p>在并发环境下，事务的隔离性很难保证，因此会出现很多并发一致性问题。</p>
+<h3 id="丢失修改"><a href="#丢失修改" class="headerlink" title="丢失修改"></a>丢失修改</h3><p>T<sub>1</sub> 和 T<sub>2</sub> 两个事务都对一个数据进行修改，T<sub>1</sub> 先修改，T<sub>2</sub> 随后修改，T<sub>2</sub> 的修改覆盖了 T<sub>1</sub> 的修改。</p>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221744244.png"/> </div><br>
+
+<h3 id="读脏数据"><a href="#读脏数据" class="headerlink" title="读脏数据"></a>读脏数据</h3><p>T<sub>1</sub> 修改一个数据，T<sub>2</sub> 随后读取这个数据。如果 T<sub>1</sub> 撤销了这次修改，那么 T<sub>2</sub> 读取的数据是脏数据。</p>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221920368.png"/> </div><br>
+
+<h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>T<sub>2</sub> 读取一个数据，T<sub>1</sub> 对该数据做了修改。如果 T<sub>2</sub> 再次读取这个数据，此时读取的结果和第一次读取的结果不同。</p>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222102010.png"/> </div><br>
+
+<h3 id="幻影读"><a href="#幻影读" class="headerlink" title="幻影读"></a>幻影读</h3><p>T<sub>1</sub> 读取某个范围的数据，T<sub>2</sub> 在这个范围内插入新的数据，T<sub>1</sub> 再次读取这个范围的数据，此时读取的结果和和第一次读取的结果不同。</p>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222134306.png"/> </div><br>
+
+<hr>
+<p>产生并发不一致性问题的主要原因是破坏了事务的隔离性，解决方法是通过并发控制来保证隔离性。并发控制可以通过封锁来实现，但是封锁操作需要用户自己控制，相当复杂。数据库管理系统提供了事务的隔离级别，让用户以一种更轻松的方式处理并发一致性问题。</p>
 
       
       <!-- reward -->

@@ -52,7 +52,8 @@
   <entry>
     <title>golang打补丁</title>
     <url>/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p>标题即内容😊</p>
+<a id="more"></a>
 
 <h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><ol>
 <li>存在高级break语句可以跳出循环到指定位置</li>

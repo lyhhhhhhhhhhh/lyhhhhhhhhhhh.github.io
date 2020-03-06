@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">5.4k字</span>
+            <span class="post-count">6.5k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">19分钟</span>
+            <span class="post-count">23分钟</span>
         </span>
     </span>
 </div>
@@ -339,6 +339,96 @@
 <p>例如下图中 (A1, A2, A3, A4) 属于一个虚拟局域网，A1 发送的广播会被 A2、A3、A4 收到，而其它站点收不到。</p>
 <p>使用 VLAN 干线连接来建立虚拟局域网，每台交换机上的一个特殊接口被设置为干线接口，以互连 VLAN 交换机。IEEE 定义了一种扩展的以太网帧格式 802.1Q，它在标准以太网帧上加进了 4 字节首部 VLAN 标签，用于表示该帧属于哪一个虚拟局域网。</p>
 <p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e98e9d20-206b-4533-bacf-3448d0096f38.png" alt="pic"></p>
+<h2 id="HTTP-TCP-UDP"><a href="#HTTP-TCP-UDP" class="headerlink" title="HTTP/TCP/UDP"></a>HTTP/TCP/UDP</h2><h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p><a href="https://www.cnblogs.com/an-wen/p/11180076.html" target="_blank" rel="noopener">http参考文章</a></p>
+<p>http是一个客户端终端和服务器端请求和应答的标准。</p>
+<p>http协议中并未指定必须使用的层。http实际可以运行在任何协议上，只不过其假定下层协议提供可靠的传输，因此，任何提供这种保证的下层协议都可以被使用。</p>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>协议定义了客户端如何从服务器请求web页面，以及服务器如何将web页面返回客户端。</p>
+<p>http协议使用了请求/响应模型：<br>客户端向服务器端发送一个请求报文，其中包括<strong>请求的方法、URL、协议版本以及请求头部和请求数据</strong>。服务器则以一个状态行作为响应，内容包括协议版本、成功或者错误代码、服务器信息、响应头部和响应数据。</p>
+<p>在浏览器键入一个url，会经历一下流程：</p>
+<ol>
+<li>dns解析url域名中对应的ip地址</li>
+<li>解析出ip地址之后，根据ip和默认端口号80，和服务器建立tcp连接。</li>
+<li>浏览器发出读取文件(URL 中域名后面部分对应的文件)的HTTP 请求，该请求报文作为 TCP 三次握手的第三个报文的数据发送给服务器;</li>
+<li>服务器根据请求内容作出响应，返回相应报文</li>
+<li>根据连接类型断开连接或者维持一段时间。</li>
+<li>浏览器页面渲染。</li>
+</ol>
+<p>http是一种无状态的协议，也就是说其自身不对请求/响应之间的通讯状态进行保存。也就是说，在协议级别，不对之前的请求和响应做保存。</p>
+<p>cookie技术是解决这个问题的方式。</p>
+<h4 id="http请求方法"><a href="#http请求方法" class="headerlink" title="http请求方法"></a>http请求方法</h4><p>http/1.1中一共有8种方法：</p>
+<ol>
+<li><p>GET<br>向指定资源发起请求。该方法应只用在读取数据，而不应当用在产生副作用的操作中。原因是get可以被爬虫随意访问。</p>
+</li>
+<li><p>HEAD<br>同get类似，是向服务器发出指定资源的请求。只不过服务器将不传回资源的本文部分。</p>
+</li>
+<li><p>POST<br>向指定资源提交数据，请求服务器进行处理。数据被放在请求体中，可能会创建资源或者修改资源。</p>
+</li>
+<li><p>PUT<br>向指定位置上传其最新内容。</p>
+</li>
+<li><p>DELETE<br>请求服务器删除标识资源。</p>
+</li>
+<li><p>TRACE<br>回显服务器收到的请求，用于调试</p>
+</li>
+<li><p>OPTIONS<br>这个方法可使服务器传回该资源所支持的所有HTTP请求方法。用’*’来代替资源名称，向Web服务器发送OPTIONS请求，可以测试服务器功能是否正常运作。</p>
+</li>
+<li><p>CONNECT<br>HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。通常用于SSL加密服务器的链接（经由非加密的HTTP代理服务器）。</p>
+</li>
+</ol>
+<p>⚠️注意事项：</p>
+<ol>
+<li><p>方法名区分大小写。<br>当某个请求所针对的资源不支持对应的请求方法的时候，服务器应当返回状态码405（Method Not Allowed），当服务器不认识或者不支持对应的请求方法的时候，应当返回状态码501（Not Implemented）。</p>
+</li>
+<li><p>服务器至少应当实现GET或者HEAD方法，其他方法都是可选的。</p>
+</li>
+</ol>
+<h4 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h4><p>所有的http响应第一行都是状态码，依次是http版本号、三位状态码、以及描述状态的短语由空格分隔。</p>
+<table>
+<thead>
+<tr>
+<th>开头</th>
+<th>类别</th>
+<th>原因短语</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>信息性状态码</td>
+<td>接收的请求正在处理</td>
+</tr>
+<tr>
+<td>2</td>
+<td>成功状态码</td>
+<td>请求正常处理完毕</td>
+</tr>
+<tr>
+<td>3</td>
+<td>重定向状态码</td>
+<td>需要附加请求以完成操作</td>
+</tr>
+<tr>
+<td>4</td>
+<td>客户端错误状态码</td>
+<td>服务器无法处理请求</td>
+</tr>
+<tr>
+<td>5</td>
+<td>服务器错误状态码</td>
+<td>服务器处理请求出错</td>
+</tr>
+</tbody></table>
+<h4 id="url"><a href="#url" class="headerlink" title="url"></a>url</h4><p>超文本传输协议的统一资源定位符将从因特网获取信息的<strong>五个基本元素</strong>包括在一个简单的地址中：</p>
+<ul>
+<li>传送协议</li>
+<li>层级URL标记符号（为//，固定不变）</li>
+<li>访问资源的凭证信息（可以省略）</li>
+<li>服务器（通常为域名，也可以为ip地址）</li>
+<li>端口号（数字方式表示，如果为默认值可以省略）</li>
+<li>路径（以/划分每一层目录名称）</li>
+<li>查询（GET模式的窗体参数，以“?”字符为起点，每个参数以“&amp;”隔开，再以“=”分开参数名称与数据，通常以UTF8的URL编码，避开字符冲突的问题）</li>
+<li>片段（以#为起点，前段路由hash模式）</li>
+</ul>
+<h4 id="http请求-响应格式"><a href="#http请求-响应格式" class="headerlink" title="http请求/响应格式"></a>http请求/响应格式</h4><p><img src="https://i.loli.net/2020/03/06/RiWD5GPCMzmvyo2.jpg" alt="Jietu20200306-153746@2x"></p>
+<p><img src="https://i.loli.net/2020/03/06/OZrnNMlbTEHtm92.jpg" alt="Jietu20200306-153814@2x"></p>
 
       
       <!-- reward -->

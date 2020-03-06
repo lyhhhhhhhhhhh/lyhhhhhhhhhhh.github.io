@@ -112,7 +112,19 @@
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPalindrome</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x &lt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    store := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> ;x &gt; <span class="number">0</span>; x /= <span class="number">10</span> &#123;</span><br><span class="line">        store = <span class="built_in">append</span>(store, x%<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    begin, end := <span class="number">0</span>, <span class="built_in">len</span>(store)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> begin &lt;= end &#123;</span><br><span class="line">        <span class="keyword">if</span> store[begin] != store[end] &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        begin++</span><br><span class="line">        end--</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>比上面那个要机智一点，把一个数分成两个来判定。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPalindrome</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> x &lt; <span class="number">0</span> ||(x%<span class="number">10</span>==<span class="number">0</span> &amp;&amp; x!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> revertedNumber <span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> x &gt; revertedNumber&#123;</span><br><span class="line">		revertedNumber = revertedNumber * <span class="number">10</span> + x%<span class="number">10</span></span><br><span class="line">		x/=<span class="number">10</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> revertedNumber == x || revertedNumber /<span class="number">10</span> == x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPalindrome</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> x &lt; <span class="number">0</span> ||(x%<span class="number">10</span>==<span class="number">0</span> &amp;&amp; x!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> revertedNumber <span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> x &gt; revertedNumber&#123;</span><br><span class="line">		revertedNumber = revertedNumber * <span class="number">10</span> + x%<span class="number">10</span></span><br><span class="line">		x/=<span class="number">10</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> revertedNumber == x || revertedNumber /<span class="number">10</span> == x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/05/AEMfnU63BJIoXPT.jpg" alt="Jietu20200305-232717@2x"></p>
+<p>哈希或者快慢指针</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hasCycle</span><span class="params">(head *ListNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    fast, slow := head, head</span><br><span class="line">    count := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> fast != <span class="literal">nil</span> &amp;&amp; slow != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> count % <span class="number">2</span> == <span class="number">1</span> &#123;</span><br><span class="line">            slow = slow.Next</span><br><span class="line">        &#125;</span><br><span class="line">        fast = fast.Next</span><br><span class="line">        <span class="keyword">if</span> fast == slow &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        count++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hasCycle</span><span class="params">(head *ListNode)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    m := <span class="built_in">make</span>(<span class="keyword">map</span>[*ListNode]<span class="keyword">bool</span>)</span><br><span class="line">    <span class="keyword">for</span> head != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> m[head] &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        m[head] = <span class="literal">true</span></span><br><span class="line">        head = head.Next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/05/zuIMvy8KfDAT9Cm.jpg" alt="Jietu20200305-235210@2x"></p>
+<p>这个问题思路上没啥难的，关键在于细节实现上尤其是MaxInt32等的判定。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">myAtoi</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	res, negative, begin := <span class="number">0</span>, <span class="literal">false</span>, <span class="literal">false</span></span><br><span class="line">	<span class="keyword">for</span> _, value := <span class="keyword">range</span> str &#123;</span><br><span class="line">		<span class="keyword">if</span> value == <span class="string">' '</span> &amp;&amp; !begin &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (value == <span class="string">'+'</span> || value == <span class="string">'-'</span>) &amp;&amp; !begin &#123;</span><br><span class="line">			<span class="keyword">if</span> value == <span class="string">'-'</span> &#123;</span><br><span class="line">				negative = <span class="literal">true</span></span><br><span class="line">			&#125;</span><br><span class="line">			begin = <span class="literal">true</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> value &gt;= <span class="string">'0'</span> &amp;&amp; value &lt;= <span class="string">'9'</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> !begin &#123;</span><br><span class="line">				begin = <span class="literal">true</span></span><br><span class="line">			&#125;</span><br><span class="line">			res = res*<span class="number">10</span> + <span class="keyword">int</span>(value<span class="number">-48</span>)</span><br><span class="line">            <span class="keyword">if</span> res &gt; (-math.MinInt32) &amp;&amp; negative &#123;</span><br><span class="line">				res = math.MinInt32</span><br><span class="line">                negative = <span class="literal">false</span></span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> res &gt; math.MaxInt32 &amp;&amp; !negative &#123;</span><br><span class="line">				res = math.MaxInt32</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> negative &#123;</span><br><span class="line">		res = (-res)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/06/sLu79nDazT4gVUj.jpg" alt="Jietu20200306-000722@2x"></p>
+<p>这题虽然很简单，但是下面的第一种做法属实巧妙，充分利用了过半的条件。<br>后面的解法是我的，很常规，用了map。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">majorityElement</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> last, count <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        <span class="keyword">if</span> count == <span class="number">0</span> &#123;</span><br><span class="line">            last = v</span><br><span class="line">            count = <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> last == v &#123;</span><br><span class="line">            count++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            count--</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> last</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">majorityElement</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    length := <span class="built_in">len</span>(nums)</span><br><span class="line">    m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">    <span class="keyword">for</span> _, value := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        m[value] = m[value] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> m[value] &gt; length/<span class="number">2</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>coding</category>
       </categories>
@@ -594,7 +606,71 @@
 </ol>
 <p>电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。</p>
 <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p><a href="https://blog.csdn.net/wljliujuan/article/details/79614019" target="_blank" rel="noopener">参考网页</a></p>
-<h3 id="四个必要条件"><a href="#四个必要条件" class="headerlink" title="四个必要条件"></a>四个必要条件</h3>]]></content>
+<h3 id="四个必要条件"><a href="#四个必要条件" class="headerlink" title="四个必要条件"></a>四个必要条件</h3><ol>
+<li>互斥条件</li>
+<li>不可抢夺条件</li>
+<li>请求和保持</li>
+<li>循环等待</li>
+</ol>
+<h3 id="死锁的原因"><a href="#死锁的原因" class="headerlink" title="死锁的原因"></a>死锁的原因</h3><ol>
+<li>系统资源不足</li>
+<li>程序推进顺序不合理</li>
+</ol>
+<h3 id="处理方式"><a href="#处理方式" class="headerlink" title="处理方式"></a>处理方式</h3><ol>
+<li>鸵鸟策略</li>
+<li>死锁检测与死锁恢复</li>
+<li>死锁预防</li>
+<li>死锁避免</li>
+</ol>
+<h4 id="鸵鸟策略"><a href="#鸵鸟策略" class="headerlink" title="鸵鸟策略"></a>鸵鸟策略</h4><p>把头埋在沙子里，装作无事发生。</p>
+<p>因为解决死锁问题的代价很高，因此鸵鸟算法反而会获得更高的性能</p>
+<p>当发生死锁时不会对用户造成多大影响，或发生死锁的概率很低，可以采用鸵鸟策略。</p>
+<p>大多数操作系统，包括 Unix，Linux 和 Windows，处理死锁问题的办法仅仅是忽略它。</p>
+<h4 id="死锁检测与死锁恢复"><a href="#死锁检测与死锁恢复" class="headerlink" title="死锁检测与死锁恢复"></a>死锁检测与死锁恢复</h4><p>死锁检测代价过于高昂。</p>
+<p>不试图阻止死锁，而是当检测到死锁发生时，采取措施进行恢复。</p>
+<ol>
+<li>每种类型一个资源的死锁检测</li>
+</ol>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b1fa0453-a4b0-4eae-a352-48acca8fff74.png"/> </div><br>
+
+<p>上图为资源分配图，其中方框表示资源，圆圈表示进程。资源指向进程表示该资源已经分配给该进程，进程指向资源表示进程请求获取该资源。</p>
+<p>图 a 可以抽取出环，如图 b，它满足了环路等待条件，因此会发生死锁。</p>
+<p>每种类型一个资源的死锁检测算法是通过检测有向图是否存在环来实现，从一个节点出发进行深度优先搜索，对访问过的节点进行标记，如果访问了已经标记的节点，就表示有向图存在环，也就是检测到死锁的发生。</p>
+<ol start="2">
+<li>每种类型多个资源的死锁检测</li>
+</ol>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/e1eda3d5-5ec8-4708-8e25-1a04c5e11f48.png"/> </div><br>
+
+<p>上图中，有三个进程四个资源，每个数据代表的含义如下：</p>
+<ul>
+<li>E 向量：资源总量</li>
+<li>A 向量：资源剩余量</li>
+<li>C 矩阵：每个进程所拥有的资源数量，每一行都代表一个进程拥有资源的数量</li>
+<li>R 矩阵：每个进程请求的资源数量</li>
+</ul>
+<p>进程 P<sub>1</sub> 和 P<sub>2</sub> 所请求的资源都得不到满足，只有进程 P<sub>3</sub> 可以，让 P<sub>3</sub> 执行，之后释放 P<sub>3</sub> 拥有的资源，此时 A = (2 2 2 0)。P<sub>2</sub> 可以执行，执行后释放 P<sub>2</sub> 拥有的资源，A = (4 2 2 1) 。P<sub>1</sub> 也可以执行。所有进程都可以顺利执行，没有死锁。</p>
+<p>算法总结如下：</p>
+<p>每个进程最开始时都不被标记，执行过程有可能被标记。当算法结束时，任何没有被标记的进程都是死锁进程。</p>
+<ol>
+<li><p>寻找一个没有标记的进程 P<sub>i</sub>，它所请求的资源小于等于 A。</p>
+</li>
+<li><p>如果找到了这样一个进程，那么将 C 矩阵的第 i 行向量加到 A 中，标记该进程，并转回 1。</p>
+</li>
+<li><p>如果没有这样一个进程，算法终止。</p>
+</li>
+<li><p>死锁恢复</p>
+</li>
+</ol>
+<ul>
+<li>利用抢占恢复</li>
+<li>利用回滚恢复</li>
+<li>通过杀死进程恢复</li>
+</ul>
+<h4 id="死锁预防"><a href="#死锁预防" class="headerlink" title="死锁预防"></a>死锁预防</h4><p>破坏四个必要条件即可。</p>
+<p>如资源统一标号，只能顺序向上请求（破坏环路等待）<br>或者静态分配资源</p>
+<h4 id="死锁避免"><a href="#死锁避免" class="headerlink" title="死锁避免"></a>死锁避免</h4><p>银行家算法。</p>
+<p>安全状态定义：如果没有死锁发生，并且即使所有进程突然请求对资源的最大需求，也仍然存在某种调度次序能够使得每一个进程运行完毕，则称该状态是安全的。</p>
+]]></content>
       <categories>
         <category>cs</category>
       </categories>

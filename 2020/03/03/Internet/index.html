@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.5k字</span>
+            <span class="post-count">7.5k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">23分钟</span>
+            <span class="post-count">26分钟</span>
         </span>
     </span>
 </div>
@@ -429,6 +429,44 @@
 </ul>
 <h4 id="http请求-响应格式"><a href="#http请求-响应格式" class="headerlink" title="http请求/响应格式"></a>http请求/响应格式</h4><p><img src="https://i.loli.net/2020/03/06/RiWD5GPCMzmvyo2.jpg" alt="Jietu20200306-153746@2x"></p>
 <p><img src="https://i.loli.net/2020/03/06/OZrnNMlbTEHtm92.jpg" alt="Jietu20200306-153814@2x"></p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>TCP收到数据后需要发送一个确认，但是不是立即发送的，需要等待几分之一秒。</p>
+<p>TCP保持<strong>首部和数据</strong>的检验和，这个检验和是端到端的，如果有变化则丢弃不要。</p>
+<p>TCP用序号来标识发送的字节流，其中序号标识发送的报文段中的第一个数据字节，序号是32位无符号整数，当到末尾后从0重新开始。</p>
+<p>当建立一个新连接时，SYN标志为1。序号字段包含由这个主机选择的该链接的初始序号ISN。该主机要发送数据的第一个字节序号为这个序号加1，因为SYN标志占了一个序号。</p>
+<p>确认序号包含发送确认一端所期望的下一个序号。因此确认序号是上次已经接收到的数据字节序号加1.只有ACK标志为1的时候确认才有效。</p>
+<p>TCP为应用层提供全双工的链接，这意味着数据能在两个放心啊个上独立的传输。因此，连接的每一端必须保持每个方向上的传输数据序号。</p>
+<p>TCP缺少选择确认或者选择否认，它只能累计确认。</p>
+<p>TCP的流量控制由窗口来提供。窗口大小为字节数，窗口大小是一个16bit的字段。</p>
+<p>TCP中还有一个比较常见的字段MSS，指的是可以传输块的最大大小。其实际上是与物理线路有关的。<br>其只能出现在SYN报文中。</p>
+<p><img src="https://i.loli.net/2020/03/07/oNTuXQpfhawsFe4.jpg" alt="Jietu20200307-145330@2x"></p>
+<h3 id="TCP的连接与终止"><a href="#TCP的连接与终止" class="headerlink" title="TCP的连接与终止"></a>TCP的连接与终止</h3><p><img src="https://i.loli.net/2020/03/07/TX9eD8ZK4fB5PrO.jpg" alt="Jietu20200307-145852@2x"></p>
+<p>当一端为了建立连接而发送SYN时，需要为连接选择一个初始的序号，ISN是随时间改变的，因此每个连接都有不同的ISN。这样选择序号的目的在于防止在网络中被延迟的分组以后又被重传，而导致某个连接的一方对其错误解释。</p>
+<p>建立一个连接需要三次握手，而终止需要四次挥手。这是因为TCP的半关闭，既然一个TCP连接是全双工，那么每个方向就必须单独关闭。</p>
+<blockquote>
+<p>半关闭是指TCP一端关闭了数据的发送之后还可以从另一端接收数据。</p>
+</blockquote>
+<p>BSD版中的TCP采用一种500ms的定时器，用于确定终止和连接中的所有超时。</p>
+<p>当TCP的一端接收到FIN报文的时候，会给上层的应用一个文件结束符表明数据接收到头了。</p>
+<p><img src="https://i.loli.net/2020/03/07/r3SiqIEkP7KUpTB.jpg" alt="Jietu20200307-151433@2x"></p>
+<p><img src="https://i.loli.net/2020/03/07/bV52f3jPK7NmgcI.jpg" alt="Jietu20200307-151722@2x"></p>
+<h4 id="2MSL的等待状态"><a href="#2MSL的等待状态" class="headerlink" title="2MSL的等待状态"></a>2MSL的等待状态</h4><p>MSL：最大报文生存时间，TCP实现选择的，可以是30s、1min、2min</p>
+<p>这样可以防止最后一个ack丢失，等待另一段超时重发最后的FIN</p>
+<p>这段时间内不能使用这个socket。</p>
+<p>这段时间内任何迟到的报文将被丢弃。</p>
+<p>存在一个问题，服务器主动关闭一个连接之后在2MSL的时间间隔内不能使用这个端口。</p>
+<h3 id="复位报文段（RST-1）"><a href="#复位报文段（RST-1）" class="headerlink" title="复位报文段（RST=1）"></a>复位报文段（RST=1）</h3><p>产生复位的原因是连接请求到达时，目的端口没有在听。</p>
+<p>也可以通过复位来进行异常释放。</p>
+<p>当一方由于掉电等原因意外断开之后，接收到报文会以复位回应。</p>
+<h3 id="同时打开-关闭"><a href="#同时打开-关闭" class="headerlink" title="同时打开/关闭"></a>同时打开/关闭</h3><p><img src="https://i.loli.net/2020/03/07/adC6cMlqKDoxUNe.jpg" alt="Jietu20200307-153946@2x"></p>
+<p><img src="https://i.loli.net/2020/03/07/Dot3ATvkVj2RmS9.jpg" alt="Jietu20200307-154112@2x"></p>
+<h3 id="超时与重传"><a href="#超时与重传" class="headerlink" title="超时与重传"></a>超时与重传</h3><p>TCP为每个连接维持4个不同的定时器：</p>
+<ol>
+<li>重传定时器使用于希望收到另一端的确认</li>
+<li>persist定时器使窗口大小信息不断流动</li>
+<li>keepalive检测一个空闲连接何时崩溃或重启</li>
+<li>2MSL定时器</li>
+</ol>
+<p>RTT估测；</p>
 
       
       <!-- reward -->

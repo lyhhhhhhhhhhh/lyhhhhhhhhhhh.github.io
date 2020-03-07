@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.9k字</span>
+            <span class="post-count">4.1k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">13分钟</span>
+            <span class="post-count">14分钟</span>
         </span>
     </span>
 </div>
@@ -345,6 +345,10 @@
 <p>如资源统一标号，只能顺序向上请求（破坏环路等待）<br>或者静态分配资源</p>
 <h4 id="死锁避免"><a href="#死锁避免" class="headerlink" title="死锁避免"></a>死锁避免</h4><p>银行家算法。</p>
 <p>安全状态定义：如果没有死锁发生，并且即使所有进程突然请求对资源的最大需求，也仍然存在某种调度次序能够使得每一个进程运行完毕，则称该状态是安全的。</p>
+<h2 id="设备管理-1"><a href="#设备管理-1" class="headerlink" title="设备管理"></a>设备管理</h2><ul>
+<li>关于字符设备和块设备的更多区别：</li>
+</ul>
+<p>块设备只能以块为单位接受输入和返回输出，而字符设备则以字节为单位。大多数设备是字符设备，因为它们不需要缓冲而且不以固定块大小进行操作。 块设备对于I/O 请求有对应的缓冲区，因此它们可以选择以什么顺序进行响应，字符设备无须缓冲且被直接读写。对于存储设备而言调 读写的顺序作用巨大，因为在读写连续的扇区比分离的扇区更快。 字符设备只能被顺序读写，而块设备可以随机访问。虽然块设备可随机访问，但是对于磁盘这类机械设备而言，顺序地组织块设备的访问可以提高性能。</p>
 
       
       <!-- reward -->

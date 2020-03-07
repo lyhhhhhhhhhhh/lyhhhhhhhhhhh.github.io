@@ -113,9 +113,9 @@
 <p><a href="https://leetcode-cn.com/problems/longest-palindromic-substring/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-bao-gu/" target="_blank" rel="noopener">参考资料</a></p>
 </blockquote>
 <p>马拉车算法 Manacher‘s Algorithm 是用来查找一个<strong>字符串的最长回文子串的线性方法</strong>，由一个叫 Manacher 的人在 1975 年发明的，这个方法的最大贡献是在于将时间复杂度提升到了线性。</p>
-<p>首先我们处理一个字符串的奇偶长度问题，选择在每个字符中间插入一个#，这样不论如何所有的字符长度都是奇数，而为了使其到达边界能够自动停止，我们可以在两端插入两个不相等的符号。<br><img src="https://pic.leetcode-cn.com/ad2b5e0da4a3a35b60f60c9a5a2be07a8074f9be0fe1597351eeff7dc460789a-image.png" alt="example"></p>
-<p>对于这样分割后的字符串我们只需要计算每个元素（包括#在内）的中心扩展后的长度然后即可计算出回文串的起始位置和长度。<br><img src="https://pic.leetcode-cn.com/ae2c30d48d35faa7f3d0d8bc4fe18d0691f3d13dcfc5846ddce1bf7a002681f5-image.png" alt="example"><br>起始的位置为P的下标i减去P[i]除以2即为字符串的起始下标，而最长回文串长度为P[i]</p>
-<p><strong>马拉车算法的关键就在于计算P[i]</strong><br>我们使用C来表示当前循环中确定的驻点，而R为该回文串的右边半径，即为该回文串在右边的边界。边界位置为C+R<br>对于在C确定的回文串以内的点的P值，其实际和关于C对称的点的P值一样。<br><img src="https://pic.leetcode-cn.com/29eb66280ca149c3bf5d9906e066b4a2b39d1bf8f9dd0533ca00479aca6f4f39-image.png" alt="example"><br>因为C+R以内是C确定的回文串范围，所以这个结论比较容易得到，但是有几种情况下，这个结论是不正确的。</p>
+<p>首先我们处理一个字符串的奇偶长度问题，选择在每个字符中间插入一个#，这样不论如何所有的字符长度都是奇数，而为了使其到达边界能够自动停止，我们可以在两端插入两个不相等的符号。<br><img src="https://i.loli.net/2020/03/06/JMQ2SW94LArtNCG.jpg" alt="Jietu20200306-160132@2x"></p>
+<p>对于这样分割后的字符串我们只需要计算每个元素（包括#在内）的中心扩展后的长度然后即可计算出回文串的起始位置和长度。<br><img src="https://i.loli.net/2020/03/06/MOQphCjsU8fLVYI.jpg" alt="Jietu20200306-160227@2x"><br>起始的位置为P的下标i减去P[i]除以2即为字符串的起始下标，而最长回文串长度为P[i]</p>
+<p><strong>马拉车算法的关键就在于计算P[i]</strong><br>我们使用C来表示当前循环中确定的驻点，而R为该回文串的右边半径，即为该回文串在右边的边界。边界位置为C+R<br>对于在C确定的回文串以内的点的P值，其实际和关于C对称的点的P值一样。<br><img src="https://i.loli.net/2020/03/06/WHh8o5O7xA3LVav.jpg" alt="Jietu20200306-160256@2x"><br>因为C+R以内是C确定的回文串范围，所以这个结论比较容易得到，但是有几种情况下，这个结论是不正确的。</p>
 <ol>
 <li><p>超出了R<br>i+p[i_mirrors] &gt; R，此时我们可以先将其扩展至R再依次往后扩展。</p>
 </li>
@@ -124,7 +124,7 @@
 <li><p>i=R<br>对其赋值为0，然后使用正常的中心扩展。</p>
 </li>
 </ol>
-<p>就这样一步一步的求出每个 P [ i ]，当求出的 P [ i ] 的右边界大于当前的 R 时，我们就需要更新 C 和 R 为当前的回文串了。因为我们必须保证 i 在 R 里面，所以一旦有更右边的 R 就要更新 R。<br>此时的 P [ i ] 求出来将会是 3，P [ i ] 对应的右边界将是 10 + 3 = 13，所以大于当前的 R，我们需要把 C 更新成 i 的值，也就是 10，R 更新成 13。继续下边的循环。<br><img src="https://pic.leetcode-cn.com/5fbe52880634a9d5fa60ad5e126e8c5c38c5a6eadd0c901a3495dc1307d46d6b-image.png" alt="example"></p>
+<p>就这样一步一步的求出每个 P [ i ]，当求出的 P [ i ] 的右边界大于当前的 R 时，我们就需要更新 C 和 R 为当前的回文串了。因为我们必须保证 i 在 R 里面，所以一旦有更右边的 R 就要更新 R。<br>此时的 P [ i ] 求出来将会是 3，P [ i ] 对应的右边界将是 10 + 3 = 13，所以大于当前的 R，我们需要把 C 更新成 i 的值，也就是 10，R 更新成 13。继续下边的循环。<br><img src="https://i.loli.net/2020/03/06/VbT8N6U37esdgRF.jpg" alt="Jietu20200306-160326@2x"></p>
 <h3 id="413-等差数列划分"><a href="#413-等差数列划分" class="headerlink" title="413.等差数列划分"></a>413.等差数列划分</h3><p>题目描述：<br><img src="https://cdn.img.wenhairu.com/images/2020/02/10/m6jJB.jpg" alt="题目描述"></p>
 <p>求解思路：<br>使用动态规划进行求解，首先等差数列最至少应当由3个元素组成。<br>如果数组a是一个等差数列，且其之后的一个元素与a能组成等差数列的话，新的数组等差数列组数为<strong>sum(a)+len(a)-1</strong>，这个式子是我求解问题的核心思想。<br>那么我们从数组起始开始遍历，每次试图把当前数组的下一个元素加入目前的等差数列中，如果可以加入，则需要更新目前的遍历位置。</p>
 <p>因为只遍历一次数组，所以时间复杂度为O(n), 空间复杂度应该为O(1)</p>

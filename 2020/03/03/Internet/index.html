@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">7.5k字</span>
+            <span class="post-count">7.6k字</span>
         </span>
     </span>
 
@@ -467,6 +467,11 @@
 <li>2MSL定时器</li>
 </ol>
 <p>RTT估测；</p>
+<h2 id="粘包问题"><a href="#粘包问题" class="headerlink" title="粘包问题"></a>粘包问题</h2><p><a href="https://www.cnblogs.com/cangqinglang/p/11503057.html" target="_blank" rel="noopener">https://www.cnblogs.com/cangqinglang/p/11503057.html</a></p>
+<p><a href="https://www.cnblogs.com/sui776265233/p/9289858.html" target="_blank" rel="noopener">https://www.cnblogs.com/sui776265233/p/9289858.html</a></p>
+<p>只有TCP会粘包，UDP不会。<br>粘包的主要原因是接收方不知道你要发多少。</p>
+<p>主要是由于TCP的negal算法导致的。</p>
+<p>其为了减少网络中的报文数量，收集很多小数据直到达到一定值才发送。</p>
 
       
       <!-- reward -->

@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.6k字</span>
+            <span class="post-count">1.7k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6分钟</span>
+            <span class="post-count">7分钟</span>
         </span>
     </span>
 </div>
@@ -173,6 +173,15 @@
 <li>红色节点子节点必须是黑色</li>
 <li>一个节点到树的底部所有路径上的黑色节点数应当相等。</li>
 </ol>
+<h2 id="单源最短路径算法"><a href="#单源最短路径算法" class="headerlink" title="单源最短路径算法"></a>单源最短路径算法</h2><h3 id="relax操作"><a href="#relax操作" class="headerlink" title="relax操作"></a>relax操作</h3><p><img src="https://i.loli.net/2020/03/07/A1R7EB8P6hTV9am.jpg" alt="Jietu20200307-184224@2x"></p>
+<p>路径松弛性质</p>
+<p>前驱子图、前驱节点。</p>
+<h3 id="Bellman-ford算法"><a href="#Bellman-ford算法" class="headerlink" title="Bellman-ford算法"></a>Bellman-ford算法</h3><p>按照节点数对于每一条边进行松弛操作。O（VE）</p>
+<p>可以对含负权重的有向图操作。</p>
+<p>如果之后还可以松弛，说明存在负权重的环。</p>
+<h3 id="dijkstra算法"><a href="#dijkstra算法" class="headerlink" title="dijkstra算法"></a>dijkstra算法</h3><p>要求每一条边都是非负权重。</p>
+<p>是一种贪心算法，总选择最短路径估计值最小的节点加入s中。</p>
+<p>其时间复杂度和查找最小值的算法有关。</p>
 
       
       <!-- reward -->

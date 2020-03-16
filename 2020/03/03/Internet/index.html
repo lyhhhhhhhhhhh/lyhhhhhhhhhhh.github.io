@@ -300,7 +300,14 @@
 <h3 id="地址解析协议ARP"><a href="#地址解析协议ARP" class="headerlink" title="地址解析协议ARP"></a>地址解析协议ARP</h3><p>网络层实现主机之间的通信，而链路层负责每段具体链路的通信。因此在实际传输过程中，IP数据报的源地址和目的地址始终不变，MAC地址一直在改变。</p>
 <p>而ARP协议可以通过IP地址得到MAC地址。</p>
 <h3 id="虚拟专用网络"><a href="#虚拟专用网络" class="headerlink" title="虚拟专用网络"></a>虚拟专用网络</h3><p>由于 IP 地址的紧缺，一个机构能申请到的 IP 地址数往往远小于本机构所拥有的主机数。并且一个机构并不需要把所有的主机接入到外部的互联网中，机构内的计算机可以使用仅在本机构有效的 IP 地址（专用地址）。</p>
-<h3 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h3><h4 id="OSPF"><a href="#OSPF" class="headerlink" title="OSPF"></a>OSPF</h4><p>开放最短路径优先算法，洪泛式交换节点的信息，快速收敛，通过Dijkstra算法计算最短路径。</p>
+<h3 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h3><p><img src="https://i.loli.net/2020/03/08/uAk8QLew3HZPr27.jpg" alt="Jietu20200308-170712@2x"></p>
+<h4 id="OSPF"><a href="#OSPF" class="headerlink" title="OSPF"></a>OSPF</h4><p>开放最短路径优先算法，洪泛式交换节点的信息，快速收敛，通过Dijkstra算法计算最短路径。</p>
+<p>其基于IP做洪泛式信息交换使得每个主机都可以维护整个网络的拓扑结构。</p>
+<p>当状态变化时通知其他主机，即使没有变化，每30分钟也要通信一次。</p>
+<p>其通信具有序列号，并使用MD5加密。</p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/MD5" target="_blank" rel="noopener">MD5wiki</a></p>
+</blockquote>
 <h4 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h4><p>RIP 是一种基于距离向量的路由选择协议。距离是指跳数，直接相连的路由器跳数为 1。跳数最多为 15，超过 15 表示不可达。</p>
 <p>RIP 按固定的时间间隔仅和相邻路由器交换自己的路由表，经过若干次交换之后，所有路由器最终会知道到达本自治系统中任何一个网络的最短距离和下一跳路由器地址。</p>
 <p>距离向量算法：</p>

@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>编译原理</title>
+    <url>/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p>编译原理虎书阅读笔记，另上课笔记</p>
+<a id="more"></a>
+
+
+
+<p>##</p>
+]]></content>
+      <categories>
+        <category>coding</category>
+      </categories>
+      <tags>
+        <tag>compiler</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>data structure and algorithm</title>
     <url>/2020/03/06/data-structure-and-algorithm/</url>
     <content><![CDATA[<p>Data Structure and Algorithm Notes</p>
@@ -248,7 +265,16 @@
 
 <p><img src="https://i.loli.net/2020/03/16/tWw7HZCR3bQjEIl.jpg" alt="Jietu20200316-182503@2x"></p>
 <p>这个题真的是我见过的最牛逼的题，所有的2的幂都应当满足<code>(n &amp; (n-1)) == 0</code></p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPowerOfTwo</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; (n &amp; (n<span class="number">-1</span>)) == <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPowerOfTwo</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; (n &amp; (n<span class="number">-1</span>)) == <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/17/QfwTD3HlaL5jWFg.jpg" alt="Jietu20200316-210810@2x"></p>
+<p>有一说一，这个也是真的牛逼，两个相同的数异或为0，零和任何数异或都为其本身。<br>这个题我一开始只能想到哈希表来做。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">singleNumber</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    res := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, value := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        res ^= value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/17/EStl1Qjmos6n4v5.jpg" alt="Jietu20200317-114152@2x"></p>
+<p>这个题关键在于，我们使用快慢指针相遇之后的位置，然后从头节点再出发一个指针，和相遇点一起出发之后的相遇位置就是环入口，可以从数学中推到出来。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">detectCycle</span><span class="params">(head *ListNode)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">    fast, slow:= head, head</span><br><span class="line">    <span class="keyword">for</span> fast != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> fast.Next == <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        &#125;</span><br><span class="line">        slow, fast = slow.Next, fast.Next.Next</span><br><span class="line">        <span class="keyword">if</span> slow == fast &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> fast == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> head != fast &#123;</span><br><span class="line">        head, fast = head.Next, fast.Next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
         <category>coding</category>
       </categories>
@@ -1272,7 +1298,7 @@
 
 <hr>
 <p>产生并发不一致性问题的主要原因是破坏了事务的隔离性，解决方法是通过并发控制来保证隔离性。并发控制可以通过封锁来实现，但是封锁操作需要用户自己控制，相当复杂。数据库管理系统提供了事务的隔离级别，让用户以一种更轻松的方式处理并发一致性问题。</p>
-]]></content>
+<h1 id="上课笔记"><a href="#上课笔记" class="headerlink" title="上课笔记"></a>上课笔记</h1>]]></content>
       <categories>
         <category>coding</category>
       </categories>

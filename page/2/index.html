@@ -66,6 +66,86 @@
     
     
     
+    <article id="post-ECS设置grub默认kernel" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/"
+    >ECS设置grub默认kernel</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/" class="article-date">
+  <time datetime="2020-02-22T07:49:49.000Z" itemprop="datePublished">2020-02-22</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>操作系统课设要编译内核，因为不想使用mac跑虚拟机所以选择租了阿里云一个ECS来进行。之前的步骤都进行的很愉快，直到我不管怎样设置grub都不能使用我新编译的那个内核。</p>
+<p>设置默认内核的方法有这些：</p>
+<ol>
+<li><p>/etc/default/grub 修改这个文件。参考<a href="https://help.aliyun.com/knowledge_detail/58187.html?spm=5176.13910061.0.0.7241523fvOwstK&aly_as=tZCH4b4a" target="_blank" rel="noopener">阿里云手册</a></p>
+</li>
+<li><p>使用这个命令 <code>sudo grub-set-default</code>，最终我是使用这个解决的，但是需要注意的是，不能只给出内核的名字，还要写成这样<code>sudo grub-set-default &quot;Advanced options for Ubuntu&gt;Ubuntu, with Linux 4.4.137&quot;</code><a href="https://www.jianshu.com/p/c76bc5e113f1" target="_blank" rel="noopener">参考这个博客</a></p>
+</li>
+</ol>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Database-Notes" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 

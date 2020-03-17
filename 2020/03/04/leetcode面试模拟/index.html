@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.9k字</span>
+            <span class="post-count">2.1k字</span>
         </span>
     </span>
 
@@ -160,6 +160,15 @@
 <p><img src="https://i.loli.net/2020/03/16/tWw7HZCR3bQjEIl.jpg" alt="Jietu20200316-182503@2x"></p>
 <p>这个题真的是我见过的最牛逼的题，所有的2的幂都应当满足<code>(n &amp; (n-1)) == 0</code></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPowerOfTwo</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; (n &amp; (n<span class="number">-1</span>)) == <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/17/QfwTD3HlaL5jWFg.jpg" alt="Jietu20200316-210810@2x"></p>
+<p>有一说一，这个也是真的牛逼，两个相同的数异或为0，零和任何数异或都为其本身。<br>这个题我一开始只能想到哈希表来做。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">singleNumber</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    res := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, value := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        res ^= value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/03/17/EStl1Qjmos6n4v5.jpg" alt="Jietu20200317-114152@2x"></p>
+<p>这个题关键在于，我们使用快慢指针相遇之后的位置，然后从头节点再出发一个指针，和相遇点一起出发之后的相遇位置就是环入口，可以从数学中推到出来。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">detectCycle</span><span class="params">(head *ListNode)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">    fast, slow:= head, head</span><br><span class="line">    <span class="keyword">for</span> fast != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> fast.Next == <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        &#125;</span><br><span class="line">        slow, fast = slow.Next, fast.Next.Next</span><br><span class="line">        <span class="keyword">if</span> slow == fast &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> fast == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> head != fast &#123;</span><br><span class="line">        head, fast = head.Next, fast.Next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
       <!-- reward -->
       

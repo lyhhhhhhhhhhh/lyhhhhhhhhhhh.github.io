@@ -121,6 +121,17 @@
 <p><a href="https://github.com/mbrossard/threadpool" target="_blank" rel="noopener">https://github.com/mbrossard/threadpool</a></p>
 <a id="more"></a>
 
+<h1 id="为什么要用线程池"><a href="#为什么要用线程池" class="headerlink" title="为什么要用线程池"></a>为什么要用线程池</h1><blockquote>
+<p>面试的时候问到了这个问题，感觉没有回答到点子上</p>
+</blockquote>
+<ol>
+<li><p>服务器的创建和销毁开销很大，如果每个请求都十分短暂，那么就会在创建和销毁的过程中消耗大量的资源</p>
+</li>
+<li><p>活动的线程也会消耗资源，如果对于线程的数量没有限制的话，就会在大量请求到达服务器的时候创建出大量的工作线程，会消耗大量的内存空间，影响服务器的使用。</p>
+</li>
+<li><p>如果线程的数目固定，并且每个线程都有很长的生命周期，那么线程切换也就是固定的，这样就会给服务器减轻很多压力，但是如果频繁的创建和销毁线程，必将导致频繁的切换线程，使得线程之间的切换不再遵循系统的固定切换周期，线程切换的开销也会增大很多。</p>
+</li>
+</ol>
 <h2 id="pthread-cond-t"><a href="#pthread-cond-t" class="headerlink" title="pthread_cond_t"></a>pthread_cond_t</h2><p><a href="https://blog.csdn.net/chengonghao/article/details/51779279" target="_blank" rel="noopener">https://blog.csdn.net/chengonghao/article/details/51779279</a></p>
 <p>在详细的说明线程池的构成之前我们首先了解一下pthread_cond_t，这个叫做条件变量，可以和pthread_mutex_t一起完成进程之间的通信。</p>
 <p>条件变量的作用就是使进程阻塞在条件变量上，当其条件满足的时候唤醒线程，完成操作</p>

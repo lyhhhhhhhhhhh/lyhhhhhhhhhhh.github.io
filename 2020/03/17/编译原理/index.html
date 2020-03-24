@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">15字</span>
+            <span class="post-count">260字</span>
         </span>
     </span>
 
@@ -84,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -103,7 +105,21 @@
 
 
 
-<p>##</p>
+<h1 id="编译概论"><a href="#编译概论" class="headerlink" title="编译概论"></a>编译概论</h1><h2 id="编译器结构"><a href="#编译器结构" class="headerlink" title="编译器结构"></a>编译器结构</h2><p>前端+优化器+后端，其中以IR（中间表示）来传递信息</p>
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>在编译器能够将表达式转换为可执行的目标代码之前，它必须理解表达式的形式和内容，或者<em>语法和语义</em>。</p>
+<p>其判断代码是否是良构的，如果是有效的则以编译器的IR形式构建一个代码表示。反之返回一个错误信息。</p>
+<p>前端中有两趟独立的处理，分别称为<strong>词法分析器</strong>和<strong>语法分析器</strong>。</p>
+<ol>
+<li><p>词法分析器</p>
+<blockquote>
+<p>编译器中的一趟，将字符构成的串转换为单词构成的流。</p>
+</blockquote>
+<p>按照输入语言的语法规则，匹配已分类单词的流，然后对其进行推导。</p>
+</li>
+<li><p>语法分析器<br>语法正确的句子可能是无意义的。</p>
+<p>编译器可以通过构建数学模型来检查程序中的不一致之处。</p>
+</li>
+</ol>
 
       
       <!-- reward -->

@@ -3,10 +3,18 @@
   <entry>
     <title>recent tasks</title>
     <url>/2020/04/02/recent-tasks/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<p><img src="/2020/04/02/recent-tasks/image-20200402114314148.png" alt="image-20200402114314148"></p>
+    <content><![CDATA[<h1 id="Recent-Plan"><a href="#Recent-Plan" class="headerlink" title="Recent Plan"></a>Recent Plan</h1><ul>
+<li><input disabled type="checkbox"> 深入了解计算机系统</li>
+<li><input disabled type="checkbox"> Mysql</li>
+<li><input disabled type="checkbox"> the way to go</li>
+</ul>
 ]]></content>
+      <categories>
+        <category>plan</category>
+      </categories>
+      <tags>
+        <tag>study</tag>
+      </tags>
   </entry>
   <entry>
     <title>深入了解IPC</title>

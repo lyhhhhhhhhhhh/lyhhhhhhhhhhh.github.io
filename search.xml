@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Mysql</title>
-    <url>/lyhhhhh_blog/2020/04/03/Mysql/</url>
+    <url>/2020/04/03/Mysql/</url>
     <content><![CDATA[<p>之前Mysql学的属实拉胯，面向工作学一下😂</p>
 <a id="more"></a>
 
@@ -206,7 +206,7 @@ group by vend_id;
   </entry>
   <entry>
     <title>recent tasks</title>
-    <url>/lyhhhhh_blog/2020/04/02/recent-tasks/</url>
+    <url>/2020/04/02/recent-tasks/</url>
     <content><![CDATA[<h1 id="Recent-Plan"><a href="#Recent-Plan" class="headerlink" title="Recent Plan"></a>Recent Plan</h1><ul>
 <li><input disabled type="checkbox"> 深入了解计算机系统</li>
 <li><input disabled type="checkbox"> Mysql</li>
@@ -222,7 +222,7 @@ group by vend_id;
   </entry>
   <entry>
     <title>深入了解IPC</title>
-    <url>/lyhhhhh_blog/2020/03/19/%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3IPC/</url>
+    <url>/2020/03/19/%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3IPC/</url>
     <content><![CDATA[<p>IPC指进程间通信，常见的有管道、命令管道、信号量、共享内存、消息队列、socket</p>
 <p>下面我们就来详细说说各个方法的具体实现。</p>
 <a id="more"></a>
@@ -324,7 +324,7 @@ int  mkfifo(const  char* path,  mode_t  mod);</code></pre>
   </entry>
   <entry>
     <title>编译原理</title>
-    <url>/lyhhhhh_blog/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
+    <url>/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<p>编译原理虎书阅读笔记，另上课笔记</p>
 <a id="more"></a>
 
@@ -355,7 +355,7 @@ int  mkfifo(const  char* path,  mode_t  mod);</code></pre>
   </entry>
   <entry>
     <title>data structure and algorithm</title>
-    <url>/lyhhhhh_blog/2020/03/06/data-structure-and-algorithm/</url>
+    <url>/2020/03/06/data-structure-and-algorithm/</url>
     <content><![CDATA[<p>Data Structure and Algorithm Notes</p>
 <a id="more"></a>
 
@@ -581,7 +581,7 @@ func fixdown(nums []int, k int) {
   </entry>
   <entry>
     <title>c线程池实现</title>
-    <url>/lyhhhhh_blog/2020/03/05/c%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/</url>
+    <url>/2020/03/05/c%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<p>自己照着github和csdn里别的大哥写的代码完成了自己的线程池。</p>
 <p>参考连接如下：</p>
 <p><a href="https://blog.csdn.net/virgofarm/article/details/80994153" target="_blank" rel="noopener">https://blog.csdn.net/virgofarm/article/details/80994153</a></p>
@@ -916,7 +916,7 @@ int threadpool_destroy(threadpool* pool) {
   </entry>
   <entry>
     <title>golang打补丁</title>
-    <url>/lyhhhhh_blog/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/</url>
+    <url>/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/</url>
     <content><![CDATA[<p>标题即内容😊</p>
 <a id="more"></a>
 
@@ -987,7 +987,7 @@ for i=0; i&lt; len(str); i++ {
   </entry>
   <entry>
     <title>leetcode面试模拟</title>
-    <url>/lyhhhhh_blog/2020/03/04/leetcode%E9%9D%A2%E8%AF%95%E6%A8%A1%E6%8B%9F/</url>
+    <url>/2020/03/04/leetcode%E9%9D%A2%E8%AF%95%E6%A8%A1%E6%8B%9F/</url>
     <content><![CDATA[<p>斥巨资购买leetcode会员之后拥有的人上人体验💩</p>
 <a id="more"></a>
 
@@ -1685,7 +1685,7 @@ func min(a, b int) int {
   </entry>
   <entry>
     <title>消息队列扫盲</title>
-    <url>/lyhhhhh_blog/2020/03/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%89%AB%E7%9B%B2/</url>
+    <url>/2020/03/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%89%AB%E7%9B%B2/</url>
     <content><![CDATA[<p>内容如题。<br>参考：</p>
 <ol>
 <li><a href="https://developer.51cto.com/art/201904/595020.html" target="_blank" rel="noopener">什么是消息队列？</a></li>
@@ -1725,7 +1725,7 @@ func min(a, b int) int {
   </entry>
   <entry>
     <title>Internet</title>
-    <url>/lyhhhhh_blog/2020/03/03/Internet/</url>
+    <url>/2020/03/03/Internet/</url>
     <content><![CDATA[<p>internet for my lovely offer.</p>
 <a id="more"></a>
 
@@ -2115,7 +2115,7 @@ func min(a, b int) int {
   </entry>
   <entry>
     <title>operating system</title>
-    <url>/lyhhhhh_blog/2020/03/03/operating-system/</url>
+    <url>/2020/03/03/operating-system/</url>
     <content><![CDATA[<p>面试准备之操作系统篇</p>
 <a id="more"></a>
 
@@ -2430,7 +2430,7 @@ int mkfifoat(int fd, const char *path, mode_t mode);</code></pre>
   </entry>
   <entry>
     <title>剑指offer--gogogo</title>
-    <url>/lyhhhhh_blog/2020/03/02/%E5%89%91%E6%8C%87offer-gogogo/</url>
+    <url>/2020/03/02/%E5%89%91%E6%8C%87offer-gogogo/</url>
     <content><![CDATA[<p>一直有听说这本书，决定刷一下leetcode上的这个题。</p>
 <a id="more"></a>
 
@@ -2669,7 +2669,7 @@ func helper(root *TreeNode, sum int) ([][]int, bool) {
   </entry>
   <entry>
     <title>go标准库container使用</title>
-    <url>/lyhhhhh_blog/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/</url>
+    <url>/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>这几天刷leetcode算法题树的部分的时候频繁的需要用到队列和栈，一开始我想拿slice实现，后面看了别人的题解中有用到list这个标准库，提供了一个双向的链表感觉很方便，就拿来一用</p>
 <p>不过因为其使用interface{}类型来实现泛型，所以使用起来有一些需要注意的地方，所以用博客记录一下。</p>
 <p>官方文档：<a href="https://go-zh.org/pkg/container/list/" target="_blank" rel="noopener">list文档</a></p>
@@ -2757,7 +2757,7 @@ func main() {
   </entry>
   <entry>
     <title>ECS设置grub默认kernel</title>
-    <url>/lyhhhhh_blog/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/</url>
+    <url>/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/</url>
     <content><![CDATA[<p>操作系统课设要编译内核，因为不想使用mac跑虚拟机所以选择租了阿里云一个ECS来进行。之前的步骤都进行的很愉快，直到我不管怎样设置grub都不能使用我新编译的那个内核。</p>
 <p>设置默认内核的方法有这些：</p>
 <ol>
@@ -2776,7 +2776,7 @@ func main() {
   </entry>
   <entry>
     <title>Database Notes</title>
-    <url>/lyhhhhh_blog/2020/02/17/Database-Notes/</url>
+    <url>/2020/02/17/Database-Notes/</url>
     <content><![CDATA[<p>看到很多大厂都有对于数据库掌握的要求，打算从mysql和Redis入手填充下数据库方面的知识栈。</p>
 <a id="more"></a>
 
@@ -3069,7 +3069,7 @@ show session variables LIKE &quot;%var%&quot;;</code></pre>
   </entry>
   <entry>
     <title>做点应该做的</title>
-    <url>/lyhhhhh_blog/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/</url>
+    <url>/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/</url>
     <content><![CDATA[<p>进入社会大染缸前的必要准备</p>
 <a id="more"></a>
 
@@ -3122,7 +3122,7 @@ show session variables LIKE &quot;%var%&quot;;</code></pre>
   </entry>
   <entry>
     <title>leetcode Notes</title>
-    <url>/lyhhhhh_blog/2020/02/10/leetcode-Notes/</url>
+    <url>/2020/02/10/leetcode-Notes/</url>
     <content><![CDATA[<p>leetcode刷题笔记</p>
 <a id="more"></a>
 
@@ -5301,7 +5301,7 @@ where l1.Id = l2.Id-1 and l2.id = l3.id-1 and l1.num=l2.num and l2.num= l3.num
   </entry>
   <entry>
     <title>a tour of go</title>
-    <url>/lyhhhhh_blog/2020/02/05/a-tour-of-go/</url>
+    <url>/2020/02/05/a-tour-of-go/</url>
     <content><![CDATA[<p>Notes about a tour of go.</p>
 <a id="more"></a>
 
@@ -5866,7 +5866,7 @@ func main() {
   </entry>
   <entry>
     <title>博客md图片托管</title>
-    <url>/lyhhhhh_blog/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/</url>
+    <url>/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/</url>
     <content><![CDATA[<p>用github和hexo搭建的博客，有时候markdown里想索引图片，发现博客文件夹中的文件结构和GitHub仓库中的完全不一样，所以难以确定索引路径，之后找到了三种方式：</p>
 <a id="more"></a>
 <ol>
@@ -5884,7 +5884,7 @@ func main() {
   </entry>
   <entry>
     <title>Linux命令行与shell脚本编程大全</title>
-    <url>/lyhhhhh_blog/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/</url>
+    <url>/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/</url>
     <content><![CDATA[<p>Linux命令行与shell脚本编程大全学习笔记</p>
 <a id="more"></a>
 
@@ -6169,7 +6169,7 @@ value2=$(( $value / 3 ))
   </entry>
   <entry>
     <title>Shell learning</title>
-    <url>/lyhhhhh_blog/2020/01/23/Shell-learning/</url>
+    <url>/2020/01/23/Shell-learning/</url>
     <content><![CDATA[<h1 id="shell学习笔记"><a href="#shell学习笔记" class="headerlink" title="shell学习笔记"></a>shell学习笔记</h1><blockquote>
 <p><a href="https://www.runoob.com/linux/linux-shell-passing-arguments.html" target="_blank" rel="noopener">参考资料</a></p>
 </blockquote>
@@ -6577,7 +6577,7 @@ source filename
   </entry>
   <entry>
     <title>My first blog</title>
-    <url>/lyhhhhh_blog/2020/01/23/My-first-blog/</url>
+    <url>/2020/01/23/My-first-blog/</url>
     <content><![CDATA[<h1 id="第一篇博客"><a href="#第一篇博客" class="headerlink" title="第一篇博客"></a>第一篇博客</h1><p>费了不少功夫才把这个博客搭好</p>
 <p>虽然大部分是按照前人走过的路来搞得，但是也需要自己去摸索一些东西</p>
 <p>很早就想有这样一个平台来记录自己的学习过程了，想通过这样一点一滴的记录看到自己的成长</p>

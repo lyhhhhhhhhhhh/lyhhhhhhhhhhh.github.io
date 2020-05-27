@@ -109,8 +109,11 @@
 <p>如果想结束进程可以使用kill或者killall指令，这两个指令主要是传递信号给进程，进程主要使用信号来传递信息。<br>这两个指令的不同之处为第二个指令不使用进程号而使用进程名来结束所有复合条件的进程。</p>
 <p>处理数据文件：<br>sort指令：对于文件进行排序。</p>
 <p>grep指令：查找某行数据。egrep, fgrep是类似的版本，功能各有不同</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grep t file1</span><br><span class="line">grep -v t file1 <span class="comment">#反向查询</span></span><br><span class="line">grep -n t file1 <span class="comment">#显示行数</span></span><br><span class="line">grep -c t file1 <span class="comment">#-c只返回匹配的行数，而不返回具体行</span></span><br><span class="line">grep -e t -e f file1 <span class="comment">#-e使用多个匹配模式</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">grep t file1
+grep -v t file1 #反向查询
+grep -n t file1 #显示行数
+grep -c t file1 #-c只返回匹配的行数，而不返回具体行
+grep -e t -e f file1 #-e使用多个匹配模式</code></pre>
 <p>压缩命令：tar</p>
 <p>一行中指定一系列命令，可以通过在每个命令之间加入一个分号实现，但是如果想使用进程列表，则需要在前后加上括号，这样就会产生一个子shell用于执行指令。</p>
 <p><code>ps;ls;echo $BASH_SUBSHELL</code><br>最后打印出来的变量值为1，其代表为子shell的层数。</p>
@@ -127,8 +130,16 @@
 <li>$（）格式</li>
 </ol>
 <p>进行数学计算，可以通过命令替换使用expr指令完成操作，也可以是使用中括号【】。bash中只能使用整数运算，但是zsh（如mac中的shell）可以进行浮点数的相关运算。<br>在bash中进行浮点数运算可以使用bc。其中scale表示小数位数，默认为0</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#！ /bin/bash</span></span><br><span class="line">var1=`<span class="built_in">echo</span> <span class="string">"scale=4; 3.44 / 5"</span> | bc`</span><br><span class="line"></span><br><span class="line">variable=$(bc &lt;&lt; EOF</span><br><span class="line">options</span><br><span class="line">statements</span><br><span class="line">expressions</span><br><span class="line">EOF )</span><br><span class="line"><span class="comment"># 可以使用这样的方式通过重定向完成大量计算过程。</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#！ /bin/bash
+var1=`echo &quot;scale=4; 3.44 / 5&quot; | bc`
 
+variable=$(bc &lt;&lt; EOF
+options
+statements
+expressions
+EOF )
+# 可以使用这样的方式通过重定向完成大量计算过程。
+</code></pre>
 <h2 id="退出状态码"><a href="#退出状态码" class="headerlink" title="退出状态码"></a>退出状态码</h2><p>表示指令执行状态。</p>
 <table>
 <thead>
@@ -178,28 +189,42 @@
 <h2 id="字段分隔符（IFS）"><a href="#字段分隔符（IFS）" class="headerlink" title="字段分隔符（IFS）"></a>字段分隔符（IFS）</h2><p>一般来讲，默认的字段分隔符为空格、制表符、换行符, 可以通过指定IFS来设置分隔符。<br><code>IFS=$&#39;\n&#39;</code></p>
 <h2 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h2><p>使用getopt解析命令行：<br><code>getopt optstring paramerters</code><br>关键部分在optstring，在其中列出要在脚本中使用的每个命令行选项字母。如果该选项需要参数则使用冒号：。然后getopt就会根据你提供的optstring来解析参数中的命令行参数。可以使用-q来忽略错误消息。</p>
 <p>在脚本中使用：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> -- <span class="variable">$&#123;getopt -q ab:cd "$*"&#125;</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">set -- ${getopt -q ab:cd &quot;$*&quot;}</code></pre>
 <p>set指令又一个选项是–，作用是使用参数来代替原本的命令行选项。应当注意的是，getopt并不擅长处理带空格和引号的参数值。</p>
 <p><strong>使用更高级的getopts</strong>：<br>命令格式为：<code>getopts optstring variable</code><br>其中optstring和上面的类似，可以在命令行选项前面加上：使得忽视错误信息。<br>和上面的不同，getopts每次只处理一个命令行选项，其使用两个环境变量，一个OPYARG保存选项的参数值，而OPTIND保存参数列表中正在处理的参数的位置。</p>
 <h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><p>可以使用exec命令完成对于文件重定向的实现。<br>该命令可以创建文件描述符，并对其进行相应的重定向操作。<br>将描述符重定向至&amp;-以实现对其的关闭。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exec</span> 3&gt; test17file</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is a test line of data"</span> &gt;&amp;3</span><br><span class="line"><span class="built_in">exec</span> 3&gt;&amp;-</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">exec 3&gt; test17file
+echo &quot;This is a test line of data&quot; &gt;&amp;3
+exec 3&gt;&amp;-
+</code></pre>
 <p>记录消息可以使用tee，该命令类似一个T型通道，将输入分发至指定文件和标准输出。</p>
 <ul>
-<li><input disabled="" type="checkbox"> 临时文件</li>
+<li><input disabled type="checkbox"> 临时文件</li>
 </ul>
 <h2 id="控制脚本"><a href="#控制脚本" class="headerlink" title="控制脚本"></a>控制脚本</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>脚本可以使用trap命令来捕捉信号，trap的命令格式为：<br><code>trap commands signals</code><br>command位置列出命令，后面跟着需要处理的信号。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">trap</span> <span class="string">"echo Goodbye..."</span> EXIT</span><br><span class="line"><span class="comment"># 捕捉退出状态，同样有捕捉ctrl-c的作用。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo ' Sorry! I have trapped the ctrl-c' "</span> SIGINT</span><br><span class="line"><span class="comment"># 捕捉ctrl+c信号</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> -- SIGINT</span><br><span class="line"><span class="comment"># 删除之前设置的捕捉信号</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">trap &quot;echo Goodbye...&quot; EXIT
+# 捕捉退出状态，同样有捕捉ctrl-c的作用。
 
+trap &quot;echo &#39; Sorry! I have trapped the ctrl-c&#39; &quot; SIGINT
+# 捕捉ctrl+c信号
+
+trap -- SIGINT
+# 删除之前设置的捕捉信号</code></pre>
 <h3 id="后台运行脚本"><a href="#后台运行脚本" class="headerlink" title="后台运行脚本"></a>后台运行脚本</h3><p>只需要在命令后面加一个&amp;即可。<br>可以使用nohup指令将shell脚本和终端分离，其输入输出在hohup文件中</p>
 <p>使用bg或者fg命令重启后台的脚本</p>
 <p>使用nice和renice来设置命令的优先级，越高优先级越低。</p>
 <h3 id="定时执行"><a href="#定时执行" class="headerlink" title="定时执行"></a>定时执行</h3><p>可以使用at来定时执行文件，而at的输出十分不方便，通过email进行stdout和stderr。</p>
 <p>亦可以使用cron时间表来实现。</p>
 <h2 id="创建函数"><a href="#创建函数" class="headerlink" title="创建函数"></a>创建函数</h2><p>函数输出，可以使用echo输出，见实例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> func1 &#123;</span><br><span class="line"> <span class="built_in">read</span> -p <span class="string">"Enter a value: "</span> value</span><br><span class="line"> <span class="built_in">echo</span> $[ <span class="variable">$value</span> * 2 ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">result=`func1`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"the new value is: <span class="variable">$result</span>"</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">#! /bin/bash
 
+function func1 {
+ read -p &quot;Enter a value: &quot; value
+ echo $[ $value * 2 ]
+}
+
+result=`func1`
+echo &quot;the new value is: $result&quot;</code></pre>
 <p>这里有一个值得一提的小技巧，注意这里使用了read的一个选项来进行命令行提示，如果这里使用echo则read读取时会将其一起读取至shell变量中。</p>
 <p>参数传递：shell会将函数作为小型的脚本处理，这意味着我们可以使用类似脚本处理参数的方式处理参数</p>
 <h3 id="使用库文件"><a href="#使用库文件" class="headerlink" title="使用库文件"></a>使用库文件</h3><p>使用库函数等的关键在于sounce命令，其在当前shell的上下文中执行命令，不会创建新的shell，因此可以使用其中定义的函数。<br>其也有一个简单的别名（alias）称作点操作符</p>
@@ -207,8 +232,12 @@
 <p>使用<strong>shtool库函数</strong><br><img src="https://cdn.img.wenhairu.com/images/2020/02/03/AvfoP.jpg" alt="shtool"></p>
 <h2 id="图形化脚本编程"><a href="#图形化脚本编程" class="headerlink" title="图形化脚本编程"></a>图形化脚本编程</h2><p>说起来就是使用文字构建出类似的命令行界面。<br>echo -e允许echo指令输出转义字符。</p>
 <p>可以使用select命令比较简单的生成菜单。命令格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select variable <span class="keyword">in</span> list</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    commands</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">PS3=promt</span><br><span class="line"><span class="comment"># 环境变量PS3显示提示。</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">select variable in list
+do
+    commands
+done
+PS3=promt
+# 环境变量PS3显示提示。</code></pre>
 <p>可以使用dialog包来进行对话框创建。</p>
 <p><img src="https://cdn.img.wenhairu.com/images/2020/02/03/AvYJh.jpg" alt="dialog"></p>
 <h2 id="sed、gawk处理文本"><a href="#sed、gawk处理文本" class="headerlink" title="sed、gawk处理文本"></a>sed、gawk处理文本</h2><p>sed是流文本处理工具，和vim等交互式文本处理不同</p>
@@ -242,8 +271,15 @@
 <p>sed中可以使用感叹号作为命令中字符串的分隔符</p>
 <p>如果想将命令作用于特定的行中，不针对所有行，则需要使用行寻址。可以使用两种方式：</p>
 <p>1.数字方式行寻址</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'2s/dog/cat/'</span> data.txt</span><br><span class="line"><span class="comment"># 应用于第二行</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2,4s/dog/cat/'</span> data.txt</span><br><span class="line"><span class="comment"># 2-4</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2,$s/dog/cat/'</span> data.txt</span><br><span class="line"><span class="comment"># the lines behind No.2</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">sed &#39;2s/dog/cat/&#39; data.txt
+# 应用于第二行
 
+sed &#39;2,4s/dog/cat/&#39; data.txt
+# 2-4
+
+sed &#39;2,$s/dog/cat/&#39; data.txt
+# the lines behind No.2
+</code></pre>
 <p>2.文本方式<br>/pattern/command 按照pattern进行匹配，对匹配成功的行进行操作，其中模式可以使用正则表达式。</p>
 <h3 id="文本删除"><a href="#文本删除" class="headerlink" title="文本删除"></a>文本删除</h3><p>删除命令为d，可以使用上文提到的两种寻址方式来选择删除的行。<br>应当注意模式匹配时需要有开始和结束，不然会出现意外情况。</p>
 <h3 id="插入和附加文本"><a href="#插入和附加文本" class="headerlink" title="插入和附加文本"></a>插入和附加文本</h3><p>插入（i），附加（a），使用寻址来指定操作的行<br>插入会在该行前面，而附加会添加至该行之后。</p>
@@ -324,13 +360,18 @@
 <li><code>values=$(( 4 * 1.8 ))</code></li>
 </ol>
 <p>如果一开始没有指定变量的类型，就会导致一些出乎意料的效果。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">value=10</span><br><span class="line">value2=$(( <span class="variable">$value</span> / 3 ))</span><br><span class="line"><span class="comment"># value2=3</span></span><br><span class="line"></span><br><span class="line">value=10.</span><br><span class="line">value2=$(( <span class="variable">$value</span> / 3 ))</span><br><span class="line"><span class="comment"># value2=3.33333333</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">value=10
+value2=$(( $value / 3 ))
+# value2=3
 
+value=10.
+value2=$(( $value / 3 ))
+# value2=3.33333333</code></pre>
 <p>zsh中数学函数可以通过加载mathfunc库实现，加载之后就可以使用整个数学函数库。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>shell的学习到这里就差不多了，这本书我感觉更像是一本工具书，过年期间有些东西看的也不是很细。</p>
 <ul>
-<li><input disabled="" type="checkbox"> sed，gawk进阶部分</li>
-<li><input disabled="" type="checkbox"> exec重定向</li>
+<li><input disabled type="checkbox"> sed，gawk进阶部分</li>
+<li><input disabled type="checkbox"> exec重定向</li>
 </ul>
 <p>以上的部分没有怎么看，之后有用到在回来看一下。<br>个人认为shell还是得多写，同一个功能在shell中可能有很多的选择可以实现，这本书就作为一本🔧书常备着就好了。</p>
 

@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">867字</span>
+            <span class="post-count">861字</span>
         </span>
     </span>
 
@@ -106,19 +106,47 @@
 <h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><ol>
 <li>存在高级break语句可以跳出循环到指定位置</li>
 </ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"1"</span>)</span><br><span class="line"> </span><br><span class="line">Exit:</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">9</span>; i++ &#123;</span><br><span class="line">        <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="number">9</span>; j++ &#123;</span><br><span class="line">            <span class="keyword">if</span> i+j &gt; <span class="number">15</span> &#123;</span><br><span class="line">                fmt.Print(<span class="string">"exit"</span>)</span><br><span class="line">                <span class="keyword">break</span> Exit</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    fmt.Println(<span class="string">"3"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">package main
 
+import (
+    &quot;fmt&quot;
+)
+
+func main() {
+    fmt.Println(&quot;1&quot;)
+
+Exit:
+    for i := 0; i &lt; 9; i++ {
+        for j := 0; j &lt; 9; j++ {
+            if i+j &gt; 15 {
+                fmt.Print(&quot;exit&quot;)
+                break Exit
+            }
+        }
+    }
+
+    fmt.Println(&quot;3&quot;)
+}</code></pre>
 <ol start="2">
 <li>for循环不支持以逗号为间隔的多个赋值语句，必须使用平行赋值的方式来初始化多个变量</li>
 </ol>
 <p>等号左边和右边含有多个表达式，就是平行赋值。<br>由于Go没有逗号表达式，而++和–是语句而不是表达式，如果想在for中执行多个变量,需要使用平行赋值</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, j := <span class="number">1</span>, <span class="number">10</span>; i &lt; j; i,j=i+<span class="number">1</span>,j+<span class="number">1</span> &#123;  <span class="comment">//死循环</span></span><br><span class="line">    fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// wrong example</span></span><br><span class="line"><span class="keyword">for</span> i, j := <span class="number">1</span>, <span class="number">10</span>; i &lt; j; i++,j++ &#123;</span><br><span class="line">    fmt.Println(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">for i, j := 1, 10; i &lt; j; i,j=i+1,j+1 {  //死循环
+    fmt.Println(i)
+}
 
+// wrong example
+for i, j := 1, 10; i &lt; j; i++,j++ {
+    fmt.Println(i)
+}
+</code></pre>
 <ol start="3">
 <li>for语句中的condition每次循环都要执行一次，因此不要把condition写复杂。</li>
 </ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use as an example, do not use len(str)</span></span><br><span class="line"><span class="keyword">for</span> i=<span class="number">0</span>; i&lt; <span class="built_in">len</span>(str); i++ &#123;</span><br><span class="line">    fmt.Println(str[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">// use as an example, do not use len(str)
+for i=0; i&lt; len(str); i++ {
+    fmt.Println(str[i])
+}</code></pre>
 <h2 id="channel"><a href="#channel" class="headerlink" title="channel"></a>channel</h2><p>无缓冲的channel是同步的，而有缓冲的channel是非同步的<br>比如</p>
 <p>c1:=make(chan int)        无缓冲</p>
 <p>c2:=make(chan int,1)      有缓冲</p>

@@ -108,8 +108,8 @@
 <a id="more"></a>
 
 <p>第一个shell脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"hello, world!"</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">#! /bin/bash
+echo &quot;hello, world!&quot;</code></pre>
 <p>其中第一行告诉系统使用什么解释器来解释shell脚本。</p>
 <p>运行shell的方法：</p>
 <ol>
@@ -125,8 +125,11 @@
 <li>注意不能使用保留关键字</li>
 </ol>
 <p>使用一个定义过的变量，只需要变量名加美元符号即可，而变量名外面的花括号是可选的，添加是为了方便区分界限。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">my_name=<span class="string">'lyhhhhh'</span></span><br><span class="line"><span class="comment">#the ways below are both valid</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$my_name</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;my_name&#125;</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">my_name=&#39;lyhhhhh&#39;
+#the ways below are both valid
+echo $my_name
+echo ${my_name}
+</code></pre>
 <p>可以使用readonly命令将变量声明为只读变量<br>也可以使用unset命令将变量删除，之后就无法使用，unset命令不能使用在readonly变量上</p>
 <p><strong>变量的类型：</strong></p>
 <ol>
@@ -136,27 +139,43 @@
 </ol>
 <h3 id="shell字符串"><a href="#shell字符串" class="headerlink" title="shell字符串"></a>shell字符串</h3><p>字符串是shell中最经常使用的类型，实际上在shell中除了字符串和数字也没啥可以用的了。</p>
 <p>字符串分为单引号和双引号两种，两者的区别在于单引号字符串的内容即为引号中的内容，如果里面有对变量的引用是无效的。<br>而双引号中可以存在转义字符和变量等可以解释的内容。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">greeting_2=<span class="string">'hello, '</span><span class="variable">$your_name</span><span class="string">' !'</span></span><br><span class="line">greeting_3=<span class="string">'hello, $&#123;your_name&#125; !'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$greeting_2</span>  <span class="variable">$greeting_3</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">greeting_2=&#39;hello, &#39;$your_name&#39; !&#39;
+greeting_3=&#39;hello, ${your_name} !&#39;
+echo $greeting_2  $greeting_3
+</code></pre>
 <p>输出结果为：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello, runoob ! hello, runoob !</span><br><span class="line">hello, runoob ! hello, <span class="variable">$&#123;your_name&#125;</span> !</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">hello, runoob ! hello, runoob !
+hello, runoob ! hello, ${your_name} !</code></pre>
 <p><strong>shell中的字符串存在一些可以使用的操作：</strong></p>
 <ol>
 <li>获取字符串长度：在字符串前添加#</li>
 <li>提取子字符串：${str:begin_index:num} 形如前式，其中beginindex为起始索引（起始为0），num为字符数量。</li>
 <li>查找子字符串：见下面例子，注意使用的是反引号而不是单引号</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string=<span class="string">'hello, world'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;#string&#125;</span> <span class="comment">#output: 4, calculate the length of the string</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;string:1:3&#125;</span> <span class="comment">#output: ell, substring</span></span><br><span class="line"><span class="built_in">echo</span> `exper index <span class="string">"<span class="variable">$string</span>"</span> ol`</span><br><span class="line"><span class="comment"># 输出o和l在字符串中的位置，那个先出现就输出哪个，注意是反引号而不是单引号。</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">string=&#39;hello, world&#39;
+echo ${#string} #output: 4, calculate the length of the string
+echo ${string:1:3} #output: ell, substring
+echo `exper index &quot;$string&quot; ol`
+# 输出o和l在字符串中的位置，那个先出现就输出哪个，注意是反引号而不是单引号。
+</code></pre>
 <h3 id="shell数组"><a href="#shell数组" class="headerlink" title="shell数组"></a>shell数组</h3><p>bash支持一维数组而不支持多维数组，类似于c语言，数组元素下标从0开始，可以是表达式，但是需要值合法。</p>
 <p>shell中使用括号表示数组，使用空格将数组元素分开。<br>也可以单个定义数组各个元素，下标可以不连续。</p>
 <p>获取数组长度与获取字符串长度类似，例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">length=<span class="variable">$&#123;#array[@]&#125;</span></span><br><span class="line"><span class="comment"># get the num of the array</span></span><br><span class="line">length=<span class="variable">$&#123;#array[*]&#125;</span></span><br><span class="line"><span class="comment"># same as the way given above</span></span><br><span class="line"></span><br><span class="line">length=<span class="variable">$&#123;#array[n]&#125;</span></span><br><span class="line"><span class="comment"># get the length of the array[n]</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">length=${#array[@]}
+# get the num of the array
+length=${#array[*]}
+# same as the way given above
 
+length=${#array[n]}
+# get the length of the array[n]
+</code></pre>
 <h3 id="shell注释"><a href="#shell注释" class="headerlink" title="shell注释"></a>shell注释</h3><p>单行注释通过#来实现。<br>多行注释可以使用每行都添加#或者</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">:&lt;&lt;!</span><br><span class="line">注释内容...</span><br><span class="line">注释内容...</span><br><span class="line">注释内容...</span><br><span class="line">!</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">:&lt;&lt;!
+注释内容...
+注释内容...
+注释内容...
+!
+</code></pre>
 <p>其中！可以被其他标志代替。</p>
 <h2 id="shell传递参数"><a href="#shell传递参数" class="headerlink" title="shell传递参数"></a>shell传递参数</h2><p>在执行脚本时我们可以通过命令行为脚本附加参数，调用这些参数的规则如$n，n=0表示的是脚本文件名，1、2、3···以此类推为第一第二个参数</p>
 <p>另外还有几个特殊的参数：</p>
@@ -197,8 +216,14 @@
 </tr>
 </tbody></table>
 <p>$*和$@区别：只有在双括号中才能显现出来，例子如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"$*"</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"<span class="variable">$@</span>"</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">for i in &quot;$*&quot;; do
+    echo $i
+done
 
+for i in &quot;$@&quot;; do
+    echo $i
+done
+</code></pre>
 <p>output:<br>1 2 3</p>
 <p>1<br>2<br>3</p>
 <h2 id="shell运算符"><a href="#shell运算符" class="headerlink" title="shell运算符"></a>shell运算符</h2><p>shell和其他语言一样支持多种运算符，包括：</p>
@@ -212,18 +237,28 @@
 <p>后两者比较有趣，后面会详细介绍</p>
 <h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>算术运算只能对于数字，不能适用于字符串，除非字符串全部由数字构成。</p>
 <p>原生的bash不支持简单的数学运算，需要通过其他的命令来实现，比如awk和expr，其中expr最常用，expr是一款表达式计算工具，可以完成表达式确知操作。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var=`expr 2 + 2`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"the sum of two nums: <span class="variable">$var</span>"</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">var=`expr 2 + 2`
+echo &quot;the sum of two nums: $var&quot;
+</code></pre>
 <p>应当注意的是，表达式中的运算符和数字之间应当有空格，这和我们大多数的习惯不同。</p>
 <p>常用的算数运算符和C语言类似，即加减乘除、取余等</p>
 <p><strong>注意</strong>：乘号前面需要加\转义</p>
 <h3 id="shell中-的使用方式"><a href="#shell中-的使用方式" class="headerlink" title="shell中[]的使用方式"></a>shell中[]的使用方式</h3><p><strong>[]在shell中作为测试语句说明</strong><br>比如算术比较、文件属性比较、字符串比较等</p>
 <p>使用算术比较举例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="variable">$a</span> == <span class="variable">$b</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"equal"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">if [ $a == $b ]
+then
+    echo &quot;equal&quot;
+fi</code></pre>
 <p>值得注意的是，【】和比较的元素之间需要使用空格隔开。除了使用==、！=等C语言类似的算术比较之外，我们还可以使用-eq这样的比较运算符。例如，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="variable">$var</span> -eq 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"var=0"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$var1</span> -eq 0 -a <span class="variable">$var2</span> -gt 1 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"success"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">if [ $var -eq 0 ]
+then
+    echo &quot;var=0&quot;
+fi
 
+if [ $var1 -eq 0 -a $var2 -gt 1 ]
+then
+    echo &quot;success&quot;
+fi</code></pre>
 <p>常用的运算符如下：</p>
 <table>
 <thead>
@@ -321,32 +356,76 @@
 <p>输出为：<br>a b c<br>d e f<br>g h i<br>j</p>
 <p>转义字符等和c语言一致</p>
 <h2 id="shell-test"><a href="#shell-test" class="headerlink" title="shell test"></a>shell test</h2><p>test指令实际上和上文中提到的[]功能一致</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># they are same</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$a</span> == <span class="variable">$b</span> ]</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$a</span> == <span class="variable">$b</span></span><br><span class="line"></span><br><span class="line">result=$[a+b]</span><br><span class="line"><span class="comment">#the[], is used to calculate the result.</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash"># they are same
+if [ $a == $b ]
+if test $a == $b
 
+result=$[a+b]
+#the[], is used to calculate the result.
+</code></pre>
 <p>应当注意后面的情况，此时中括号用于计算结果。</p>
 <h2 id="shell流程控制"><a href="#shell流程控制" class="headerlink" title="shell流程控制"></a>shell流程控制</h2><p>shell中不能存在没有指令的分支，如果该分支无事可做则不写出来.</p>
-<h3 id="if-else分支"><a href="#if-else分支" class="headerlink" title="if-else分支"></a>if-else分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> condition</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line"><span class="keyword">elif</span> condition2</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    command3</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    command4</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> condition; <span class="keyword">then</span> <span class="built_in">command</span>; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h3 id="if-else分支"><a href="#if-else分支" class="headerlink" title="if-else分支"></a>if-else分支</h3><pre><code class="bash">if condition
+then
+    command1
+    command2
+elif condition2
+then
+    command3
+else
+    command4
+fi
 
+if condition; then command; fi
+</code></pre>
 <p>上式中两种写法均可。</p>
 <h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><p>shell中提供的for循环是for-in循环<br>变量值存在in列表中，for循环则执行一次所有内容。</p>
 <p>shell中还有类似c语言的循环格式，形似下面给出的代码段：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>((i=1;i&lt;=5;i++));<span class="keyword">do</span></span><br><span class="line">    command1;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">for((i=1;i&lt;=5;i++));do
+    command1;
+done</code></pre>
 <p>值得注意的是，一般来讲shell中变量的调用是要使用$的，但是在for循环中并不需要。如果对于变量的更改是在函数体中，则需要加美元符号</p>
-<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> condition</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">command</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><pre><code class="bash">while condition
+do
+    command
+done</code></pre>
+<pre><code class="bash">int=1
+while(( $int&lt;=5 ))
+do
+    echo $int
+    let &quot;int++&quot;
+done
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int=1</span><br><span class="line"><span class="keyword">while</span>(( <span class="variable">$int</span>&lt;=5 ))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$int</span></span><br><span class="line">    <span class="built_in">let</span> <span class="string">"int++"</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> FILM</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"hello, input is: <span class="variable">$FILM</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
+while read FILM
+do
+    echo &quot;hello, input is: $FILM&quot;
+done
+</code></pre>
 <p>其中使用了shell let指令，用于执行一个或者多个表达式，不需要使用美元符号。</p>
 <blockquote>
 <p>let 是shell中用于计算的表达式不需要时使用美元符号，如果表达式中存在空格或者其他字符则需要引用起来。</p>
 </blockquote>
-<h3 id="case"><a href="#case" class="headerlink" title="case"></a>case</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> value <span class="keyword">in</span></span><br><span class="line">val1)</span><br><span class="line">    command1</span><br><span class="line">    ;;</span><br><span class="line">val2)</span><br><span class="line">    command2</span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    command3</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="case"><a href="#case" class="headerlink" title="case"></a>case</h3><pre><code class="bash">case value in
+val1)
+    command1
+    ;;
+val2)
+    command2
+    ;;
+*)
+    command3
+    ;;
+esac
+</code></pre>
 <h2 id="shell函数"><a href="#shell函数" class="headerlink" title="shell函数"></a>shell函数</h2><p>linux shell中可以定义函数，然后在脚本中可以调用。</p>
 <p>函数形式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="keyword">function</span> ] func_name ()</span><br><span class="line">&#123;</span><br><span class="line">    command1</span><br><span class="line"></span><br><span class="line">    [ <span class="built_in">return</span> int; ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">[ function ] func_name ()
+{
+    command1
 
+    [ return int; ]
+}
+</code></pre>
 <p>其中【】表示可选项，即函数可以不使用function定义或者没有返回值。<br>函数的返回值可以使用$?调用<br><strong>注意</strong>：由于shell执行顺序是依次执行的，因此函数定义必须在使用之前。而且$?只对上一条指令负责。</p>
 <p>函数参数传递形式和shell脚本一样，然后通过美元符号加数字调用。</p>
 <p>函数与指令的执行结果可以作为条件语句使用，<strong>要注意的是，和c语言不同该，0在shell中是true，其他为false</strong></p>
@@ -395,8 +474,10 @@
 <p><strong>⚠️注意：0通常是标准输入，1是标准输出，2是标准错误输出</strong></p>
 <p><code>command &gt; file 2&gt;&amp;1</code><br>可以将stdout和stderr都重定向至file</p>
 <p>Here Document<br>是一种特殊的重定向方式，用于将输入重定向到一个交互式脚本或者程序中。<br>基本格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt;&lt; tag</span><br><span class="line">    document</span><br><span class="line">tag</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">command &lt;&lt; tag
+    document
+tag
+</code></pre>
 <p><strong>注意：</strong></p>
 <ul>
 <li>结尾的tag应当顶格写，前后都不能有任何字符</li>
@@ -404,8 +485,10 @@
 </ul>
 <p>如果执行某指令不希望有任何输出可以将输出重定向至/dev/null，这是一个特殊文件，重定向至它的所有内容都会被丢弃。</p>
 <h2 id="shell外部调用"><a href="#shell外部调用" class="headerlink" title="shell外部调用"></a>shell外部调用</h2><p>shell中也可以包含外部脚本，这样就可以封装一些常用的公用脚本作为独立文件。<br>常用的调用格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">. filename</span><br><span class="line"><span class="comment"># otherwise</span></span><br><span class="line"><span class="built_in">source</span> filename</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">. filename
+# otherwise
+source filename
+</code></pre>
 <p><strong>注意：</strong></p>
 <ol>
 <li>被调用的文件可以不需要可执行权限</li>

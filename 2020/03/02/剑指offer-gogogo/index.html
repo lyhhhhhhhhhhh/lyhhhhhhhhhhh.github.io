@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.2k字</span>
+            <span class="post-count">1k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6分钟</span>
+            <span class="post-count">5分钟</span>
         </span>
     </span>
 </div>
@@ -105,41 +105,225 @@
 
 <p><img src="https://i.loli.net/2020/03/02/F5hs7bkZJuMrCfD.jpg" alt="Jietu20200302-181515@2x"></p>
 <p>下面这个题解是一个0ms的题解，蛮巧妙</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">canConstruct</span><span class="params">(ransomNote <span class="keyword">string</span>, magazine <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	caps := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">26</span>)</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> ransomNote &#123;</span><br><span class="line">		idx := indexOf(v, magazine, caps[v<span class="number">-97</span>])</span><br><span class="line">		<span class="keyword">if</span> idx == <span class="number">-1</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">		caps[v<span class="number">-97</span>] = idx + <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">indexOf</span><span class="params">(c <span class="keyword">int32</span>, magazine <span class="keyword">string</span>, fromIdx <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := fromIdx; i &lt; <span class="built_in">len</span>(magazine); i++ &#123;</span><br><span class="line">		c1 := magazine[i]</span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">int32</span>(c1) == c &#123;</span><br><span class="line">			<span class="keyword">return</span> i</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">func canConstruct(ransomNote string, magazine string) bool {
+    caps := make([]int, 26)
+    for _, v := range ransomNote {
+        idx := indexOf(v, magazine, caps[v-97])
+        if idx == -1 {
+            return false
+        }
+        caps[v-97] = idx + 1
+    }
+    return true
+}
 
+func indexOf(c int32, magazine string, fromIdx int) int {
+    for i := fromIdx; i &lt; len(magazine); i++ {
+        c1 := magazine[i]
+        if int32(c1) == c {
+            return i
+        }
+    }
+    return -1
+}</code></pre>
 <p>我的解法，其实时间复杂度差不多。空间复杂度也一样。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">canConstruct</span><span class="params">(ransomNote <span class="keyword">string</span>, magazine <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    m := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">26</span>)</span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> magazine &#123;</span><br><span class="line">        m[v - <span class="string">'a'</span>]++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> _, v:= <span class="keyword">range</span> ransomNote &#123;</span><br><span class="line">        m[v - <span class="string">'a'</span>]--</span><br><span class="line">        <span class="keyword">if</span> m[v - <span class="string">'a'</span>] &lt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func canConstruct(ransomNote string, magazine string) bool {
+    m := make([]int, 26)
+    for _, v := range magazine {
+        m[v - &#39;a&#39;]++
+    }
+    for _, v:= range ransomNote {
+        m[v - &#39;a&#39;]--
+        if m[v - &#39;a&#39;] &lt; 0 {
+            return false
+        }
+    }
+    return true
+}</code></pre>
 <p><img src="https://i.loli.net/2020/03/02/F6u4kqKvdmbVOMn.jpg" alt="Jietu20200302-204952@2x"></p>
 <p>其实和这个题差不多，<a href="https://leetcode-cn.com/problems/consecutive-numbers-sum/solution/lian-xu-zheng-shu-qiu-he-by-leetcode/" target="_blank" rel="noopener">官方题解</a><br>也有拿双指针做的，一快一慢然后计算和，如果大于target则慢指针前进，小于则快指针前进</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findContinuousSequence</span><span class="params">(target <span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">    res := <span class="built_in">make</span>([][]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> i:=<span class="keyword">int</span>(math.Sqrt(<span class="keyword">float64</span>(<span class="number">2</span>*target))); i&gt;=<span class="number">2</span>; i-- &#123;</span><br><span class="line">        judge := target - i * (i - <span class="number">1</span>) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> judge % i == <span class="number">0</span> &#123;</span><br><span class="line">            begin := judge / i</span><br><span class="line">            temp := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">for</span> j:=<span class="number">0</span>; j&lt;i; j++ &#123;</span><br><span class="line">                temp = <span class="built_in">append</span>(temp, begin+j)</span><br><span class="line">            &#125;</span><br><span class="line">            res = <span class="built_in">append</span>(res, temp)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func findContinuousSequence(target int) [][]int {
+    res := make([][]int, 0)
+    for i:=int(math.Sqrt(float64(2*target))); i&gt;=2; i-- {
+        judge := target - i * (i - 1) / 2
+        if judge % i == 0 {
+            begin := judge / i
+            temp := make([]int, 0)
+            for j:=0; j&lt;i; j++ {
+                temp = append(temp, begin+j)
+            }
+            res = append(res, temp)
+        }
+    }
+    return res
+}</code></pre>
 <p><img src="https://i.loli.net/2020/03/02/oFseV17HjfTYSgE.jpg" alt="Jietu20200302-213008@2x"></p>
 <p>类似动态规划，保存每个滑动窗口的最大坐标，如果在窗口外则更新，每次滑动只看新加入的是否比现在维持的大。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxSlidingWindow</span><span class="params">(nums []<span class="keyword">int</span>, k <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123; </span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    begin, end, max:= <span class="number">0</span>, k<span class="number">-1</span>, <span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> end&lt;<span class="built_in">len</span>(nums) &amp;&amp; end &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> max &lt; begin &#123;</span><br><span class="line">            max = findMax(nums, begin, end)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> nums[max] &lt;= nums[end] &#123;</span><br><span class="line">                max = end</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = <span class="built_in">append</span>(res, nums[max])</span><br><span class="line">        begin++</span><br><span class="line">        end++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findMax</span><span class="params">(nums []<span class="keyword">int</span>, begin, end <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    res := begin</span><br><span class="line">    <span class="keyword">for</span> i:=begin; i&lt;=end;i++ &#123;</span><br><span class="line">        <span class="keyword">if</span> nums[res] &lt;= nums[i] &#123;</span><br><span class="line">            res = i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">func maxSlidingWindow(nums []int, k int) []int { 
+    res := make([]int, 0)
+    begin, end, max:= 0, k-1, -1
+    for end&lt;len(nums) &amp;&amp; end &gt;= 0 {
+        if max &lt; begin {
+            max = findMax(nums, begin, end)
+        } else {
+            if nums[max] &lt;= nums[end] {
+                max = end
+            }
+        }
+        res = append(res, nums[max])
+        begin++
+        end++
+    }
+    return res
+}
 
+func findMax(nums []int, begin, end int) int {
+    res := begin
+    for i:=begin; i&lt;=end;i++ {
+        if nums[res] &lt;= nums[i] {
+            res = i
+        }
+    }
+    return res
+}</code></pre>
 <p><img src="https://i.loli.net/2020/03/03/zQt238REaKIPMep.jpg" alt="Jietu20200303-113029@2x"></p>
 <p>只有四种情况，逐步缩小范围就行了。</p>
 <p>看了题解，还可以按层来模拟。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">spiralOrder</span><span class="params">(matrix [][]<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    rowbegin, rowend := <span class="number">0</span>, <span class="built_in">len</span>(matrix)</span><br><span class="line">    <span class="keyword">if</span> rowend== <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> []<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cowbegin, cowend := <span class="number">0</span>, <span class="built_in">len</span>(matrix[<span class="number">0</span>])</span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>,cowend*rowend)</span><br><span class="line">    count := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> cowbegin &lt; cowend &amp;&amp; rowbegin &lt; rowend &#123;</span><br><span class="line">        <span class="keyword">switch</span> count &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">for</span> i:=cowbegin; i&lt;cowend;i++&#123;</span><br><span class="line">                    res = <span class="built_in">append</span>(res, matrix[rowbegin][i])</span><br><span class="line">                &#125;</span><br><span class="line">                rowbegin++</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">for</span> i:=rowbegin; i&lt;rowend;i++ &#123;</span><br><span class="line">                    res = <span class="built_in">append</span>(res, matrix[i][cowend<span class="number">-1</span>])</span><br><span class="line">                &#125;</span><br><span class="line">                cowend--</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="keyword">for</span> i:=cowend<span class="number">-1</span>; i&gt;=cowbegin; i-- &#123;</span><br><span class="line">                    res = <span class="built_in">append</span>(res, matrix[rowend<span class="number">-1</span>][i])</span><br><span class="line">                &#125;</span><br><span class="line">                rowend--</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                <span class="keyword">for</span> i:=rowend<span class="number">-1</span>; i&gt;=rowbegin;i-- &#123;</span><br><span class="line">                    res = <span class="built_in">append</span>(res, matrix[i][cowbegin])</span><br><span class="line">                &#125;</span><br><span class="line">                cowbegin++</span><br><span class="line">        &#125;</span><br><span class="line">        count = (count+<span class="number">1</span>) % <span class="number">4</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func spiralOrder(matrix [][]int) []int {
+    rowbegin, rowend := 0, len(matrix)
+    if rowend== 0 {
+        return []int{}
+    }
+    cowbegin, cowend := 0, len(matrix[0])
+    res := make([]int, 0,cowend*rowend)
+    count := 0
+    for cowbegin &lt; cowend &amp;&amp; rowbegin &lt; rowend {
+        switch count {
+            case 0:
+                for i:=cowbegin; i&lt;cowend;i++{
+                    res = append(res, matrix[rowbegin][i])
+                }
+                rowbegin++
+            case 1:
+                for i:=rowbegin; i&lt;rowend;i++ {
+                    res = append(res, matrix[i][cowend-1])
+                }
+                cowend--
+            case 2:
+                for i:=cowend-1; i&gt;=cowbegin; i-- {
+                    res = append(res, matrix[rowend-1][i])
+                }
+                rowend--
+            case 3:
+                for i:=rowend-1; i&gt;=rowbegin;i-- {
+                    res = append(res, matrix[i][cowbegin])
+                }
+                cowbegin++
+        }
+        count = (count+1) % 4
+    }
+    return res
+}</code></pre>
 <h2 id="面试题03"><a href="#面试题03" class="headerlink" title="面试题03"></a>面试题03</h2><p><img src="https://i.loli.net/2020/03/25/EcVyAeKGxIYRovm.jpg" alt="Jietu20200325-185752@2x"></p>
 <p>我们要将每个数i，放在数组的第i个位置，如果不是就进行交换。只是不明白书中为什么说至少交换两次就可以交换到指定的位置。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findRepeatNumber</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i:=<span class="number">0</span>; i&lt;<span class="built_in">len</span>(nums); i++ &#123;</span><br><span class="line">        <span class="keyword">for</span> nums[i] != i &#123;</span><br><span class="line">            <span class="keyword">if</span> nums[i] == nums[nums[i]] &#123;</span><br><span class="line">                <span class="keyword">return</span> nums[i]</span><br><span class="line">            &#125;</span><br><span class="line">            nums[i], nums[nums[i]] = nums[nums[i]], nums[i]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func findRepeatNumber(nums []int) int {
+    for i:=0; i&lt;len(nums); i++ {
+        for nums[i] != i {
+            if nums[i] == nums[nums[i]] {
+                return nums[i]
+            }
+            nums[i], nums[nums[i]] = nums[nums[i]], nums[i]
+        }
+    }
+    return -1
+}</code></pre>
 <h2 id="面试题04"><a href="#面试题04" class="headerlink" title="面试题04"></a>面试题04</h2><p><img src="https://i.loli.net/2020/03/25/MHPFcwoKqfmLXhe.jpg" alt="Jietu20200325-194238@2x"></p>
 <p>从右上角开始，如果大于目标则此列不要，小于则此行不要。（另外从左下角开始也可以）！</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findNumberIn2DArray</span><span class="params">(matrix [][]<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(matrix) == <span class="number">0</span> || <span class="built_in">len</span>(matrix[<span class="number">0</span>]) == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    row, cow := <span class="number">0</span>, <span class="built_in">len</span>(matrix[<span class="number">0</span>])<span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> row&lt;<span class="built_in">len</span>(matrix) &amp;&amp; cow &gt;=<span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> target &lt; matrix[row][cow] &#123;</span><br><span class="line">            cow--</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> target &gt; matrix[row][cow] &#123;</span><br><span class="line">            row++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func findNumberIn2DArray(matrix [][]int, target int) bool {
+    if len(matrix) == 0 || len(matrix[0]) == 0 {
+        return false
+    }
+    row, cow := 0, len(matrix[0])-1
+    for row&lt;len(matrix) &amp;&amp; cow &gt;=0 {
+        if target &lt; matrix[row][cow] {
+            cow--
+        } else if target &gt; matrix[row][cow] {
+            row++
+        } else {
+            return true
+        }
+    }
+    return false
+}</code></pre>
 <h2 id="面试题34-二叉树中和为某一值的路径"><a href="#面试题34-二叉树中和为某一值的路径" class="headerlink" title="面试题34 二叉树中和为某一值的路径"></a>面试题34 二叉树中和为某一值的路径</h2><p><img src="https://i.loli.net/2020/03/25/IVpyCf9ha5tFWRo.jpg" alt="Jietu20200325-205003@2x"></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pathSum</span><span class="params">(root *TreeNode, sum <span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">    res, _ := helper(root, sum)</span><br><span class="line">    reverse := <span class="function"><span class="keyword">func</span> <span class="params">(a []<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">for</span> i:=(<span class="built_in">len</span>(a)<span class="number">-1</span>)/<span class="number">2</span>;i&gt;=<span class="number">0</span>;i-- &#123;</span><br><span class="line">            a[i], a[<span class="built_in">len</span>(a)<span class="number">-1</span>-i] = a[<span class="built_in">len</span>(a)<span class="number">-1</span>-i], a[i]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> res &#123;</span><br><span class="line">        reverse(v)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">helper</span><span class="params">(root *TreeNode, sum <span class="keyword">int</span>)</span> <span class="params">([][]<span class="keyword">int</span>, <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">    res := <span class="built_in">make</span>([][]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> root == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> [][]<span class="keyword">int</span>&#123;&#125;, <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> root.Val == sum &amp;&amp; root.Left == root.Right &amp;&amp; root.Left == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> [][]<span class="keyword">int</span>&#123;[]<span class="keyword">int</span>&#123;root.Val&#125;&#125;, <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    lvalue, lsuc := helper(root.Left, sum-root.Val)</span><br><span class="line">    rvalue, rsuc := helper(root.Right, sum-root.Val)</span><br><span class="line">    <span class="keyword">if</span> lsuc &#123;</span><br><span class="line">        <span class="keyword">for</span> _, v := <span class="keyword">range</span> lvalue &#123;</span><br><span class="line">            res = <span class="built_in">append</span>(res, <span class="built_in">append</span>(v, root.Val))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> rsuc &#123;</span><br><span class="line">        <span class="keyword">for</span> _, v := <span class="keyword">range</span> rvalue &#123;</span><br><span class="line">            res = <span class="built_in">append</span>(res, <span class="built_in">append</span>(v, root.Val))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res, lsuc || rsuc</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">func pathSum(root *TreeNode, sum int) [][]int {
+    res, _ := helper(root, sum)
+    reverse := func (a []int) {
+        for i:=(len(a)-1)/2;i&gt;=0;i-- {
+            a[i], a[len(a)-1-i] = a[len(a)-1-i], a[i]
+        }
+    }
+    for _, v := range res {
+        reverse(v)
+    }
+    return res
+}
 
+func helper(root *TreeNode, sum int) ([][]int, bool) {
+    res := make([][]int, 0)
+    if root == nil {
+        return [][]int{}, false
+    }
+    if root.Val == sum &amp;&amp; root.Left == root.Right &amp;&amp; root.Left == nil {
+        return [][]int{[]int{root.Val}}, true
+    }
+    lvalue, lsuc := helper(root.Left, sum-root.Val)
+    rvalue, rsuc := helper(root.Right, sum-root.Val)
+    if lsuc {
+        for _, v := range lvalue {
+            res = append(res, append(v, root.Val))
+        }
+    }
+    if rsuc {
+        for _, v := range rvalue {
+            res = append(res, append(v, root.Val))
+        }
+    }
+    return res, lsuc || rsuc
+}</code></pre>
 <h2 id="面试题06-从尾到头打印链表"><a href="#面试题06-从尾到头打印链表" class="headerlink" title="面试题06 从尾到头打印链表"></a>面试题06 从尾到头打印链表</h2><p><img src="https://i.loli.net/2020/03/25/uZ7grfA4EMshloL.jpg" alt="Jietu20200325-205913@2x"></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reversePrint</span><span class="params">(head *ListNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    res := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> head != <span class="literal">nil</span> &#123;</span><br><span class="line">        res = <span class="built_in">append</span>(res, head.Val)</span><br><span class="line">        head = head.Next</span><br><span class="line">    &#125;</span><br><span class="line">    length := <span class="built_in">len</span>(res)</span><br><span class="line">    <span class="keyword">if</span> length == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i:=(length<span class="number">-1</span>)/<span class="number">2</span>;i&gt;=<span class="number">0</span>;i-- &#123;</span><br><span class="line">        res[i], res[length-i<span class="number">-1</span>] = res[length-i<span class="number">-1</span>], res[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func reversePrint(head *ListNode) []int {
+    res := make([]int, 0)
+    for head != nil {
+        res = append(res, head.Val)
+        head = head.Next
+    }
+    length := len(res)
+    if length == 0 {
+        return res
+    }
+    for i:=(length-1)/2;i&gt;=0;i-- {
+        res[i], res[length-i-1] = res[length-i-1], res[i]
+    }
+    return res
+}</code></pre>
 <h2 id="面试题07-重建二叉树"><a href="#面试题07-重建二叉树" class="headerlink" title="面试题07 重建二叉树"></a>面试题07 重建二叉树</h2><p><img src="https://i.loli.net/2020/03/25/anYSeQKuDArqvRP.jpg" alt="Jietu20200325-211903@2x"></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">buildTree</span><span class="params">(preorder []<span class="keyword">int</span>, inorder []<span class="keyword">int</span>)</span> *<span class="title">TreeNode</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(preorder)==<span class="number">0</span> || <span class="built_in">len</span>(inorder) == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    index := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> ;index&lt;<span class="built_in">len</span>(inorder); index++ &#123;</span><br><span class="line">        <span class="keyword">if</span> inorder[index] == preorder[<span class="number">0</span>] &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &amp;TreeNode&#123;</span><br><span class="line">        Val: preorder[<span class="number">0</span>],</span><br><span class="line">        Left: buildTree(preorder[<span class="number">1</span>:index+<span class="number">1</span>], inorder[:index]),</span><br><span class="line">        Right: buildTree(preorder[index+<span class="number">1</span>:], inorder[index+<span class="number">1</span>:]),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func buildTree(preorder []int, inorder []int) *TreeNode {
+    if len(preorder)==0 || len(inorder) == 0 {
+        return nil
+    }
+    index := 0
+    for ;index&lt;len(inorder); index++ {
+        if inorder[index] == preorder[0] {
+            break
+        }
+    }
+    return &amp;TreeNode{
+        Val: preorder[0],
+        Left: buildTree(preorder[1:index+1], inorder[:index]),
+        Right: buildTree(preorder[index+1:], inorder[index+1:]),
+    }
+}</code></pre>
 <h2 id="用队列实现栈"><a href="#用队列实现栈" class="headerlink" title="用队列实现栈"></a>用队列实现栈</h2><p>可以有三种方式：</p>
 <p><a href="https://leetcode-cn.com/problems/implement-stack-using-queues/solution/yong-dui-lie-shi-xian-zhan-by-leetcode/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/implement-stack-using-queues/solution/yong-dui-lie-shi-xian-zhan-by-leetcode/</a></p>
 <p>讲道理，蛮机智。</p>

@@ -121,8 +121,59 @@
 <p>这样以来就可以通过普通的文件操作来进行pipe这一个特殊的操作。</p>
 <p><img src="https://i.loli.net/2020/03/19/xO1nuBldkWaepvh.jpg" alt="Jietu20200319-105159@2x"></p>
 <p>而在实际的读写操作中，我们还需要等待队列、信号量、锁等机制控制同步。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *    struct pipe_buffer - a linux kernel pipe buffer</span></span><br><span class="line"><span class="comment"> *    @page: the page containing the data for the pipe buffer</span></span><br><span class="line"><span class="comment"> *    @offset: offset of data inside the @page</span></span><br><span class="line"><span class="comment"> *    @len: length of data inside the @page</span></span><br><span class="line"><span class="comment"> *    @ops: operations associated with this buffer. See @pipe_buf_operations.</span></span><br><span class="line"><span class="comment"> *    @flags: pipe buffer flags. See above.</span></span><br><span class="line"><span class="comment"> *    @private: private data owned by the ops.</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pipe_buffer</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">page</span> *<span class="title">page</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> offset, len;</span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">pipe_buf_operations</span> *<span class="title">ops</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> flags;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">private</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *    struct pipe_inode_info - a linux kernel pipe</span></span><br><span class="line"><span class="comment"> *    @mutex: mutex protecting the whole thing</span></span><br><span class="line"><span class="comment"> *    @wait: reader/writer wait point in case of empty/full pipe</span></span><br><span class="line"><span class="comment"> *    @nrbufs: the number of non-empty pipe buffers in this pipe</span></span><br><span class="line"><span class="comment"> *    @buffers: total number of buffers (should be a power of 2)</span></span><br><span class="line"><span class="comment"> *    @curbuf: the current pipe buffer entry</span></span><br><span class="line"><span class="comment"> *    @tmp_page: cached released page</span></span><br><span class="line"><span class="comment"> *    @readers: number of current readers of this pipe</span></span><br><span class="line"><span class="comment"> *    @writers: number of current writers of this pipe</span></span><br><span class="line"><span class="comment"> *    @files: number of struct file referring this pipe (protected by -&gt;i_lock)</span></span><br><span class="line"><span class="comment"> *    @waiting_writers: number of writers blocked waiting for room</span></span><br><span class="line"><span class="comment"> *    @r_counter: reader counter</span></span><br><span class="line"><span class="comment"> *    @w_counter: writer counter</span></span><br><span class="line"><span class="comment"> *    @fasync_readers: reader side fasync</span></span><br><span class="line"><span class="comment"> *    @fasync_writers: writer side fasync</span></span><br><span class="line"><span class="comment"> *    @bufs: the circular array of pipe buffers</span></span><br><span class="line"><span class="comment"> *    @user: the user who created this pipe</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pipe_inode_info</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> <span class="title">mutex</span>;</span></span><br><span class="line">    <span class="keyword">wait_queue_head_t</span> wait;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> nrbufs, curbuf, buffers;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> readers;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> writers;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> files;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> waiting_writers;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> r_counter;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> w_counter;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">page</span> *<span class="title">tmp_page</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fasync_struct</span> *<span class="title">fasync_readers</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fasync_struct</span> *<span class="title">fasync_writers</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pipe_buffer</span> *<span class="title">bufs</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">user_struct</span> *<span class="title">user</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="c">/**
+ *    struct pipe_buffer - a linux kernel pipe buffer
+ *    @page: the page containing the data for the pipe buffer
+ *    @offset: offset of data inside the @page
+ *    @len: length of data inside the @page
+ *    @ops: operations associated with this buffer. See @pipe_buf_operations.
+ *    @flags: pipe buffer flags. See above.
+ *    @private: private data owned by the ops.
+ **/
+struct pipe_buffer {
+    struct page *page;
+    unsigned int offset, len;
+    const struct pipe_buf_operations *ops;
+    unsigned int flags;
+    unsigned long private;
+};
 
+
+/**
+ *    struct pipe_inode_info - a linux kernel pipe
+ *    @mutex: mutex protecting the whole thing
+ *    @wait: reader/writer wait point in case of empty/full pipe
+ *    @nrbufs: the number of non-empty pipe buffers in this pipe
+ *    @buffers: total number of buffers (should be a power of 2)
+ *    @curbuf: the current pipe buffer entry
+ *    @tmp_page: cached released page
+ *    @readers: number of current readers of this pipe
+ *    @writers: number of current writers of this pipe
+ *    @files: number of struct file referring this pipe (protected by -&gt;i_lock)
+ *    @waiting_writers: number of writers blocked waiting for room
+ *    @r_counter: reader counter
+ *    @w_counter: writer counter
+ *    @fasync_readers: reader side fasync
+ *    @fasync_writers: writer side fasync
+ *    @bufs: the circular array of pipe buffers
+ *    @user: the user who created this pipe
+ **/
+struct pipe_inode_info {
+    struct mutex mutex;
+    wait_queue_head_t wait;
+    unsigned int nrbufs, curbuf, buffers;
+    unsigned int readers;
+    unsigned int writers;
+    unsigned int files;
+    unsigned int waiting_writers;
+    unsigned int r_counter;
+    unsigned int w_counter;
+    struct page *tmp_page;
+    struct fasync_struct *fasync_readers;
+    struct fasync_struct *fasync_writers;
+    struct pipe_buffer *bufs;
+    struct user_struct *user;
+};</code></pre>
 <p><strong>pipe是半双工的</strong><br>因为其是一个环形的结构，其中需要维持len、offset等信息，修改时势必要加锁，所以只能半双工通信。</p>
 <p><a href="https://segmentfault.com/q/1010000014814117/a-1020000014828268" target="_blank" rel="noopener">https://segmentfault.com/q/1010000014814117/a-1020000014828268</a></p>
 <blockquote>
@@ -133,8 +184,9 @@
 <li>FIFO是文件系统中的一个具体的文件，是存在一个文件名和其绑定的，因此可以实现两个任意进程之间的通信，而匿名管道对于文件系统是透明的。</li>
 <li>FIFO是一个设备文件，在文件系统中以文件名的形式存在，因此即使进程与创建FIFO的进程不存在血缘关系也依然可以通信，前提是可以访问该路径。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">mknod</span><span class="params">(<span class="keyword">const</span>  <span class="keyword">char</span>*  path, <span class="keyword">mode_t</span> mod,  <span class="keyword">dev_t</span> dev)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">mkfifo</span><span class="params">(<span class="keyword">const</span>  <span class="keyword">char</span>* path,  <span class="keyword">mode_t</span>  mod)</span></span>;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="c">#include &lt;sys/stat.h&gt;
+int  mknod(const  char*  path, mode_t mod,  dev_t dev);
+int  mkfifo(const  char* path,  mode_t  mod);</code></pre>
 <p>上面两个函数都可以创建一个命名管道，前两个参数是指路径和存取权限，而第一个函数中的最后一个参数指的是设备类型，只有创建设备文件的时候才有。</p>
 <p>命名管道创建完成后就可以使用，其使用方法与管道一样，区别在于：命名管道使用之前需要使用open()打开。这是因为：命名管道是设备文件，它是存储在硬盘上的，而管道是存在内存中的特殊文件。<br>⚠️但是需要注意的是，命名管道调用open()打开有可能会阻塞，但是如果以读写方式（O_RDWR）打开则一定不会阻塞；以只读（O_RDONLY）方式打开时，调用open()的函数会被阻塞直到有数据可读；如果以只写方式（O_WRONLY）打开时同样也会被阻塞，知道有以读方式打开该管道。</p>
 <p>因此，命名管道可以被扩展成c/s模式。</p>

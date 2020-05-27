@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.7k字</span>
+            <span class="post-count">1.6k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7分钟</span>
+            <span class="post-count">6分钟</span>
         </span>
     </span>
 </div>
@@ -104,22 +104,129 @@
 <a id="more"></a>
 
 <h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><h3 id="base-sort"><a href="#base-sort" class="headerlink" title="base sort"></a>base sort</h3><p>选择排序</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortArray</span><span class="params">(nums []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    length := <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        min := i</span><br><span class="line">        <span class="keyword">for</span> j:= i+<span class="number">1</span>; j&lt; length; j++ &#123;</span><br><span class="line">            <span class="keyword">if</span> nums[min] &gt; nums[j] &#123;</span><br><span class="line">                min = j</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        nums[i], nums[min] = nums[min], nums[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="go">func sortArray(nums []int) []int {
+    length := len(nums)
+    for i := range nums {
+        min := i
+        for j:= i+1; j&lt; length; j++ {
+            if nums[min] &gt; nums[j] {
+                min = j
+            }
+        }
+        nums[i], nums[min] = nums[min], nums[i]
+    }
+    return nums
+}</code></pre>
 <p>插入排序</p>
-<h3 id="quick-sort"><a href="#quick-sort" class="headerlink" title="quick sort"></a>quick sort</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortArray</span><span class="params">(nums []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> nums</span><br><span class="line">	&#125;</span><br><span class="line">	mid := partition(nums)</span><br><span class="line">	sortArray(nums[:mid])</span><br><span class="line">	sortArray(nums[mid+<span class="number">1</span>:])</span><br><span class="line">	<span class="keyword">return</span> nums</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">partition</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	begin, end := <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-2</span></span><br><span class="line">	target := nums[end+<span class="number">1</span>]</span><br><span class="line">	<span class="keyword">for</span> ; ; begin, end = begin+<span class="number">1</span>, end<span class="number">-1</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> nums[begin] &lt; target &#123;</span><br><span class="line">			begin++</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> end != <span class="number">0</span> &amp;&amp; nums[end] &gt; target &#123;</span><br><span class="line">			end--</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> begin &gt;= end &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		nums[begin], nums[end] = nums[end], nums[begin]</span><br><span class="line">	&#125;</span><br><span class="line">	nums[begin], nums[<span class="built_in">len</span>(nums)<span class="number">-1</span>] = nums[<span class="built_in">len</span>(nums)<span class="number">-1</span>], nums[begin]</span><br><span class="line">	<span class="keyword">return</span> begin</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="quick-sort"><a href="#quick-sort" class="headerlink" title="quick sort"></a>quick sort</h3><pre><code class="go">func sortArray(nums []int) []int {
+    if len(nums) &lt;= 1 {
+        return nums
+    }
+    mid := partition(nums)
+    sortArray(nums[:mid])
+    sortArray(nums[mid+1:])
+    return nums
+}
 
+func partition(nums []int) int {
+    begin, end := 0, len(nums)-2
+    target := nums[end+1]
+    for ; ; begin, end = begin+1, end-1 {
+        for nums[begin] &lt; target {
+            begin++
+        }
+        for end != 0 &amp;&amp; nums[end] &gt; target {
+            end--
+        }
+        if begin &gt;= end {
+            break
+        }
+        nums[begin], nums[end] = nums[end], nums[begin]
+    }
+    nums[begin], nums[len(nums)-1] = nums[len(nums)-1], nums[begin]
+    return begin
+}</code></pre>
 <p>具有三数取中预处理的快速排序</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortArray</span><span class="params">(nums []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> nums</span><br><span class="line">	&#125;</span><br><span class="line">	mid := partition(nums)</span><br><span class="line">	sortArray(nums[:mid])</span><br><span class="line">	sortArray(nums[mid+<span class="number">1</span>:])</span><br><span class="line">	<span class="keyword">return</span> nums</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">partition</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    pretreatment(nums)</span><br><span class="line">	begin, end := <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-2</span></span><br><span class="line">	target := nums[end+<span class="number">1</span>]</span><br><span class="line">	<span class="keyword">for</span> ; ; begin, end = begin+<span class="number">1</span>, end<span class="number">-1</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> nums[begin] &lt; target &#123;</span><br><span class="line">			begin++</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> end != <span class="number">0</span> &amp;&amp; nums[end] &gt; target &#123;</span><br><span class="line">			end--</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> begin &gt;= end &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		nums[begin], nums[end] = nums[end], nums[begin]</span><br><span class="line">	&#125;</span><br><span class="line">	nums[begin], nums[<span class="built_in">len</span>(nums)<span class="number">-1</span>] = nums[<span class="built_in">len</span>(nums)<span class="number">-1</span>], nums[begin]</span><br><span class="line">	<span class="keyword">return</span> begin</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pretreatment</span><span class="params">(nums []<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    begin, mid, end := <span class="number">0</span>, <span class="built_in">len</span>(nums)/<span class="number">2</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">if</span> nums[begin] &gt; nums[end] &#123;</span><br><span class="line">        nums[begin], nums[end] = nums[end], nums[begin]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> nums[begin] &gt; nums[mid] &#123;</span><br><span class="line">        nums[begin], nums[mid] = nums[mid], nums[begin]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> nums[end] &gt; nums[mid] &#123;</span><br><span class="line">        nums[mid], nums[end] = nums[end], nums[mid]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">func sortArray(nums []int) []int {
+    if len(nums) &lt;= 1 {
+        return nums
+    }
+    mid := partition(nums)
+    sortArray(nums[:mid])
+    sortArray(nums[mid+1:])
+    return nums
+}
 
+func partition(nums []int) int {
+    pretreatment(nums)
+    begin, end := 0, len(nums)-2
+    target := nums[end+1]
+    for ; ; begin, end = begin+1, end-1 {
+        for nums[begin] &lt; target {
+            begin++
+        }
+        for end != 0 &amp;&amp; nums[end] &gt; target {
+            end--
+        }
+        if begin &gt;= end {
+            break
+        }
+        nums[begin], nums[end] = nums[end], nums[begin]
+    }
+    nums[begin], nums[len(nums)-1] = nums[len(nums)-1], nums[begin]
+    return begin
+}
+
+func pretreatment(nums []int) {
+    begin, mid, end := 0, len(nums)/2, len(nums)-1
+    if nums[begin] &gt; nums[end] {
+        nums[begin], nums[end] = nums[end], nums[begin]
+    }
+    if nums[begin] &gt; nums[mid] {
+        nums[begin], nums[mid] = nums[mid], nums[begin]
+    }
+    if nums[end] &gt; nums[mid] {
+        nums[mid], nums[end] = nums[end], nums[mid]
+    }
+}</code></pre>
 <h3 id="merge-sort"><a href="#merge-sort" class="headerlink" title="merge sort"></a>merge sort</h3><p>归并排序最引人瞩目的一点是对于什么输入都可以保证nlogn，但是付出的代价就是需要n的空间复杂度。</p>
 <p>归并还有一个特点就是顺序的访问数据，因此对于链表的排序或者高性能计算机上，归并更加合适，因为顺序访问数据更快。</p>
 <p>归并排序也可以通过原地排序实现，可以将另一个数组倒置在之前的数组之后。然后进行移位归并。</p>
 <blockquote>
 <p>假定在待排序的记录序列中，存在多个具有相同的关键字的记录，若经过排序，这些记录的相对次序保持不变，即在原序列中，r[i]=r[j]，且r[i]在r[j]之前，而在排序后的序列中，r[i]仍在r[j]之前，则称这种排序算法是稳定的；否则称为不稳定的。</p>
 </blockquote>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortArray</span><span class="params">(nums []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> nums</span><br><span class="line">	&#125;</span><br><span class="line">	mid := <span class="built_in">len</span>(nums) / <span class="number">2</span></span><br><span class="line">	left := sortArray(nums[:mid])</span><br><span class="line">	right := sortArray(nums[mid:])</span><br><span class="line">	<span class="keyword">return</span> merge(left, right)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">merge</span><span class="params">(left, right []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	lenLeft, lenRight := <span class="built_in">len</span>(left), <span class="built_in">len</span>(right)</span><br><span class="line">	res := <span class="built_in">make</span>([]<span class="keyword">int</span>, lenLeft+lenRight)</span><br><span class="line">	<span class="keyword">for</span> i, j, k := <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>; k &lt; lenLeft+lenRight; k++ &#123;</span><br><span class="line">		<span class="keyword">if</span> i == lenLeft &#123;</span><br><span class="line">			<span class="built_in">copy</span>(res[k:], right[j:])</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> j == lenRight &#123;</span><br><span class="line">			<span class="built_in">copy</span>(res[k:], left[i:])</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> left[i] &lt; right[j] &#123;</span><br><span class="line">			res[k] = left[i]</span><br><span class="line">			i++</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			res[k] = right[j]</span><br><span class="line">			j++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">func sortArray(nums []int) []int {
+    if len(nums) &lt;= 1 {
+        return nums
+    }
+    mid := len(nums) / 2
+    left := sortArray(nums[:mid])
+    right := sortArray(nums[mid:])
+    return merge(left, right)
+}
 
+func merge(left, right []int) []int {
+    lenLeft, lenRight := len(left), len(right)
+    res := make([]int, lenLeft+lenRight)
+    for i, j, k := 0, 0, 0; k &lt; lenLeft+lenRight; k++ {
+        if i == lenLeft {
+            copy(res[k:], right[j:])
+            break
+        }
+        if j == lenRight {
+            copy(res[k:], left[i:])
+            break
+        }
+        if left[i] &lt; right[j] {
+            res[k] = left[i]
+            i++
+        } else {
+            res[k] = right[j]
+            j++
+        }
+    }
+    return res
+}</code></pre>
 <h4 id="改进策略"><a href="#改进策略" class="headerlink" title="改进策略"></a>改进策略</h4><ol>
 <li><p>递归算法都可以通过将小文件通过插入排序等实现，这样减小递归的开销。</p>
 </li>
@@ -141,8 +248,33 @@
 </ol>
 <p>应当注意的是，这种构造堆的方式是<strong>线性复杂度的</strong>。</p>
 <p>然而之后的操作还是需要nlgn</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortArray</span><span class="params">(nums []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    length := <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">for</span> i:=length/<span class="number">2</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">        fixdown(nums, i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> ;length &gt; <span class="number">1</span>; length--  &#123;</span><br><span class="line">        nums[length<span class="number">-1</span>], nums[<span class="number">0</span>] = nums[<span class="number">0</span>], nums[length<span class="number">-1</span>]</span><br><span class="line">        fixdown(nums[:length<span class="number">-1</span>], <span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fixdown</span><span class="params">(nums []<span class="keyword">int</span>, k <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    length := <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">for</span> k &lt; length &#123;</span><br><span class="line">        child := <span class="number">2</span>*k+<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> child &lt; length<span class="number">-1</span> &amp;&amp; (nums[child] &lt; nums[child+<span class="number">1</span>]) &#123;</span><br><span class="line">            child++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> child &lt; length &amp;&amp; nums[child] &gt; nums[k] &#123;</span><br><span class="line">            nums[child], nums[k] = nums[k], nums[child]</span><br><span class="line">            k = child</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="go">func sortArray(nums []int) []int {
+    length := len(nums)
+    for i:=length/2; i &gt;= 0; i-- {
+        fixdown(nums, i)
+    }
+    for ;length &gt; 1; length--  {
+        nums[length-1], nums[0] = nums[0], nums[length-1]
+        fixdown(nums[:length-1], 0)
+    }
+    return nums
+}
 
+func fixdown(nums []int, k int) {
+    length := len(nums)
+    for k &lt; length {
+        child := 2*k+1
+        if child &lt; length-1 &amp;&amp; (nums[child] &lt; nums[child+1]) {
+            child++
+        }
+        if child &lt; length &amp;&amp; nums[child] &gt; nums[k] {
+            nums[child], nums[k] = nums[k], nums[child]
+            k = child
+        } else {
+            break
+        }
+    }
+}</code></pre>
 <h3 id="外部排序"><a href="#外部排序" class="headerlink" title="外部排序"></a>外部排序</h3><p>平衡多路归并排序。</p>
 <p>初始分布遍+多路归并</p>
 <h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>通过一个散列函数将关键字转换为表中地址，理想情况是不同的关键字地址不同，如果相同时则出现冲突</p>

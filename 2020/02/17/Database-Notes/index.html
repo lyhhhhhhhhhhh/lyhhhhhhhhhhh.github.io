@@ -111,17 +111,27 @@
 <li>若干表单组合成database</li>
 </ol>
 <h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><p>mysql是最流行的关系型数据库管理系统，在web应用方面是最好的关系型数据库管理系统之一。</p>
-<h3 id="创建数据库、删除数据库"><a href="#创建数据库、删除数据库" class="headerlink" title="创建数据库、删除数据库"></a>创建数据库、删除数据库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> database_names</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> &lt;databaseName&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysqladmin -u root -p <span class="keyword">create</span> database_names </span><br><span class="line">mysqladmin -u root -p <span class="keyword">drop</span> databaseName</span><br></pre></td></tr></table></figure>
+<h3 id="创建数据库、删除数据库"><a href="#创建数据库、删除数据库" class="headerlink" title="创建数据库、删除数据库"></a>创建数据库、删除数据库</h3><pre><code class="sql">CREATE DATABASE database_names
+drop database &lt;databaseName&gt;
 
+
+mysqladmin -u root -p create database_names 
+mysqladmin -u root -p drop databaseName
+</code></pre>
 <p>后者使用管理员权限创建数据库。删除时应当注意删除后所有的数据都将不在，所以需要一些权限去操作。</p>
 <h3 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h3><p>使用use命令选择数据库</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> databaseName</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">use databaseName</code></pre>
 <p>mysql 中支持标准sql的数值类型，主要包括数值、日期和时间、字符串。<br><a href="https://www.runoob.com/mysql/mysql-data-types.html" target="_blank" rel="noopener">mysql_data_types</a></p>
 <p><strong>创建数据表：</strong></p>
 <p><code>CREATE TABLE table_name (column_name column_type);</code><br>一般使用这样的语法来创建Mysql数据表</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`runoob_tbl`</span>(</span><br><span class="line">   <span class="string">`runoob_id`</span> <span class="built_in">INT</span> <span class="keyword">UNSIGNED</span> AUTO_INCREMENT,</span><br><span class="line">   <span class="string">`runoob_title`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`runoob_author`</span> <span class="built_in">VARCHAR</span>(<span class="number">40</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`submission_date`</span> <span class="built_in">DATE</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> ( <span class="string">`runoob_id`</span> )</span><br><span class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">CREATE TABLE IF NOT EXISTS `runoob_tbl`(
+   `runoob_id` INT UNSIGNED AUTO_INCREMENT,
+   `runoob_title` VARCHAR(100) NOT NULL,
+   `runoob_author` VARCHAR(40) NOT NULL,
+   `submission_date` DATE,
+   PRIMARY KEY ( `runoob_id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</code></pre>
 <p>解析：</p>
 <ul>
 <li>如果不想使用NULL可以设置为NOT NULL，这样建立NULL值时就会报错。</li>
@@ -130,17 +140,21 @@
 <li>ENGINE=InnoDB DEFAULT CHARSET=utf8 前者设置引擎，后者设置编码</li>
 </ul>
 <p>⚠️注意：表名和字段名使用反引号而不是单引号</p>
-<h3 id="数据库插入"><a href="#数据库插入" class="headerlink" title="数据库插入"></a>数据库插入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name ( field1, field2,...fieldN )</span><br><span class="line">                       <span class="keyword">VALUES</span></span><br><span class="line">                       ( value1, value2,...valueN );</span><br></pre></td></tr></table></figure>
-
+<h3 id="数据库插入"><a href="#数据库插入" class="headerlink" title="数据库插入"></a>数据库插入</h3><pre><code class="sql">INSERT INTO table_name ( field1, field2,...fieldN )
+                       VALUES
+                       ( value1, value2,...valueN );</code></pre>
 <p>sql使用；作为分割语句的分隔符。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name  (field1, field2,...fieldN)  <span class="keyword">VALUES</span>  (valueA1,valueA2,...valueAN),(valueB1,valueB2,...valueBN),(valueC1,valueC2,...valueCN)......;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">INSERT INTO table_name  (field1, field2,...fieldN)  VALUES  (valueA1,valueA2,...valueAN),(valueB1,valueB2,...valueBN),(valueC1,valueC2,...valueCN)......;</code></pre>
 <p>添加多列数据时使用逗号作为分割。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; INSERT INTO runoob_tbl</span><br><span class="line">    -&gt; VALUES</span><br><span class="line">    -&gt; (0, "JAVA 教程", "RUNOOB.COM", '2016-05-06');</span><br></pre></td></tr></table></figure>
+<pre><code class="sql">mysql&gt; INSERT INTO runoob_tbl
+    -&gt; VALUES
+    -&gt; (0, &quot;JAVA 教程&quot;, &quot;RUNOOB.COM&quot;, &#39;2016-05-06&#39;);</code></pre>
 <p>如果每列都要添加数据可以不规定列。第一列主键如果不使用自增比较容易错乱，如果使用自增的话可以使用0或者NULL，这样添加数据可以自增。</p>
 <h3 id="sql-select"><a href="#sql-select" class="headerlink" title="sql select"></a>sql select</h3><p>通过该语句可以查询数据：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name,column_name</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line">[<span class="keyword">WHERE</span> Clause]</span><br><span class="line">[<span class="keyword">LIMIT</span> N][ <span class="keyword">OFFSET</span> M]</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">SELECT column_name,column_name
+FROM table_name
+[WHERE Clause]
+[LIMIT N][ OFFSET M]</code></pre>
 <p>命令解释：</p>
 <ul>
 <li>可以查询多个表，使用逗号分割即可，where中可以设置查询条件。</li>
@@ -156,10 +170,9 @@
 <p>select –&gt;where –&gt; group by–&gt; having–&gt;order by</p>
 </blockquote>
 <h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><p>可以用来更新数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name <span class="keyword">SET</span> field1=<span class="keyword">new</span>-value1, field2=<span class="keyword">new</span>-value2</span><br><span class="line">[<span class="keyword">WHERE</span> Clause]</span><br></pre></td></tr></table></figure>
-
-<h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> table_name [<span class="keyword">WHERE</span> Clause]</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">UPDATE table_name SET field1=new-value1, field2=new-value2
+[WHERE Clause]</code></pre>
+<h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><pre><code class="sql">DELETE FROM table_name [WHERE Clause]</code></pre>
 <blockquote>
 <p>delete，drop，truncate 都有删除表的作用，区别在于：</p>
 <p> 1、delete 和 truncate 仅仅删除表数据，drop 连表数据和表结构一起删除，打个比方，delete 是单杀，truncate 是团灭，drop 是把电脑摔了。<br> 2、delete 是 DML 语句，操作完以后如果没有不想提交事务还可以回滚，truncate 和 drop 是 DDL 语句，操作完马上生效，不能回滚，打个比方，delete 是发微信说分手，后悔还可以撤回，truncate 和 drop 是直接扇耳光说滚，不能反悔。<br> 3、执行的速度上，drop&gt;truncate&gt;delete，打个比方，drop 是神舟火箭，truncate 是和谐号动车，delete 是自行车。</p>
@@ -167,15 +180,21 @@
 <h3 id="like-子句"><a href="#like-子句" class="headerlink" title="like 子句"></a>like 子句</h3><p>like子句通常用于where语句中，以进行模糊搜索,一般和%一起使用，其中%和正则表达式中的*一样，表示任意字符。</p>
 <h3 id="union语句"><a href="#union语句" class="headerlink" title="union语句"></a>union语句</h3><p>union语句可以连接多个select语句的结果，整合为一个结果集返回。其是默认不含有重复数据的，如果使用union all指令可以得到全部的数据，包括重复的在内。</p>
 <p>注意其中select语句可以是一个完整的包含where限制条的语句。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> country, <span class="keyword">name</span> <span class="keyword">FROM</span> Websites</span><br><span class="line"><span class="keyword">WHERE</span> country=<span class="string">'CN'</span></span><br><span class="line"><span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line"><span class="keyword">SELECT</span> country, app_name <span class="keyword">FROM</span> apps</span><br><span class="line"><span class="keyword">WHERE</span> country=<span class="string">'CN'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> country;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">SELECT country, name FROM Websites
+WHERE country=&#39;CN&#39;
+UNION ALL
+SELECT country, app_name FROM apps
+WHERE country=&#39;CN&#39;
+ORDER BY country;</code></pre>
 <h3 id="mysql排序"><a href="#mysql排序" class="headerlink" title="mysql排序"></a>mysql排序</h3><p>使用mysql中的order by子句来设定哪个字段需要进行排序</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> field1, field2,...fieldN <span class="keyword">FROM</span> table_name1, table_name2...</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> field1 [<span class="keyword">ASC</span> [<span class="keyword">DESC</span>][默认 <span class="keyword">ASC</span>]], [field2...] [<span class="keyword">ASC</span> [<span class="keyword">DESC</span>][默认 <span class="keyword">ASC</span>]]</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">SELECT field1, field2,...fieldN FROM table_name1, table_name2...
+ORDER BY field1 [ASC [DESC][默认 ASC]], [field2...] [ASC [DESC][默认 ASC]]</code></pre>
 <p>可以使用多个字段来排序<br>使用ASC和DESC来设置升序或者降序排列，默认为升序<br>where和like指令依然可以使用</p>
 <h3 id="Group-by语句"><a href="#Group-by语句" class="headerlink" title="Group by语句"></a>Group by语句</h3><p>根据一个或者多个列对于结果集进行分组<br>在分组的列上面我们可以使用count avg sum等函数</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name, <span class="keyword">function</span>(column_name)</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> column_name <span class="keyword">operator</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> column_name;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">SELECT column_name, function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name;</code></pre>
 <blockquote>
 <p>可是使用coalesce来设置一个取代NULL的语法 coalesce(a, b, c）如果是NULL则依次往后顺。</p>
 </blockquote>
@@ -251,23 +270,51 @@
 </ol>
 <h3 id="alter命令"><a href="#alter命令" class="headerlink" title="alter命令"></a>alter命令</h3><p>用于修改数据表名或者修改数据表字段</p>
 <h3 id="index"><a href="#index" class="headerlink" title="index"></a>index</h3><ul>
-<li><input disabled="" type="checkbox"> index</li>
+<li><input disabled type="checkbox"> index</li>
 </ul>
 <h3 id="temporary-table"><a href="#temporary-table" class="headerlink" title="temporary table"></a>temporary table</h3><p>临时表顾名思义就是临时创建出来的用于保存临时数据的表，在连接关闭后会自动删除并释放空间。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TEMPORARY TABLE SalesSummary (</span><br><span class="line">    -&gt; product_name VARCHAR(50) NOT NULL</span><br><span class="line">    -&gt; , total_sales DECIMAL(12,2) NOT NULL DEFAULT 0.00</span><br><span class="line">    -&gt; , avg_unit_price DECIMAL(7,2) NOT NULL DEFAULT 0.00</span><br><span class="line">    -&gt; , total_units_sold INT UNSIGNED NOT NULL DEFAULT 0</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">mysql&gt; CREATE TEMPORARY TABLE SalesSummary (
+    -&gt; product_name VARCHAR(50) NOT NULL
+    -&gt; , total_sales DECIMAL(12,2) NOT NULL DEFAULT 0.00
+    -&gt; , avg_unit_price DECIMAL(7,2) NOT NULL DEFAULT 0.00
+    -&gt; , total_units_sold INT UNSIGNED NOT NULL DEFAULT 0
+);</code></pre>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>mysql中也可以自定义函数，类似于大多数编程语言函数是一些语句的集合，用来将一些实现特定目的的语句组合起来来降低复杂度。但是注意，mysql中的函数注重返回值，一些语句是不能实现的。</p>
 <p>函数只能返回一个值，不能够返回一个结果集。</p>
 <p><strong>create</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> 函数名([参数列表]) <span class="keyword">returns</span> 数据类型</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"> <span class="keyword">sql</span>语句;</span><br><span class="line"> return 值;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">create function 函数名([参数列表]) returns 数据类型
+begin
+ sql语句;
+ return 值;
+end;</code></pre>
 <p>example:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 最简单的仅有一条sql的函数</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> myselect2() <span class="keyword">returns</span> <span class="built_in">int</span> <span class="keyword">return</span> <span class="number">666</span>;</span><br><span class="line"><span class="keyword">select</span> myselect2(); <span class="comment">-- 调用函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> myselect3() <span class="keyword">returns</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">begin</span> </span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">class</span> <span class="keyword">where</span> cname=<span class="string">"python"</span> <span class="keyword">into</span> c;</span><br><span class="line">    return c;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">select</span> myselect3();</span><br><span class="line"><span class="comment">-- 带传参的函数</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> myselect5(<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">15</span>)) <span class="keyword">returns</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">begin</span> </span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">class</span> <span class="keyword">where</span> cname=<span class="keyword">name</span> <span class="keyword">into</span> c;</span><br><span class="line">    return c;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">select</span> myselect5(<span class="string">"python"</span>);</span><br></pre></td></tr></table></figure>
+<pre><code class="sql">-- 最简单的仅有一条sql的函数
+create function myselect2() returns int return 666;
+select myselect2(); -- 调用函数
 
+--
+create function myselect3() returns int
+begin 
+    declare c int;
+    select id from class where cname=&quot;python&quot; into c;
+    return c;
+end;
+select myselect3();
+-- 带传参的函数
+create function myselect5(name varchar(15)) returns int
+begin 
+    declare c int;
+    select id from class where cname=name into c;
+    return c;
+end;
+select myselect5(&quot;python&quot;);</code></pre>
 <p><strong>call</strong></p>
 <p>select + function</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 无参调用</span></span><br><span class="line"><span class="keyword">select</span> myselect3();</span><br><span class="line"><span class="comment">-- 传参调用</span></span><br><span class="line"><span class="keyword">select</span> myselect5(<span class="string">"python"</span>);</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">class</span> <span class="keyword">where</span> <span class="keyword">id</span>=myselect5(<span class="string">"python"</span>);</span><br></pre></td></tr></table></figure>
-
+<pre><code class="sql">-- 无参调用
+select myselect3();
+-- 传参调用
+select myselect5(&quot;python&quot;);
+select * from class where id=myselect5(&quot;python&quot;);</code></pre>
 <p><strong>delete</strong></p>
 <p><code>drop + function_name</code></p>
 <p><strong>查看函数</strong></p>
@@ -277,8 +324,12 @@
 </ul>
 <h2 id="mysql变量"><a href="#mysql变量" class="headerlink" title="mysql变量"></a>mysql变量</h2><p>mysql中一共有四种变量：会话变量、全局变量、局部变量和用户变量，前两个统称为系统变量。</p>
 <p><strong>用户变量</strong><br>顾名思义是用户定义的变量，有两种方式：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># two ways use SET</span></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">variable</span> = expr</span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">variable</span> := expr</span><br><span class="line"></span><br><span class="line"><span class="comment"># only be able to use := in select</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="keyword">variable</span> := expr</span><br></pre></td></tr></table></figure>
+<pre><code class="sql"># two ways use SET
+SET @variable = expr
+SET @variable := expr
 
+# only be able to use := in select
+SELECT @variable := expr</code></pre>
 <ol>
 <li>未定义变量的初始值为 null（可不定义变量直接使用，不会报错）</li>
 <li>变量名对大小写不敏感</li>
@@ -287,8 +338,13 @@
 </ol>
 <p><strong>会话变量</strong><br>会话变量为服务器为每个客户端连接维护的变量。在客户端连接时，使用相应全局变量的当前值对客户端的会话变量进行初始化。</p>
 <p>顾名思义，会话变量的作用域就是一个会话 Session 咯。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> var_name = <span class="keyword">value</span>;</span><br><span class="line"><span class="keyword">set</span> @session.var_name = <span class="keyword">value</span>;</span><br><span class="line"><span class="keyword">set</span> var_name = <span class="keyword">value</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">session</span> <span class="keyword">variables</span>;</span><br><span class="line"><span class="comment"># 以上代码会把所有会话变量罗列出来，可通过 like 进行过滤</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">session</span> <span class="keyword">variables</span> <span class="keyword">LIKE</span> <span class="string">"%var%"</span>;</span><br></pre></td></tr></table></figure>
+<pre><code class="sql">set session var_name = value;
+set @session.var_name = value;
+set var_name = value;
 
+show session variables;
+# 以上代码会把所有会话变量罗列出来，可通过 like 进行过滤
+show session variables LIKE &quot;%var%&quot;;</code></pre>
 <p><strong>全局变量</strong><br>全局变量会影响服务器整体操作。但是一旦重启，这些设置会被重置。注意要想更改全局变量，必须具有SUPER权限。</p>
 <h2 id="事务-1"><a href="#事务-1" class="headerlink" title="事务"></a>事务</h2><p>事务是满足ACID特性的一组操作，可以通过Commit提交一个事务，也可以使用rollback进行回滚。</p>
 <p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222237925.png" alt="pic"></p>
@@ -309,20 +365,20 @@
 <li>在并发的情况下，多个事务并行执行，事务不仅要满足原子性，还需要满足隔离性，才能满足一致性。</li>
 <li>事务满足持久化是为了能应对系统崩溃的情况。</li>
 </ul>
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207210437023.png"/> </div><br>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207210437023.png"> </div><br>
 
 <h2 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h2><p>在并发环境下，事务的隔离性很难保证，因此会出现很多并发一致性问题。</p>
 <h3 id="丢失修改"><a href="#丢失修改" class="headerlink" title="丢失修改"></a>丢失修改</h3><p>T<sub>1</sub> 和 T<sub>2</sub> 两个事务都对一个数据进行修改，T<sub>1</sub> 先修改，T<sub>2</sub> 随后修改，T<sub>2</sub> 的修改覆盖了 T<sub>1</sub> 的修改。</p>
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221744244.png"/> </div><br>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221744244.png"> </div><br>
 
 <h3 id="读脏数据"><a href="#读脏数据" class="headerlink" title="读脏数据"></a>读脏数据</h3><p>T<sub>1</sub> 修改一个数据，T<sub>2</sub> 随后读取这个数据。如果 T<sub>1</sub> 撤销了这次修改，那么 T<sub>2</sub> 读取的数据是脏数据。</p>
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221920368.png"/> </div><br>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207221920368.png"> </div><br>
 
 <h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>T<sub>2</sub> 读取一个数据，T<sub>1</sub> 对该数据做了修改。如果 T<sub>2</sub> 再次读取这个数据，此时读取的结果和第一次读取的结果不同。</p>
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222102010.png"/> </div><br>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222102010.png"> </div><br>
 
 <h3 id="幻影读"><a href="#幻影读" class="headerlink" title="幻影读"></a>幻影读</h3><p>T<sub>1</sub> 读取某个范围的数据，T<sub>2</sub> 在这个范围内插入新的数据，T<sub>1</sub> 再次读取这个范围的数据，此时读取的结果和和第一次读取的结果不同。</p>
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222134306.png"/> </div><br>
+<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191207222134306.png"> </div><br>
 
 <hr>
 <p>产生并发不一致性问题的主要原因是破坏了事务的隔离性，解决方法是通过并发控制来保证隔离性。并发控制可以通过封锁来实现，但是封锁操作需要用户自己控制，相当复杂。数据库管理系统提供了事务的隔离级别，让用户以一种更轻松的方式处理并发一致性问题。</p>

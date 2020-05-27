@@ -5,9 +5,9 @@
   
   <link href="/lyhhhhh_blog/atom.xml" rel="self"/>
   
-  <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/"/>
+  <link href="http://lyhhhhhhhhh.gitee.io/"/>
   <updated>2020-04-11T03:13:23.610Z</updated>
-  <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/</id>
+  <id>http://lyhhhhhhhhh.gitee.io/</id>
   
   <author>
     <name>lyhhhhh</name>
@@ -18,12 +18,12 @@
   
   <entry>
     <title>Mysql</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/04/03/Mysql/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/04/03/Mysql/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/04/03/Mysql/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/04/03/Mysql/</id>
     <published>2020-04-03T10:59:50.000Z</published>
     <updated>2020-04-11T03:13:23.610Z</updated>
     
-    <content type="html"><![CDATA[<p>之前Mysql学的属实拉胯，面向工作学一下😂</p><a id="more"></a><h1 id="了解SQL"><a href="#了解SQL" class="headerlink" title="了解SQL"></a>了解SQL</h1><p>数据库：是一个以某种有组织形式存储的数据集合。（database）</p><blockquote><p>我们平常使用的数据库软件实际上应当叫做DBMS（数据库管理系统）。数据库是通过DBMS来创建和操作的容器。</p></blockquote><p>表：一种结构化的文件，可以用来存储某种特定类型的数据。</p><p>模式：关于数据库和表的布局及特性的信息。</p><p>列：表由列组成，列中存储着表中某部分信息。每个列都有特定的数据类型。</p><p>行：数据库中的数据是按行存储的，行是表中的一个记录。</p><p>主键：表中的每一行都有一个唯一标识自己的一列。因此主键是数据库中的一列或者一组列，其值可以唯一区分表中的每个行。</p><p>作为主键的条件：</p><ol><li>任意两行都不存在相等的主键值</li><li>每一行都必须有一个主键值（不可以为NULL）</li></ol><h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>登陆：<code>mysql -u root -qpassword</code></p><h2 id="show语句：用于显示信息。"><a href="#show语句：用于显示信息。" class="headerlink" title="show语句：用于显示信息。"></a>show语句：用于显示信息。</h2><pre><code class="mysql">show databases;show tables;show columns from table_name;show status;</code></pre><blockquote><p>Mysql 不区分空格和大小写</p></blockquote><h2 id="select语句：用于选择。"><a href="#select语句：用于选择。" class="headerlink" title="select语句：用于选择。"></a>select语句：用于选择。</h2><p>可以加上<code>distinct</code>关键词使得只返回不同值。limit关键字用于限制结果数量，并且可以设置起始位置，<strong>第一行标号为0</strong>。</p><blockquote><p>列名和表名都可以通过  .  运算符来限定位置。</p></blockquote><pre><code class="mysql">select distinct id from table limit 5    ;</code></pre><h2 id="order-by语句：用于排序。"><a href="#order-by语句：用于排序。" class="headerlink" title="order by语句：用于排序。"></a>order by语句：用于排序。</h2><p>可以对多个列进行排序，只需要通过逗号分开即可。</p><p>通过inc，desc关键字指定排序顺序（默认为升序）。</p><blockquote><p>字典序的排序过程需要设置。</p></blockquote><p>⚠️order by字句应当是select语句中的最后一条子句。</p><h2 id="where语句：过滤数据"><a href="#where语句：过滤数据" class="headerlink" title="where语句：过滤数据"></a>where语句：过滤数据</h2><p>数据根据where给出的条件进行过滤。一般跟在表名（from语句之后给出），位于order by之前。</p><ul><li><p>可使用操作符：</p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200405112407972.png" alt="image-20200405112407972"></p></li></ul><pre><code class="mysql">select a, b from tableA where cond between 1 and 2;</code></pre><ul><li><p>空值检查NULL：</p><p>NULL和0、空格等不同，在mysql中其属于一个特殊的值。</p><p>对于它的操作符我们使用<strong>ISNULL</strong>。</p></li></ul><p><strong>组合过滤</strong>：</p><p>可以通过and和or来进行类似编程中的操作。</p><blockquote><p>And  or 计算次序问题：</p><p>mysql优先处理and操作，因此必要时我们需要使用（）来指定运算顺序。</p></blockquote><p>也可以使用in操作符来指定范围，范围中的每个条件都可以进行匹配。</p><p>⚠️注意in后面给出的不是范围取值而是清单。in操作的速度比or更快。</p><p>not操作符：否定后面的关键字。</p><h2 id="like语句：用通配符进行过滤操作"><a href="#like语句：用通配符进行过滤操作" class="headerlink" title="like语句：用通配符进行过滤操作"></a>like语句：用通配符进行过滤操作</h2><p>常用通配符：</p><table><thead><tr><th align="left">通配符</th><th align="left">作用</th></tr></thead><tbody><tr><td align="left">%</td><td align="left">任何字符出现任何次数（包括0次）</td></tr><tr><td align="left">_</td><td align="left">任何字符出现一次</td></tr></tbody></table><p>通配符需要很长的操作时间，如果可以不用，尽量不要使用。</p><p><strong>通配符置于搜索模式的开始处，效率最低</strong></p><h2 id="regexp：使用正则表达式"><a href="#regexp：使用正则表达式" class="headerlink" title="regexp：使用正则表达式"></a>regexp：使用正则表达式</h2><blockquote><p>mysql中的正则表达式只是正则表达式语言中的一个子集。</p></blockquote><p><em>正则表达式匹配时一般不区分大小写，可以使用binary关键字</em></p><table><thead><tr><th>表达式符号</th><th>含义</th></tr></thead><tbody><tr><td>｜</td><td>正则表达式中的or</td></tr><tr><td>[]</td><td>表示匹配列表中字符的任意一个，也可以使用类似[0-9]的规则</td></tr><tr><td>\\</td><td>转义特殊字符，也可以引用具有特殊含义的字符</td></tr><tr><td>.</td><td>匹配任意字符</td></tr><tr><td>字符集</td><td>预先定义好的字符，见表9-2</td></tr><tr><td>重复元字符</td><td>表示前一个匹配规则的重复次数，见下表2</td></tr><tr><td>定位元字符</td><td>表示匹配的指定位置，见表9-4</td></tr></tbody></table><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406101943699.png" alt="image-20200406101943699"></p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406102245913.png" alt="image-20200406102245913"></p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406102420943.png" alt="image-20200406102420943"></p><p>⚠️  ^有两种用法：</p><ol><li>用于集合[]中表示否定集合中元素</li><li>用于外面则表示定位，在开头进行匹配</li></ol><blockquote><p>简单的正则表达式测试方法：</p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406102837052.png" alt="image-20200406102837052"></p></blockquote><h2 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h2><ul><li><p>拼接字段：Concat函数</p><p>通过指定多个串将其拼成一个串</p></li><li><p>Rtrim：删除数据右边的多余空格</p></li><li><p>as：为新的列指定别名</p></li><li><p>算数操作：</p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406172138333.png" alt="image-20200406172138333"></p></li></ul><h2 id="使用函数"><a href="#使用函数" class="headerlink" title="使用函数"></a>使用函数</h2><blockquote><p>函数相较于SQL语言来讲可移植性较差，因为每个DBMS都可能有别的不支持的函数，因此在写的过程中应当加好注释。</p></blockquote><ul><li><p>文本处理函数：</p><ol><li>Upper：将文本转换为大写</li><li>Left：返回串左边的字符</li><li>Length：返回串的长度</li><li>Locate：找出一个子串</li><li>Lower：转换成小写</li><li>LTrim：去掉串左边的空格</li><li>Right：返回串右边的字符</li><li>RTrim：去掉串右边的空格</li><li>Substring：返回子串的字符</li><li>Soundex：返回串的soundex值，该值是一个描述语音的算法，通过该函数我们可以实现对串进行发音的比较</li></ol><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406180526527.png" alt="image-20200406180526527"></p></li><li><p>时间和日期处理函数：</p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406180619816.png" alt="image-20200406180619816"></p><p><strong>mysql日期格式</strong>：yyyy-mm-dd，这样的格式不容易出现二义性</p></li><li><p>数值处理函数：</p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406220037588.png" alt="image-20200406220037588"></p></li></ul><h2 id="汇总数据"><a href="#汇总数据" class="headerlink" title="汇总数据"></a>汇总数据</h2><p>mysql提供一些函数供我们对于数据库表中的列进行统计。</p><p><img src="/lyhhhhh_blog/lyhhhhh_blog/2020/04/03/Mysql/image-20200406220458418.png" alt="image-20200406220458418"></p><blockquote><p>sum函数忽略值为NULL的行</p></blockquote><h2 id="数据分组"><a href="#数据分组" class="headerlink" title="数据分组"></a>数据分组</h2><p>在mysql中我们可以使用group by对数据进行分组，参考下面的例子</p><pre><code class="mysql">select vend_id, count(*) as num_prodsfrom productsgroup by vend_id;# 这个mysql语句中我们的count操作对于按vend_id划分出的组而不是整个表</code></pre><p>对于group by我们应该知道：</p><ol><li>group by可以包含任意数量的列，因此我们可以对分组做嵌套。</li><li>如果在group by中嵌套了分组，数据将在最后规定的分组上汇总。</li><li>如果分组列中有NULL值，则其作为一个单独的分组给出，如果有多个NULL值，则将它们分为一组</li><li>group by语句必须在where子句之后，order by语句之前。</li></ol><h3 id="使用having过滤分组"><a href="#使用having过滤分组" class="headerlink" title="使用having过滤分组"></a>使用having过滤分组</h3><p>having类似于where，但是where不含有组的概念，只能使用having对组进行操作。</p><h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>Mysql4.1及以上允许使用子查询，即嵌套在其他查询中的查询。</p><p>子查询可以用于提供新的表供外层查询检索信息，也可以用于select字段中的进行计算</p><blockquote><p>直接建立一个嵌套的查询是困难的，因此我们应当从内层向外层逐步建立嵌套查询。</p><p>并且每次都进行测试，这样可以省去后面如果出错了的大量时间</p></blockquote><h2 id="连接表"><a href="#连接表" class="headerlink" title="连接表"></a>连接表</h2>]]></content>
+    <content type="html"><![CDATA[<p>之前Mysql学的属实拉胯，面向工作学一下😂</p><a id="more"></a><h1 id="了解SQL"><a href="#了解SQL" class="headerlink" title="了解SQL"></a>了解SQL</h1><p>数据库：是一个以某种有组织形式存储的数据集合。（database）</p><blockquote><p>我们平常使用的数据库软件实际上应当叫做DBMS（数据库管理系统）。数据库是通过DBMS来创建和操作的容器。</p></blockquote><p>表：一种结构化的文件，可以用来存储某种特定类型的数据。</p><p>模式：关于数据库和表的布局及特性的信息。</p><p>列：表由列组成，列中存储着表中某部分信息。每个列都有特定的数据类型。</p><p>行：数据库中的数据是按行存储的，行是表中的一个记录。</p><p>主键：表中的每一行都有一个唯一标识自己的一列。因此主键是数据库中的一列或者一组列，其值可以唯一区分表中的每个行。</p><p>作为主键的条件：</p><ol><li>任意两行都不存在相等的主键值</li><li>每一行都必须有一个主键值（不可以为NULL）</li></ol><h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>登陆：<code>mysql -u root -qpassword</code></p><h2 id="show语句：用于显示信息。"><a href="#show语句：用于显示信息。" class="headerlink" title="show语句：用于显示信息。"></a>show语句：用于显示信息。</h2><pre><code class="mysql">show databases;show tables;show columns from table_name;show status;</code></pre><blockquote><p>Mysql 不区分空格和大小写</p></blockquote><h2 id="select语句：用于选择。"><a href="#select语句：用于选择。" class="headerlink" title="select语句：用于选择。"></a>select语句：用于选择。</h2><p>可以加上<code>distinct</code>关键词使得只返回不同值。limit关键字用于限制结果数量，并且可以设置起始位置，<strong>第一行标号为0</strong>。</p><blockquote><p>列名和表名都可以通过  .  运算符来限定位置。</p></blockquote><pre><code class="mysql">select distinct id from table limit 5    ;</code></pre><h2 id="order-by语句：用于排序。"><a href="#order-by语句：用于排序。" class="headerlink" title="order by语句：用于排序。"></a>order by语句：用于排序。</h2><p>可以对多个列进行排序，只需要通过逗号分开即可。</p><p>通过inc，desc关键字指定排序顺序（默认为升序）。</p><blockquote><p>字典序的排序过程需要设置。</p></blockquote><p>⚠️order by字句应当是select语句中的最后一条子句。</p><h2 id="where语句：过滤数据"><a href="#where语句：过滤数据" class="headerlink" title="where语句：过滤数据"></a>where语句：过滤数据</h2><p>数据根据where给出的条件进行过滤。一般跟在表名（from语句之后给出），位于order by之前。</p><ul><li><p>可使用操作符：</p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200405112407972.png" alt="image-20200405112407972"></p></li></ul><pre><code class="mysql">select a, b from tableA where cond between 1 and 2;</code></pre><ul><li><p>空值检查NULL：</p><p>NULL和0、空格等不同，在mysql中其属于一个特殊的值。</p><p>对于它的操作符我们使用<strong>ISNULL</strong>。</p></li></ul><p><strong>组合过滤</strong>：</p><p>可以通过and和or来进行类似编程中的操作。</p><blockquote><p>And  or 计算次序问题：</p><p>mysql优先处理and操作，因此必要时我们需要使用（）来指定运算顺序。</p></blockquote><p>也可以使用in操作符来指定范围，范围中的每个条件都可以进行匹配。</p><p>⚠️注意in后面给出的不是范围取值而是清单。in操作的速度比or更快。</p><p>not操作符：否定后面的关键字。</p><h2 id="like语句：用通配符进行过滤操作"><a href="#like语句：用通配符进行过滤操作" class="headerlink" title="like语句：用通配符进行过滤操作"></a>like语句：用通配符进行过滤操作</h2><p>常用通配符：</p><table><thead><tr><th align="left">通配符</th><th align="left">作用</th></tr></thead><tbody><tr><td align="left">%</td><td align="left">任何字符出现任何次数（包括0次）</td></tr><tr><td align="left">_</td><td align="left">任何字符出现一次</td></tr></tbody></table><p>通配符需要很长的操作时间，如果可以不用，尽量不要使用。</p><p><strong>通配符置于搜索模式的开始处，效率最低</strong></p><h2 id="regexp：使用正则表达式"><a href="#regexp：使用正则表达式" class="headerlink" title="regexp：使用正则表达式"></a>regexp：使用正则表达式</h2><blockquote><p>mysql中的正则表达式只是正则表达式语言中的一个子集。</p></blockquote><p><em>正则表达式匹配时一般不区分大小写，可以使用binary关键字</em></p><table><thead><tr><th>表达式符号</th><th>含义</th></tr></thead><tbody><tr><td>｜</td><td>正则表达式中的or</td></tr><tr><td>[]</td><td>表示匹配列表中字符的任意一个，也可以使用类似[0-9]的规则</td></tr><tr><td>\\</td><td>转义特殊字符，也可以引用具有特殊含义的字符</td></tr><tr><td>.</td><td>匹配任意字符</td></tr><tr><td>字符集</td><td>预先定义好的字符，见表9-2</td></tr><tr><td>重复元字符</td><td>表示前一个匹配规则的重复次数，见下表2</td></tr><tr><td>定位元字符</td><td>表示匹配的指定位置，见表9-4</td></tr></tbody></table><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406101943699.png" alt="image-20200406101943699"></p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406102245913.png" alt="image-20200406102245913"></p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406102420943.png" alt="image-20200406102420943"></p><p>⚠️  ^有两种用法：</p><ol><li>用于集合[]中表示否定集合中元素</li><li>用于外面则表示定位，在开头进行匹配</li></ol><blockquote><p>简单的正则表达式测试方法：</p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406102837052.png" alt="image-20200406102837052"></p></blockquote><h2 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h2><ul><li><p>拼接字段：Concat函数</p><p>通过指定多个串将其拼成一个串</p></li><li><p>Rtrim：删除数据右边的多余空格</p></li><li><p>as：为新的列指定别名</p></li><li><p>算数操作：</p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406172138333.png" alt="image-20200406172138333"></p></li></ul><h2 id="使用函数"><a href="#使用函数" class="headerlink" title="使用函数"></a>使用函数</h2><blockquote><p>函数相较于SQL语言来讲可移植性较差，因为每个DBMS都可能有别的不支持的函数，因此在写的过程中应当加好注释。</p></blockquote><ul><li><p>文本处理函数：</p><ol><li>Upper：将文本转换为大写</li><li>Left：返回串左边的字符</li><li>Length：返回串的长度</li><li>Locate：找出一个子串</li><li>Lower：转换成小写</li><li>LTrim：去掉串左边的空格</li><li>Right：返回串右边的字符</li><li>RTrim：去掉串右边的空格</li><li>Substring：返回子串的字符</li><li>Soundex：返回串的soundex值，该值是一个描述语音的算法，通过该函数我们可以实现对串进行发音的比较</li></ol><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406180526527.png" alt="image-20200406180526527"></p></li><li><p>时间和日期处理函数：</p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406180619816.png" alt="image-20200406180619816"></p><p><strong>mysql日期格式</strong>：yyyy-mm-dd，这样的格式不容易出现二义性</p></li><li><p>数值处理函数：</p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406220037588.png" alt="image-20200406220037588"></p></li></ul><h2 id="汇总数据"><a href="#汇总数据" class="headerlink" title="汇总数据"></a>汇总数据</h2><p>mysql提供一些函数供我们对于数据库表中的列进行统计。</p><p><img src="/lyhhhhh_blog/2020/04/03/Mysql/image-20200406220458418.png" alt="image-20200406220458418"></p><blockquote><p>sum函数忽略值为NULL的行</p></blockquote><h2 id="数据分组"><a href="#数据分组" class="headerlink" title="数据分组"></a>数据分组</h2><p>在mysql中我们可以使用group by对数据进行分组，参考下面的例子</p><pre><code class="mysql">select vend_id, count(*) as num_prodsfrom productsgroup by vend_id;# 这个mysql语句中我们的count操作对于按vend_id划分出的组而不是整个表</code></pre><p>对于group by我们应该知道：</p><ol><li>group by可以包含任意数量的列，因此我们可以对分组做嵌套。</li><li>如果在group by中嵌套了分组，数据将在最后规定的分组上汇总。</li><li>如果分组列中有NULL值，则其作为一个单独的分组给出，如果有多个NULL值，则将它们分为一组</li><li>group by语句必须在where子句之后，order by语句之前。</li></ol><h3 id="使用having过滤分组"><a href="#使用having过滤分组" class="headerlink" title="使用having过滤分组"></a>使用having过滤分组</h3><p>having类似于where，但是where不含有组的概念，只能使用having对组进行操作。</p><h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>Mysql4.1及以上允许使用子查询，即嵌套在其他查询中的查询。</p><p>子查询可以用于提供新的表供外层查询检索信息，也可以用于select字段中的进行计算</p><blockquote><p>直接建立一个嵌套的查询是困难的，因此我们应当从内层向外层逐步建立嵌套查询。</p><p>并且每次都进行测试，这样可以省去后面如果出错了的大量时间</p></blockquote><h2 id="连接表"><a href="#连接表" class="headerlink" title="连接表"></a>连接表</h2>]]></content>
     
     <summary type="html">
     
@@ -32,17 +32,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="Mysql" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/Mysql/"/>
+      <category term="Mysql" scheme="http://lyhhhhhhhhh.gitee.io/tags/Mysql/"/>
     
   </entry>
   
   <entry>
     <title>recent tasks</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/04/02/recent-tasks/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/04/02/recent-tasks/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/04/02/recent-tasks/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/04/02/recent-tasks/</id>
     <published>2020-04-02T03:28:30.000Z</published>
     <updated>2020-04-02T11:03:43.787Z</updated>
     
@@ -59,17 +59,17 @@
     </summary>
     
     
-      <category term="plan" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/plan/"/>
+      <category term="plan" scheme="http://lyhhhhhhhhh.gitee.io/categories/plan/"/>
     
     
-      <category term="study" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/study/"/>
+      <category term="study" scheme="http://lyhhhhhhhhh.gitee.io/tags/study/"/>
     
   </entry>
   
   <entry>
     <title>深入了解IPC</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/19/%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3IPC/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/19/%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3IPC/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/19/%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3IPC/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/19/%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3IPC/</id>
     <published>2020-03-19T02:33:10.000Z</published>
     <updated>2020-03-19T03:47:10.189Z</updated>
     
@@ -83,17 +83,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="IPC" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/IPC/"/>
+      <category term="IPC" scheme="http://lyhhhhhhhhh.gitee.io/tags/IPC/"/>
     
   </entry>
   
   <entry>
     <title>编译原理</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/17/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</id>
     <published>2020-03-17T02:17:41.000Z</published>
     <updated>2020-03-24T03:52:44.019Z</updated>
     
@@ -106,17 +106,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="compiler" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/compiler/"/>
+      <category term="compiler" scheme="http://lyhhhhhhhhh.gitee.io/tags/compiler/"/>
     
   </entry>
   
   <entry>
     <title>data structure and algorithm</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/06/data-structure-and-algorithm/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/06/data-structure-and-algorithm/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/06/data-structure-and-algorithm/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/06/data-structure-and-algorithm/</id>
     <published>2020-03-06T08:47:42.000Z</published>
     <updated>2020-03-07T13:23:29.475Z</updated>
     
@@ -129,19 +129,19 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="dataStructure" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/dataStructure/"/>
+      <category term="dataStructure" scheme="http://lyhhhhhhhhh.gitee.io/tags/dataStructure/"/>
     
-      <category term="Algorithm" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/Algorithm/"/>
+      <category term="Algorithm" scheme="http://lyhhhhhhhhh.gitee.io/tags/Algorithm/"/>
     
   </entry>
   
   <entry>
     <title>c线程池实现</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/05/c%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/05/c%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/05/c%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/05/c%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/</id>
     <published>2020-03-05T09:30:03.000Z</published>
     <updated>2020-03-18T15:47:27.823Z</updated>
     
@@ -158,19 +158,19 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="threadpool" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/threadpool/"/>
+      <category term="threadpool" scheme="http://lyhhhhhhhhh.gitee.io/tags/threadpool/"/>
     
-      <category term="c" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/c/"/>
+      <category term="c" scheme="http://lyhhhhhhhhh.gitee.io/tags/c/"/>
     
   </entry>
   
   <entry>
     <title>golang打补丁</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/05/golang%E6%89%93%E8%A1%A5%E4%B8%81/</id>
     <published>2020-03-05T03:15:28.000Z</published>
     <updated>2020-03-05T13:20:27.776Z</updated>
     
@@ -183,17 +183,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="go" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/go/"/>
+      <category term="go" scheme="http://lyhhhhhhhhh.gitee.io/tags/go/"/>
     
   </entry>
   
   <entry>
     <title>leetcode面试模拟</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/04/leetcode%E9%9D%A2%E8%AF%95%E6%A8%A1%E6%8B%9F/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/04/leetcode%E9%9D%A2%E8%AF%95%E6%A8%A1%E6%8B%9F/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/04/leetcode%E9%9D%A2%E8%AF%95%E6%A8%A1%E6%8B%9F/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/04/leetcode%E9%9D%A2%E8%AF%95%E6%A8%A1%E6%8B%9F/</id>
     <published>2020-03-04T09:27:16.000Z</published>
     <updated>2020-03-25T13:46:59.202Z</updated>
     
@@ -206,17 +206,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="leetcode" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/leetcode/"/>
+      <category term="leetcode" scheme="http://lyhhhhhhhhh.gitee.io/tags/leetcode/"/>
     
   </entry>
   
   <entry>
     <title>消息队列扫盲</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%89%AB%E7%9B%B2/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%89%AB%E7%9B%B2/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%89%AB%E7%9B%B2/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/04/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%89%AB%E7%9B%B2/</id>
     <published>2020-03-04T03:48:31.000Z</published>
     <updated>2020-03-04T04:44:56.097Z</updated>
     
@@ -232,17 +232,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="Message Queue" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/Message-Queue/"/>
+      <category term="Message Queue" scheme="http://lyhhhhhhhhh.gitee.io/tags/Message-Queue/"/>
     
   </entry>
   
   <entry>
     <title>Internet</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/03/Internet/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/03/Internet/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/03/Internet/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/03/Internet/</id>
     <published>2020-03-03T15:14:36.000Z</published>
     <updated>2020-03-08T09:12:40.219Z</updated>
     
@@ -255,17 +255,17 @@
     </summary>
     
     
-      <category term="cs" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/cs/"/>
+      <category term="cs" scheme="http://lyhhhhhhhhh.gitee.io/categories/cs/"/>
     
     
-      <category term="internet" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/internet/"/>
+      <category term="internet" scheme="http://lyhhhhhhhhh.gitee.io/tags/internet/"/>
     
   </entry>
   
   <entry>
     <title>operating system</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/03/operating-system/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/03/operating-system/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/03/operating-system/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/03/operating-system/</id>
     <published>2020-03-03T12:06:45.000Z</published>
     <updated>2020-03-07T15:52:24.487Z</updated>
     
@@ -278,17 +278,17 @@
     </summary>
     
     
-      <category term="cs" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/cs/"/>
+      <category term="cs" scheme="http://lyhhhhhhhhh.gitee.io/categories/cs/"/>
     
     
-      <category term="os" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/os/"/>
+      <category term="os" scheme="http://lyhhhhhhhhh.gitee.io/tags/os/"/>
     
   </entry>
   
   <entry>
     <title>剑指offer--gogogo</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/02/%E5%89%91%E6%8C%87offer-gogogo/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/03/02/%E5%89%91%E6%8C%87offer-gogogo/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/03/02/%E5%89%91%E6%8C%87offer-gogogo/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/03/02/%E5%89%91%E6%8C%87offer-gogogo/</id>
     <published>2020-03-02T10:13:13.000Z</published>
     <updated>2020-03-25T14:05:32.804Z</updated>
     
@@ -301,19 +301,19 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="leetcode" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/leetcode/"/>
+      <category term="leetcode" scheme="http://lyhhhhhhhhh.gitee.io/tags/leetcode/"/>
     
-      <category term="offer" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/offer/"/>
+      <category term="offer" scheme="http://lyhhhhhhhhh.gitee.io/tags/offer/"/>
     
   </entry>
   
   <entry>
     <title>go标准库container使用</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/25/go%E6%A0%87%E5%87%86%E5%BA%93contains-List%E4%BD%BF%E7%94%A8/</id>
     <published>2020-02-25T03:03:18.000Z</published>
     <updated>2020-03-01T03:55:21.258Z</updated>
     
@@ -329,17 +329,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="golang" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/golang/"/>
+      <category term="golang" scheme="http://lyhhhhhhhhh.gitee.io/tags/golang/"/>
     
   </entry>
   
   <entry>
     <title>ECS设置grub默认kernel</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/22/ECS%E8%AE%BE%E7%BD%AEgrub%E9%BB%98%E8%AE%A4kernel/</id>
     <published>2020-02-22T07:49:49.000Z</published>
     <updated>2020-02-22T07:57:19.361Z</updated>
     
@@ -358,17 +358,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="kernel" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/kernel/"/>
+      <category term="kernel" scheme="http://lyhhhhhhhhh.gitee.io/tags/kernel/"/>
     
   </entry>
   
   <entry>
     <title>Database Notes</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/17/Database-Notes/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/17/Database-Notes/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/17/Database-Notes/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/17/Database-Notes/</id>
     <published>2020-02-17T14:41:02.000Z</published>
     <updated>2020-03-17T03:12:54.812Z</updated>
     
@@ -381,17 +381,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="datebase" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/datebase/"/>
+      <category term="datebase" scheme="http://lyhhhhhhhhh.gitee.io/tags/datebase/"/>
     
   </entry>
   
   <entry>
     <title>做点应该做的</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/11/%E5%81%9A%E7%82%B9%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84/</id>
     <published>2020-02-11T03:22:07.000Z</published>
     <updated>2020-02-19T15:26:54.141Z</updated>
     
@@ -404,17 +404,17 @@
     </summary>
     
     
-      <category term="schedule" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/schedule/"/>
+      <category term="schedule" scheme="http://lyhhhhhhhhh.gitee.io/categories/schedule/"/>
     
     
-      <category term="offer" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/offer/"/>
+      <category term="offer" scheme="http://lyhhhhhhhhh.gitee.io/tags/offer/"/>
     
   </entry>
   
   <entry>
     <title>leetcode Notes</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/10/leetcode-Notes/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/10/leetcode-Notes/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/10/leetcode-Notes/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/10/leetcode-Notes/</id>
     <published>2020-02-10T07:01:48.000Z</published>
     <updated>2020-03-27T11:02:46.920Z</updated>
     
@@ -427,17 +427,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="leetcode" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/leetcode/"/>
+      <category term="leetcode" scheme="http://lyhhhhhhhhh.gitee.io/tags/leetcode/"/>
     
   </entry>
   
   <entry>
     <title>a tour of go</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/05/a-tour-of-go/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/05/a-tour-of-go/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/05/a-tour-of-go/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/05/a-tour-of-go/</id>
     <published>2020-02-05T11:52:46.000Z</published>
     <updated>2020-02-13T16:37:10.466Z</updated>
     
@@ -450,17 +450,17 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="golang" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/golang/"/>
+      <category term="golang" scheme="http://lyhhhhhhhhh.gitee.io/tags/golang/"/>
     
   </entry>
   
   <entry>
     <title>博客md图片托管</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/02/05/%E5%8D%9A%E5%AE%A2md%E5%9B%BE%E7%89%87%E6%89%98%E7%AE%A1/</id>
     <published>2020-02-05T07:43:39.000Z</published>
     <updated>2020-02-13T16:36:41.311Z</updated>
     
@@ -473,17 +473,17 @@
     </summary>
     
     
-      <category term="blog" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/blog/"/>
+      <category term="blog" scheme="http://lyhhhhhhhhh.gitee.io/categories/blog/"/>
     
     
-      <category term="心得" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/%E5%BF%83%E5%BE%97/"/>
+      <category term="心得" scheme="http://lyhhhhhhhhh.gitee.io/tags/%E5%BF%83%E5%BE%97/"/>
     
   </entry>
   
   <entry>
     <title>Linux命令行与shell脚本编程大全</title>
-    <link href="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/"/>
-    <id>http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/</id>
+    <link href="http://lyhhhhhhhhh.gitee.io/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/"/>
+    <id>http://lyhhhhhhhhh.gitee.io/2020/01/28/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8Eshell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%A4%A7%E5%85%A8/</id>
     <published>2020-01-28T08:18:29.000Z</published>
     <updated>2020-02-13T16:37:38.102Z</updated>
     
@@ -496,10 +496,10 @@
     </summary>
     
     
-      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/categories/coding/"/>
+      <category term="coding" scheme="http://lyhhhhhhhhh.gitee.io/categories/coding/"/>
     
     
-      <category term="shell" scheme="http://lyhhhhhhhhh.gitee.io/lyhhhhh_blog/tags/shell/"/>
+      <category term="shell" scheme="http://lyhhhhhhhhh.gitee.io/tags/shell/"/>
     
   </entry>
   
